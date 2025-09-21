@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 public class FurnitureBuilder : MonoBehaviour
 {
-    public GameObject legPrefab;
-    private GameObject selectedLeg;
+    public GameObject selectedPrefab; 
+    private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
 
@@ -20,59 +20,53 @@ public class FurnitureBuilder : MonoBehaviour
 
     void HandleSelection()
     {
-        // Right click to select a leg
-        if (IsRightClick())
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                GameObject clicked = hit.collider.gameObject;
+        if (!IsRightClick()) return;
 
-                // Ignore markers for selection
-                if (!clicked.CompareTag("Marker"))
-                {
-                    if (clicked == selectedLeg)
-                        DeselectLeg();
-                    else
-                        SelectLeg(clicked);
-                }
-            }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+
+        GameObject clicked = hit.collider.gameObject;
+
+        // Ignore markers for selection
+        if (!clicked.CompareTag("Marker"))
+        {
+            if (clicked == selectedPiece)
+                DeselectPiece();
+            else
+                SelectPiece(clicked);
         }
     }
 
     void HandleAttachment()
     {
-        // Right click on marker to attach the selected leg
-        if (IsRightClick() && selectedLeg != null)
+        if (!IsRightClick() || selectedPiece == null) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+
+        GameObject clicked = hit.collider.gameObject;
+
+        if (clicked.CompareTag("Marker"))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                GameObject clicked = hit.collider.gameObject;
+            AttachPieceToMarker(clicked.transform);
 
-                if (clicked.CompareTag("Marker"))
-                {
-                    AttachLegToMarker(clicked.transform);
-
-                    // Destroy the original selected leg
-                    Destroy(selectedLeg);
-                    DeselectLeg();
-                }
-            }
+            // Destroy the original selected piece
+            Destroy(selectedPiece);
+            DeselectPiece();
         }
     }
 
     bool IsRightClick()
     {
-    #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-        return UnityEngine.InputSystem.Mouse.current != null &&
-               UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame;
-    #else
-        return Input.GetMouseButtonDown(1);
-    #endif
+        #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+                return UnityEngine.InputSystem.Mouse.current != null &&
+                       UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame;
+        #else
+                return Input.GetMouseButtonDown(1);
+        #endif
     }
 
-    void SelectLeg(GameObject leg)
+    void SelectPiece(GameObject piece)
     {
         // Restore previous selection
         if (selectedRenderer != null)
@@ -80,8 +74,8 @@ public class FurnitureBuilder : MonoBehaviour
 
         RestoreMarkerColors();
 
-        selectedLeg = leg;
-        selectedRenderer = selectedLeg.GetComponent<Renderer>();
+        selectedPiece = piece;
+        selectedRenderer = selectedPiece.GetComponent<Renderer>();
 
         if (selectedRenderer != null)
         {
@@ -91,15 +85,15 @@ public class FurnitureBuilder : MonoBehaviour
 
         HighlightAllMarkers();
 
-        Debug.Log("Selected leg: " + selectedLeg.name);
+        Debug.Log("Selected piece: " + selectedPiece.name);
     }
 
-    void DeselectLeg()
+    void DeselectPiece()
     {
         if (selectedRenderer != null)
             selectedRenderer.material.color = selectedOriginalColor;
 
-        selectedLeg = null;
+        selectedPiece = null;
         selectedRenderer = null;
 
         RestoreMarkerColors();
@@ -111,19 +105,14 @@ public class FurnitureBuilder : MonoBehaviour
 
         foreach (GameObject marker in markers)
         {
-            // Match "Leg_marker", "Leg_marker (1)", "Leg_marker (2)" ...
-            if (marker.name.StartsWith("Leg_marker"))
+            // Match format: Piece_marker, Piece_marker (1), etc.
+            if (marker.name.EndsWith("_marker") || marker.name.Contains("_marker ("))
             {
                 Renderer rend = marker.GetComponent<Renderer>();
-                if (rend != null)
+                if (rend != null && !markerOriginalColors.ContainsKey(rend))
                 {
-                    // Save original color if not already saved
-                    if (!markerOriginalColors.ContainsKey(rend))
-                        markerOriginalColors[rend] = rend.material.color;
-
-                    // Highlight in red
+                    markerOriginalColors[rend] = rend.material.color;
                     rend.material.color = Color.red;
-
                     highlightedMarkers.Add(rend);
                 }
             }
@@ -142,43 +131,38 @@ public class FurnitureBuilder : MonoBehaviour
         markerOriginalColors.Clear();
     }
 
-    void AttachLegToMarker(Transform marker)
+    void AttachPieceToMarker(Transform marker)
     {
-        if (legPrefab == null)
+        if (selectedPrefab == null)
         {
-            Debug.LogError("Leg prefab not assigned in the Inspector!");
+            Debug.LogError("Prefab not assigned in the Inspector!");
             return;
         }
 
-        GameObject newLeg = Instantiate(legPrefab);
+        GameObject newPiece = Instantiate(selectedPrefab);
 
-        // Align rotation with marker/table
-        newLeg.transform.rotation = marker.rotation;
+        // Match rotation with marker
+        newPiece.transform.rotation = marker.rotation;
 
-        // Position leg so its bottom sits exactly on marker
-        Renderer rend = newLeg.GetComponentInChildren<Renderer>();
+        // Snap piece so bottom aligns with marker
+        Renderer rend = newPiece.GetComponentInChildren<Renderer>();
         if (rend != null)
         {
             Bounds localBounds = rend.localBounds;
-            Vector3 legBottomLocal = localBounds.center - Vector3.up * localBounds.extents.y;
-
-            // Transform leg bottom to world space
-            Vector3 legBottomWorld = rend.transform.TransformPoint(legBottomLocal);
-
-            // Offset leg so bottom aligns with marker
-            Vector3 offset = marker.position - legBottomWorld;
-            newLeg.transform.position += offset;
+            Vector3 bottomLocal = localBounds.center - Vector3.up * localBounds.extents.y;
+            Vector3 bottomWorld = rend.transform.TransformPoint(bottomLocal);
+            Vector3 offset = marker.position - bottomWorld;
+            newPiece.transform.position += offset;
         }
         else
         {
-            // Place at marker position
-            newLeg.transform.position = marker.position;
+            newPiece.transform.position = marker.position;
         }
 
-        // Parent to marker's parent (usually the table)
+        // Parent to marker's parent (usually the furniture base)
         if (marker.parent != null)
-            newLeg.transform.SetParent(marker.parent, true);
+            newPiece.transform.SetParent(marker.parent, true);
 
-        Debug.Log($"Attached new leg {newLeg.name} exactly on top of marker {marker.name}");
+        Debug.Log($"Attached new piece {newPiece.name} to marker {marker.name}");
     }
 }
