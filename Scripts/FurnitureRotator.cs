@@ -87,24 +87,24 @@ public class FurnitureRotator : MonoBehaviour
     {
         if (selectedParts.Count == 0) return;
 
-        Transform targetTransform = selectedParts.Count > 1 && pivot != null ? pivot.transform : selectedParts[0].transform;
+        Transform targetTransform = selectedParts.Count > 0 && pivot != null ? pivot.transform : selectedParts[0].transform;
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.S)) // Down
         {
             targetTransform.Rotate(90f, 0f, 0f, Space.World);
             Debug.Log("Rotated +90° on X axis");
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W)) // Up
         {
             targetTransform.Rotate(-90f, 0f, 0f, Space.World);
             Debug.Log("Rotated -90° on X axis");
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A)) // Left
         {
             targetTransform.Rotate(0f, -90f, 0f, Space.World);
             Debug.Log("Rotated -90° on Y axis");
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D)) // Right
         {
             targetTransform.Rotate(0f, 90f, 0f, Space.World);
             Debug.Log("Rotated +90° on Y axis");
@@ -126,13 +126,12 @@ public class FurnitureRotator : MonoBehaviour
             foreach (Transform child in children)
                 child.SetParent(null, true);
 
-            // Destroy old pivot only if new pivot will be created
             Destroy(pivot);
             pivot = null;
         }
 
-        // Create new pivot only if more than 1 object selected
-        if (selectedParts.Count > 1)
+        // Create new pivot only if more than 0 object selected
+        if (selectedParts.Count > 0)
         {
             pivot = new GameObject("RotationPivot");
 
@@ -172,4 +171,3 @@ public class FurnitureRotator : MonoBehaviour
         }
     }
 }
-
