@@ -8,7 +8,6 @@ public class FurnitureBuilder : MonoBehaviour
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
 
-    // For markers
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
@@ -159,9 +158,15 @@ public class FurnitureBuilder : MonoBehaviour
             newPiece.transform.position = marker.position;
         }
 
-        // Parent to marker's parent (usually the furniture base)
-        if (marker.parent != null)
+        // Use the original piece's parent, not the marker's parent
+        if (selectedPiece != null && selectedPiece.transform.parent != null)
+        {
+            newPiece.transform.SetParent(selectedPiece.transform.parent, true);
+        }
+        else if (marker.parent != null) // fallback to marker parent
+        {
             newPiece.transform.SetParent(marker.parent, true);
+        }
 
         Debug.Log($"Attached new piece {newPiece.name} to marker {marker.name}");
     }
