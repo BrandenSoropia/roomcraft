@@ -106,12 +106,22 @@ public class FurnitureBuilder : MonoBehaviour
 
     void HighlightAllMarkers()
     {
+        // Derive base name"
+        string baseName = selectedPiece.name;
+        if (baseName.Contains("("))
+        {
+            baseName = baseName.Substring(0, baseName.IndexOf("(")).Trim();
+        }
+
+        // Expected marker prefix"
+        string markerPrefix = baseName + "_marker";
+
         GameObject[] markers = GameObject.FindGameObjectsWithTag("Marker");
 
         foreach (GameObject marker in markers)
         {
-            // Match format: Piece_marker, Piece_marker (1), etc.
-            if (marker.name.EndsWith("_marker") || marker.name.Contains("_marker ("))
+            // Match only markers that start with markerPrefix
+            if (marker.name.StartsWith(markerPrefix))
             {
                 Renderer rend = marker.GetComponent<Renderer>();
                 if (rend != null && !markerOriginalColors.ContainsKey(rend))
@@ -146,6 +156,18 @@ public class FurnitureBuilder : MonoBehaviour
 
         GameObject newPiece = Instantiate(selectedPiece);
 
+        // Apply local scale of the selected piece
+        newPiece.transform.localScale = selectedPiece.transform.localScale;
+
+        // If parent is scaled, match that too
+        if (selectedPiece.transform.parent != null)
+        {
+            newPiece.transform.localScale = Vector3.Scale(
+                selectedPiece.transform.localScale,
+                selectedPiece.transform.parent.localScale
+            );
+        }
+        
         // Instantiate the effect
         GameObject placingEffect = Instantiate(placingEffectModel);
         placingEffect.transform.position = marker.position;
