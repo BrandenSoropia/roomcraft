@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class FurnitureBuilder : MonoBehaviour
 {
-    public GameObject selectedPrefab; // Assign in Inspector
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
@@ -139,13 +138,13 @@ public class FurnitureBuilder : MonoBehaviour
 
     void AttachPieceToMarker(Transform marker)
     {
-        if (selectedPrefab == null)
+        if (selectedPiece == null)
         {
-            Debug.LogError("Prefab not assigned in the Inspector!");
+            Debug.LogError("No piece selected to attach!");
             return;
         }
 
-        GameObject newPiece = Instantiate(selectedPrefab);
+        GameObject newPiece = Instantiate(selectedPiece);
 
         // Instantiate the effect
         GameObject placingEffect = Instantiate(placingEffectModel);
