@@ -10,8 +10,13 @@ public class FurnitureRotator : MonoBehaviour
 
     public InventoryManager inventoryManager;
 
+    // Game Manager
+    [SerializeField] GameManager gameManager;
+
     void Update()
     {
+        if (!gameManager.GetIsBuildingEnabled()) return;
+
         HandleSelection();
         HandleRotation();
     }

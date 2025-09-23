@@ -17,14 +17,20 @@ public class FurnitureBuilder : MonoBehaviour
     // Audio 
     public MusicManager musicManager;
 
+    // Game Manager
+    [SerializeField] GameManager gameManager;
+
     void Update()
     {
+        if (!gameManager.GetIsBuildingEnabled()) return;
+
         HandleSelection();
         HandleAttachment();
     }
 
     void HandleSelection()
     {
+
         if (!IsRightClick()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

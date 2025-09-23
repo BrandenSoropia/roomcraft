@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 5670308726266178022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49,8 +49,8 @@ GameObject:
   - component: {fileID: 93495752197062241}
   - component: {fileID: 8458780016891450044}
   - component: {fileID: 4260338377666475930}
-  - component: {fileID: 1916168319975789338}
   - component: {fileID: 5960042815996331039}
+  - component: {fileID: 4922683175401022438}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -331,20 +331,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAnimator: {fileID: 5893316094426647738}
   maxAnimationSpeedModifier: 2
---- !u!114 &1916168319975789338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7892947364345689007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98059b9706049e548a1fd0d46d53edb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 4626316127775021849}
-  overheadCamera: {fileID: 0}
 --- !u!114 &5960042815996331039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +343,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e7c2bc90a22f942964dfb257ec6110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4922683175401022438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7892947364345689007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a36c5fa85691a45903716edb0c4908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 4626316127775021849}
+  overheadCamera: {fileID: 0}
 --- !u!1 &8869246048571391383
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +493,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}
       propertyPath: near clip plane
       value: 0.1
       objectReference: {fileID: 0}
@@ -551,7 +555,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 40
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000

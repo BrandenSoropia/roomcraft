@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2472580119336233529}
   - component: {fileID: 3938495079865136402}
   - component: {fileID: 4600298463320238636}
+  - component: {fileID: 1370719623507766632}
   - component: {fileID: 5976862808757759719}
   - component: {fileID: 6115835719700863085}
   - component: {fileID: 6625468141680910692}
@@ -43,7 +44,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8452438802858017246}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -130,6 +131,14 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!81 &1370719623507766632
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452438802858017246}
+  m_Enabled: 1
 --- !u!114 &5976862808757759719
 MonoBehaviour:
   m_ObjectHideFlags: 0

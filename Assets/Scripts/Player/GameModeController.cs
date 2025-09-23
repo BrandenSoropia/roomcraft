@@ -9,6 +9,10 @@ Requirements:
 */
 public class GameModeController : MonoBehaviour
 {
+    [Header("Game Manager")]
+    [SerializeField] GameManager gameManager;
+
+    [Header("Controlled Cameras")]
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject overheadCamera;
 
@@ -21,7 +25,6 @@ public class GameModeController : MonoBehaviour
         {
             _isOverheadViewEnabled = false;
             ShowOriginalView();
-
         }
         else
         {
@@ -33,11 +36,13 @@ public class GameModeController : MonoBehaviour
 
     public void ShowOverheadView()
     {
+
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
         // TODO: disable furniture building
         // TODO: disable UI
+        gameManager.SetIsBuildingEnabled(false);
     }
 
     public void ShowOriginalView()
@@ -45,7 +50,10 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(true);
         overheadCamera.SetActive(false);
         overheadCamera.tag = "Untagged";
+
         // TODO: enable furniture building
         // TODO: enable UI
+        gameManager.SetIsBuildingEnabled(true);
+
     }
 }
