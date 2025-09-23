@@ -36,6 +36,8 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
+        // TODO: disable furniture building
+        // TODO: disable UI
     }
 
     public void ShowOriginalView()
@@ -43,5 +45,7 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(true);
         overheadCamera.SetActive(false);
         overheadCamera.tag = "Untagged";
+        // TODO: enable furniture building
+        // TODO: enable UI
     }
 }

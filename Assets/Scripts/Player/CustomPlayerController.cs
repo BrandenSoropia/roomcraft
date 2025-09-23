@@ -13,7 +13,7 @@ Requirements:
 - Make sure this is attached to the player's root GO
 - Make sure an input is defined for Toggle View and it's properly added to StarterAssets.
 */
-public class PlayerController : MonoBehaviour
+public class CustomPlayerController : MonoBehaviour
 {
 
     // Stuff that controls player

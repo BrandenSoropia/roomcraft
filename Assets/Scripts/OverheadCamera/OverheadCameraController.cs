@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 /*
 Requirements:
-- Attach to overhead camera.
-- Make sure it has an Input Action with it's own generated InputAction file
+- Attach to overhead camera
+- Make sure it has an Input Action with its own generated InputAction file
 - Overhead camera should be disabled initially
 */
 public class OverheadCameraController : MonoBehaviour
@@ -14,6 +14,12 @@ public class OverheadCameraController : MonoBehaviour
     [SerializeField] float panSpeed = 10f;
 
     Vector2 _movement;
+
+    void Start()
+    {
+        // Make sure the overhead camera is off, even if accidentally turned on in editor. 
+        gameObject.SetActive(false);
+    }
 
     public void OnMove(InputValue value)
     {
