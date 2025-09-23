@@ -27,7 +27,6 @@ public class RaycastSimple : MonoBehaviour
     Renderer _targetRenderer;
     Material _targetOriginalMaterial;
 
-
     // See Order of Execution for Event Functions for information on FixedUpdate() and Update() related to physics queries
     void FixedUpdate()
     {
