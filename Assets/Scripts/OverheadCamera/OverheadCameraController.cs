@@ -13,7 +13,7 @@ public class OverheadCameraController : MonoBehaviour
     [Header("Movement Configuration")]
     [SerializeField] float panSpeed = 10f;
 
-    Vector2 _movement;
+    [SerializeField] StarterAssets.StarterAssetsInputs _input;
 
     void Start()
     {
@@ -21,15 +21,10 @@ public class OverheadCameraController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void OnMove(InputValue value)
-    {
-        _movement = value.Get<Vector2>();
-    }
-
     void Update()
     {
-        float xValue = _movement.x * Time.deltaTime * panSpeed;
-        float yValue = _movement.y * Time.deltaTime * panSpeed;
+        float xValue = _input.move.x * Time.deltaTime * panSpeed;
+        float yValue = _input.move.y * Time.deltaTime * panSpeed;
         float zValue = 0f;
 
         transform.Translate(xValue, yValue, zValue);
