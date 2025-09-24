@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 public class FurnitureBuilder : MonoBehaviour
 {
+    // Game Manager
+    [SerializeField] GameManager gameManager;
+    // Visual Effect
+    public GameObject placingEffectModel;
+
+    // Audio 
+    public MusicManager musicManager;
+
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
@@ -11,20 +19,28 @@ public class FurnitureBuilder : MonoBehaviour
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
-    // Visual Effect
-    public GameObject placingEffectModel;
-
-    // Audio 
-    public MusicManager musicManager;
-
     void Update()
     {
+        if (!gameManager.GetIsBuildingEnabled()) return;
+
+        // Doesn't work! Competes with FurnitureRotator's code. Hacky way to turn off/on player movement
+        // if (selectedPiece != null && gameManager.GetIsPlayerMovementEnabled())
+        // {
+        //     gameManager.SetIsPlayerMovementEnabled(false);
+        // }
+        // else if (selectedPiece == null && !gameManager.GetIsPlayerMovementEnabled())
+        // {
+        //     gameManager.SetIsPlayerMovementEnabled(true);
+
+        // }
+
         HandleSelection();
         HandleAttachment();
     }
 
     void HandleSelection()
     {
+
         if (!IsRightClick()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

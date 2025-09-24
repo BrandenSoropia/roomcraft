@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 public class FurnitureRotator : MonoBehaviour
 {
+    [Header("Game Manager")]
+    [SerializeField] GameManager gameManager;
+
     private List<GameObject> selectedParts = new List<GameObject>();
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
 
@@ -12,6 +15,19 @@ public class FurnitureRotator : MonoBehaviour
 
     void Update()
     {
+        if (!gameManager.GetIsBuildingEnabled()) return;
+
+        // // Hacky way to turn off/on player movement
+        // if (selectedParts.Count > 0 && gameManager.GetIsPlayerMovementEnabled())
+        // {
+        //     gameManager.SetIsPlayerMovementEnabled(false);
+        // }
+        // else if (selectedParts.Count == 0 && !gameManager.GetIsPlayerMovementEnabled())
+        // {
+        //     gameManager.SetIsPlayerMovementEnabled(true);
+
+        // }
+
         HandleSelection();
         HandleRotation();
     }
@@ -103,22 +119,22 @@ public class FurnitureRotator : MonoBehaviour
 
         Transform targetTransform = selectedParts.Count > 0 && pivot != null ? pivot.transform : selectedParts[0].transform;
 
-        if (Input.GetKeyDown(KeyCode.S)) // Down
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // Down
         {
             targetTransform.Rotate(90f, 0f, 0f, Space.World);
             Debug.Log("Rotated +90° on X axis");
         }
-        if (Input.GetKeyDown(KeyCode.W)) // Up
+        if (Input.GetKeyDown(KeyCode.UpArrow)) // Up
         {
             targetTransform.Rotate(-90f, 0f, 0f, Space.World);
             Debug.Log("Rotated -90° on X axis");
         }
-        if (Input.GetKeyDown(KeyCode.A)) // Left
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) // Left
         {
             targetTransform.Rotate(0f, -90f, 0f, Space.World);
             Debug.Log("Rotated -90° on Y axis");
         }
-        if (Input.GetKeyDown(KeyCode.D)) // Right
+        if (Input.GetKeyDown(KeyCode.RightArrow)) // Right
         {
             targetTransform.Rotate(0f, 90f, 0f, Space.World);
             Debug.Log("Rotated +90° on Y axis");

@@ -1,5 +1,4 @@
 {
-    "version": 1,
     "name": "StarterAssets",
     "maps": [
         {
@@ -25,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Jump",
+                    "name": "Disabled_Jump",
                     "type": "Button",
                     "id": "8c4abdf8-4099-493a-aa1a-129acec7c3df",
                     "expectedControlType": "",
@@ -43,9 +42,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleMouseVisibility",
+                    "name": "ToggleOverheadView",
                     "type": "Button",
-                    "id": "992648af-0b2d-4f2f-9af2-93400c666f5f",
+                    "id": "07d5a69b-c13c-4d16-8051-37d4dc1d4c77",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -192,7 +191,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "Jump",
+                    "action": "Disabled_Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -203,7 +202,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
+                    "action": "Disabled_Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -231,12 +230,23 @@
                 },
                 {
                     "name": "",
-                    "id": "ded54ab4-0590-4744-8b27-4a1731abc54d",
-                    "path": "<Keyboard>/alt",
+                    "id": "56101e6c-fd4f-4cfe-9988-7979f1d96e50",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ToggleOverheadView",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5cf6ce63-7b5e-4d2e-beb2-09567effd012",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "ToggleMouseVisibility",
+                    "action": "ToggleOverheadView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
