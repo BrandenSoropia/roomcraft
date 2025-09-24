@@ -20,6 +20,7 @@ public class CustomPlayerController : MonoBehaviour
     GameModeController myGameModeController;
     FirstPersonController myFirstPersonController;
     PlayerAnimationController myPlayerAnimationController;
+    IsoFurnitureController myIsoFurnitureController;
 
     private StarterAssetsInputs _input;
 
@@ -34,6 +35,7 @@ public class CustomPlayerController : MonoBehaviour
         myGameModeController = GetComponent<GameModeController>();
         myFirstPersonController = GetComponent<FirstPersonController>();
         myPlayerAnimationController = GetComponent<PlayerAnimationController>();
+        myIsoFurnitureController = GetComponent<IsoFurnitureController>();
     }
 
     void Update()
@@ -49,13 +51,16 @@ public class CustomPlayerController : MonoBehaviour
             {
                 DisableOverheadView();
                 EnablePlayer();
+                myIsoFurnitureController.enabled = false;
             }
             else
             {
                 EnableOverheadView();
                 DisablePlayer();
+                myIsoFurnitureController.enabled = true;
             }
 
+            // Treats the toggle button as a one time press event. switch to context.isPressed later
             _input.isOverheadViewEnabled = false;
         }
     }
@@ -63,13 +68,13 @@ public class CustomPlayerController : MonoBehaviour
     private void DisableOverheadView()
     {
         _isOverheadViewEnabled = false;
-        myGameModeController.ShowOriginalView();
+        myGameModeController.ToggleOverheadView();
     }
 
     private void EnableOverheadView()
     {
         _isOverheadViewEnabled = true;
-        myGameModeController.ShowOverheadView();
+        myGameModeController.ToggleOverheadView();
     }
 
     private void DisablePlayer()

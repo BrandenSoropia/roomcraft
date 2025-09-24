@@ -17,19 +17,20 @@ public class GameModeController : MonoBehaviour
     [SerializeField] GameObject overheadCamera;
 
     // Actual state controller for transitioning cameras
-    bool _isOverheadViewEnabled = false;
 
     public void ToggleOverheadView()
     {
-        if (_isOverheadViewEnabled)
+        if (!gameManager.GetIsBuildingEnabled())
         {
-            _isOverheadViewEnabled = false;
             ShowOriginalView();
+
+            gameManager.SetIsBuildingEnabled(true);
         }
         else
         {
-            _isOverheadViewEnabled = true;
             ShowOverheadView();
+
+            gameManager.SetIsBuildingEnabled(false);
         }
     }
 
@@ -40,9 +41,6 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
-        // TODO: disable furniture building
-        // TODO: disable UI
-        gameManager.SetIsBuildingEnabled(false);
     }
 
     public void ShowOriginalView()
@@ -50,10 +48,5 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(true);
         overheadCamera.SetActive(false);
         overheadCamera.tag = "Untagged";
-
-        // TODO: enable furniture building
-        // TODO: enable UI
-        gameManager.SetIsBuildingEnabled(true);
-
     }
 }
