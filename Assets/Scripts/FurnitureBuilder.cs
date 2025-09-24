@@ -5,6 +5,10 @@ public class FurnitureBuilder : MonoBehaviour
 {
     [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
+    // Visual Effect
+    public GameObject placingEffectModel;
+    // Audio 
+    public MusicManager musicManager;
 
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
@@ -13,12 +17,6 @@ public class FurnitureBuilder : MonoBehaviour
     // Marker highlighting
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
-
-    // Visual Effect
-    public GameObject placingEffectModel;
-
-    // Audio 
-    public MusicManager musicManager;
 
     void Update()
     {
