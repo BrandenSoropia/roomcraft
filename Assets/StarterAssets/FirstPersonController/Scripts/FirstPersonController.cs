@@ -11,6 +11,9 @@ namespace StarterAssets
 #endif
 	public class FirstPersonController : MonoBehaviour
 	{
+		[Header("Game Manager")]
+		[SerializeField] GameManager gameManager;
+
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
@@ -114,7 +117,12 @@ namespace StarterAssets
 		{
 			JumpAndGravity();
 			GroundedCheck();
-			Move();
+			if (gameManager.GetIsPlayerMovementEnabled())
+			{
+				Debug.Log("###HERE");
+				Move();
+			}
+
 		}
 
 		private void LateUpdate()

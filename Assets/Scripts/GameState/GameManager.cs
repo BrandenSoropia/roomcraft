@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool _isBuildingEnabled = true;
     private static GameManager _instance;
 
     public static GameManager Instance { get { return _instance; } }
+
+
+    [Header("State for Debugging")]
+    public bool _isBuildingEnabled = true;
+    public bool _isPlayerMovementEnabled = true;
 
 
     // Maintain singleton
@@ -29,5 +33,15 @@ public class GameManager : MonoBehaviour
     public void SetIsBuildingEnabled(bool newState)
     {
         _isBuildingEnabled = newState;
+    }
+
+    public bool GetIsPlayerMovementEnabled()
+    {
+        return _isPlayerMovementEnabled;
+    }
+
+    public void SetIsPlayerMovementEnabled(bool newState)
+    {
+        _isPlayerMovementEnabled = newState;
     }
 }
