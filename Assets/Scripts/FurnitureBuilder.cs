@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 public class FurnitureBuilder : MonoBehaviour
 {
-    // Game Manager
+    [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
-    // Visual Effect
-    public GameObject placingEffectModel;
-
-    // Audio 
-    public MusicManager musicManager;
 
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
@@ -19,20 +14,15 @@ public class FurnitureBuilder : MonoBehaviour
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
+    // Visual Effect
+    public GameObject placingEffectModel;
+
+    // Audio 
+    public MusicManager musicManager;
+
     void Update()
     {
         if (!gameManager.GetIsBuildingEnabled()) return;
-
-        // Doesn't work! Competes with FurnitureRotator's code. Hacky way to turn off/on player movement
-        // if (selectedPiece != null && gameManager.GetIsPlayerMovementEnabled())
-        // {
-        //     gameManager.SetIsPlayerMovementEnabled(false);
-        // }
-        // else if (selectedPiece == null && !gameManager.GetIsPlayerMovementEnabled())
-        // {
-        //     gameManager.SetIsPlayerMovementEnabled(true);
-
-        // }
 
         HandleSelection();
         HandleAttachment();
@@ -40,7 +30,6 @@ public class FurnitureBuilder : MonoBehaviour
 
     void HandleSelection()
     {
-
         if (!IsRightClick()) return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,12 +68,12 @@ public class FurnitureBuilder : MonoBehaviour
 
     bool IsRightClick()
     {
-        #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
                 return UnityEngine.InputSystem.Mouse.current != null &&
                        UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame;
-        #else
-                return Input.GetMouseButtonDown(1);
-        #endif
+#else
+        return Input.GetMouseButtonDown(1);
+#endif
     }
 
     void SelectPiece(GameObject piece)
@@ -183,7 +172,7 @@ public class FurnitureBuilder : MonoBehaviour
                 selectedPiece.transform.parent.localScale
             );
         }
-        
+
         // Instantiate the effect
         GameObject placingEffect = Instantiate(placingEffectModel);
         placingEffect.transform.position = marker.position;
