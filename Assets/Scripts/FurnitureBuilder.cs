@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class FurnitureBuilder : MonoBehaviour
 {
@@ -18,13 +19,37 @@ public class FurnitureBuilder : MonoBehaviour
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
+    // Button Press State
+    [SerializeField] bool _isRightTriggerPressed = false;
+
+    // Listen for the BuildSelection button to be pressed. Configured from Player Input.StarterAssets.
+    public void OnBuildSelection()
+    {
+        // if (!Gamepad.current.rightTrigger.wasPressedThisFrame) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+
+        GameObject clicked = hit.collider.gameObject;
+
+        // Ignore markers for selection
+        if (!clicked.CompareTag("Marker"))
+        {
+            if (clicked == selectedPiece)
+                DeselectPiece();
+            else
+                SelectPiece(clicked);
+        }
+    }
+
     void Update()
     {
         if (!gameManager.GetIsBuildingEnabled()) return;
 
-        HandleSelection();
+        // HandleSelection();
         HandleAttachment();
     }
+
 
     void HandleSelection()
     {
@@ -67,6 +92,7 @@ public class FurnitureBuilder : MonoBehaviour
     bool IsRightClick()
     {
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+        if (_isRightTriggerPressed)
                 return UnityEngine.InputSystem.Mouse.current != null &&
                        UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame;
 #else
