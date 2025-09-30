@@ -24,6 +24,11 @@ public class IsoFurnitureController : MonoBehaviour
     private bool _prevNext, _prevPrev;
     private float _rotInput; // -1..1 each frame
 
+    public FurnitureSelectable CurrentSelection => _current;          // expose selected item
+    public Transform CurrentSelectionTransform => _current ? _current.transform : null;
+
+    public event System.Action<FurnitureSelectable> SelectionChanged; // notify listeners
+
     void Start()
     {
         if (cam == null) cam = Camera.main;
@@ -114,6 +119,8 @@ public class IsoFurnitureController : MonoBehaviour
         _currentRB = _current.RB;
 
         _current.SetSelected(true);
+
+        SelectionChanged?.Invoke(_current);
     }
 
     void Cycle(int dir)
@@ -175,11 +182,19 @@ public class IsoFurnitureController : MonoBehaviour
     Vector3 CameraAlignedMove(Vector2 input)
     {
         if (cam == null) cam = Camera.main;
-        Vector3 fwd = cam ? cam.transform.forward : Vector3.forward;
-        Vector3 right = cam ? cam.transform.right : Vector3.right;
+
+        // Build a stable planar basis from the camera's YAW only (ignore pitch/roll)
+        float yaw = cam.transform.eulerAngles.y;
+        Quaternion yawOnly = Quaternion.Euler(0f, yaw, 0f);
+
+        Vector3 fwd = (yawOnly * Vector3.forward); // planar forward
+        Vector3 right = (yawOnly * Vector3.right);   // planar right
+
+        // Normalize (should already be unit, but keep it robust)
         fwd.y = 0f; right.y = 0f;
         fwd.Normalize(); right.Normalize();
 
+        // Compose movement
         Vector3 move = right * input.x + fwd * input.y;
         if (move.sqrMagnitude > 1e-4f) move.Normalize();
         return move;
