@@ -19,10 +19,6 @@ namespace StarterAssets
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
-
-		[Header("Overhead View Settings")]
-		public bool isOverheadViewEnabled = false;
-
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
@@ -45,11 +41,6 @@ namespace StarterAssets
 		public void OnSprint(InputValue value)
 		{
 			SprintInput(value.isPressed);
-		}
-
-		public void OnToggleOverheadView(InputValue value)
-		{
-			SetIsOverheadViewEnabled(value.isPressed);
 		}
 #endif
 
@@ -82,11 +73,6 @@ namespace StarterAssets
 		private void SetCursorState(bool newState)
 		{
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-		}
-
-		private void SetIsOverheadViewEnabled(bool newState)
-		{
-			isOverheadViewEnabled = newState;
 		}
 	}
 

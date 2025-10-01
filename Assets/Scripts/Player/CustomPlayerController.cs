@@ -16,6 +16,9 @@ Requirements:
 public class CustomPlayerController : MonoBehaviour
 {
 
+    [SerializeField] UIController uiController;
+    [SerializeField] PlayerInput myPlayerInput;
+
     // Stuff that controls player
     GameModeController myGameModeController;
     FirstPersonController myFirstPersonController;
@@ -38,30 +41,32 @@ public class CustomPlayerController : MonoBehaviour
         myIsoFurnitureController = GetComponent<IsoFurnitureController>();
     }
 
-    void Update()
+    public void OnToggleInventory(InputValue inputValue)
     {
-        HandleToggleOverheadView();
+        if (!inputValue.isPressed) return;
+
+        uiController.UItab();
     }
 
-    private void HandleToggleOverheadView()
+    public void OnToggleOverheadView(InputValue inputValue)
     {
-        if (_input.isOverheadViewEnabled)
-        {
-            if (_isOverheadViewEnabled)
-            {
-                DisableOverheadView();
-                EnablePlayer();
-                myIsoFurnitureController.enabled = false;
-            }
-            else
-            {
-                EnableOverheadView();
-                DisablePlayer();
-                myIsoFurnitureController.enabled = true;
-            }
 
-            // Treats the toggle button as a one time press event. switch to context.isPressed later
-            _input.isOverheadViewEnabled = false;
+        if (!inputValue.isPressed) return;
+
+        if (_isOverheadViewEnabled)
+        {
+            DisableOverheadView();
+            EnablePlayer();
+            myIsoFurnitureController.enabled = false;
+            myPlayerInput.SwitchCurrentActionMap("Player");
+
+        }
+        else
+        {
+            EnableOverheadView();
+            DisablePlayer();
+            myIsoFurnitureController.enabled = true;
+            myPlayerInput.SwitchCurrentActionMap("Isometric");
         }
     }
 
@@ -77,6 +82,7 @@ public class CustomPlayerController : MonoBehaviour
         myGameModeController.ToggleOverheadView();
     }
 
+    // Might not be needed if mapping switch works! 
     private void DisablePlayer()
     {
         myFirstPersonController.enabled = false;

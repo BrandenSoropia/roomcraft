@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class FurnitureBuilder : MonoBehaviour
 {
@@ -18,60 +19,59 @@ public class FurnitureBuilder : MonoBehaviour
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
+    // Button Press State
+    [SerializeField] bool _isRightTriggerPressed = false;
+
     void Update()
     {
         if (!gameManager.GetIsBuildingEnabled()) return;
-
-        HandleSelection();
-        HandleAttachment();
     }
 
-    void HandleSelection()
+    /*
+    Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
+    Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
+    */
+    Ray _GetCurrentScreenCenterRay()
     {
-        if (!IsRightClick()) return;
+        return Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+    }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
+    /*
+    Listen for the BuildSelection button to be pressed.
+    Thus it should be triggered only when the button is pressed once! 
+    Configured from Player Input.StarterAssets.
+    */
+    public void OnBuildSelection(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit)) return;
 
         GameObject clicked = hit.collider.gameObject;
 
-        // Ignore markers for selection
-        if (!clicked.CompareTag("Marker"))
+        Debug.Log("### clicked: " + clicked.gameObject.name);
+
+        if (selectedPiece == null)
         {
-            if (clicked == selectedPiece)
-                DeselectPiece();
-            else
-                SelectPiece(clicked);
+            SelectPiece(clicked);
         }
-    }
-
-    void HandleAttachment()
-    {
-        if (!IsRightClick() || selectedPiece == null) return;
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
-
-        GameObject clicked = hit.collider.gameObject;
-
-        if (clicked.CompareTag("Marker"))
+        else if (selectedPiece != null && clicked == selectedPiece)
         {
-            AttachPieceToMarker(clicked.transform);
-
-            // Destroy the original selected piece
-            Destroy(selectedPiece);
             DeselectPiece();
         }
+        else if (selectedPiece != null && clicked.CompareTag("Marker"))
+        {
+            HandleAttachment(clicked);
+        }
     }
 
-    bool IsRightClick()
+    void HandleAttachment(GameObject clicked)
     {
-#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
-                return UnityEngine.InputSystem.Mouse.current != null &&
-                       UnityEngine.InputSystem.Mouse.current.rightButton.wasPressedThisFrame;
-#else
-        return Input.GetMouseButtonDown(1);
-#endif
+        AttachPieceToMarker(clicked.transform);
+
+        // Destroy the original selected piece
+        Destroy(selectedPiece);
+        DeselectPiece();
     }
 
     void SelectPiece(GameObject piece)
@@ -98,6 +98,8 @@ public class FurnitureBuilder : MonoBehaviour
 
     void DeselectPiece()
     {
+        Debug.Log("### Build Deselected!");
+
         if (selectedRenderer != null)
             selectedRenderer.material.color = selectedOriginalColor;
 
