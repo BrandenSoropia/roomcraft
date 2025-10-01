@@ -12,8 +12,6 @@ public class FurnitureRotator : MonoBehaviour
 
     private GameObject pivot; // Temporary pivot for group rotations
 
-    public InventoryManager inventoryManager;
-
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
     Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
@@ -48,13 +46,6 @@ public class FurnitureRotator : MonoBehaviour
 
             if (clickedObject.CompareTag("Environment"))
             {
-                return;
-            }
-
-            if (clickedObject.CompareTag("FurnitureBox"))
-            {
-                inventoryManager.SetUpExamplePicks();
-                Destroy(clickedObject, 1.5f);
                 return;
             }
 

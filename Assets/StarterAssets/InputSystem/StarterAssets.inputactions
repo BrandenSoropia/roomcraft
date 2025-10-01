@@ -42,15 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleOverheadView",
-                    "type": "Button",
-                    "id": "07d5a69b-c13c-4d16-8051-37d4dc1d4c77",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "BuildSelection",
                     "type": "Button",
                     "id": "cd4f6829-ad0a-4cff-91ae-9c34f97b5eae",
@@ -108,6 +99,24 @@
                     "name": "ToggleInventory",
                     "type": "Button",
                     "id": "fb383498-a877-4720-af67-2b3b67566955",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleOverheadView",
+                    "type": "Button",
+                    "id": "07d5a69b-c13c-4d16-8051-37d4dc1d4c77",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenBox",
+                    "type": "Button",
+                    "id": "5cdb6d9d-d499-4da3-bc98-fc2993deebf1",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -453,6 +462,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ee6f7c0-3c83-4d71-a540-48ea72d5e141",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "OpenBox",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04786270-ccb6-4fb5-8801-a3cfa9aafbb4",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "OpenBox",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
