@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class FurnitureRotator : MonoBehaviour
 {
@@ -13,80 +14,77 @@ public class FurnitureRotator : MonoBehaviour
 
     public InventoryManager inventoryManager;
 
+    /*
+    Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
+    Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
+    */
+    Ray _GetCurrentScreenCenterRay()
+    {
+        return Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+    }
+
     void Update()
     {
         if (!gameManager.GetIsBuildingEnabled()) return;
+    }
 
-        // // Hacky way to turn off/on player movement
-        // if (selectedParts.Count > 0 && gameManager.GetIsPlayerMovementEnabled())
-        // {
-        //     gameManager.SetIsPlayerMovementEnabled(false);
-        // }
-        // else if (selectedParts.Count == 0 && !gameManager.GetIsPlayerMovementEnabled())
-        // {
-        //     gameManager.SetIsPlayerMovementEnabled(true);
-
-        // }
-
+    public void OnRotateSelection()
+    {
         HandleSelection();
-        HandleRotation();
     }
 
     void HandleSelection()
     {
-        if (Input.GetMouseButtonDown(0)) // Left click
+        if (Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            GameObject clickedObject = hit.collider.gameObject;
+
+            // If it's a Marker, treat its parent as the clicked object
+            if (clickedObject.CompareTag("Marker") && clickedObject.transform.parent != null)
             {
-                GameObject clickedObject = hit.collider.gameObject;
+                clickedObject = clickedObject.transform.parent.gameObject;
+                Debug.Log("Marker clicked, treating as parent: " + clickedObject.name);
+            }
 
-                // If it's a Marker, treat its parent as the clicked object
-                if (clickedObject.CompareTag("Marker") && clickedObject.transform.parent != null)
-                {
-                    clickedObject = clickedObject.transform.parent.gameObject;
-                    Debug.Log("Marker clicked, treating as parent: " + clickedObject.name);
-                }
+            if (clickedObject.CompareTag("Environment"))
+            {
+                return;
+            }
 
-                if (clickedObject.CompareTag("Environment"))
-                {
-                    return;
-                }
+            if (clickedObject.CompareTag("FurnitureBox"))
+            {
+                inventoryManager.SetUpExamplePicks();
+                Destroy(clickedObject, 1.5f);
+                return;
+            }
 
-                if (clickedObject.CompareTag("FurnitureBox"))
-                {
-                    inventoryManager.SetUpExamplePicks();
-                    Destroy(clickedObject, 1.5f);
-                    return;
-                }
+            if (selectedParts.Contains(clickedObject))
+            {
+                // Deselect parent and its markers
+                RestoreColor(clickedObject);
+                DeselectMarkers(clickedObject);
 
-                if (selectedParts.Contains(clickedObject))
-                {
-                    // Deselect parent and its markers
-                    RestoreColor(clickedObject);
-                    DeselectMarkers(clickedObject);
+                selectedParts.Remove(clickedObject);
+                Debug.Log("Deselected: " + clickedObject.name);
 
-                    selectedParts.Remove(clickedObject);
-                    Debug.Log("Deselected: " + clickedObject.name);
+                RebuildPivot();
+            }
+            else
+            {
+                // Select parent
+                Highlight(clickedObject, Color.yellow);
+                selectedParts.Add(clickedObject);
+                Debug.Log("Selected: " + clickedObject.name);
 
-                    RebuildPivot();
-                }
-                else
-                {
-                    // Select parent
-                    Highlight(clickedObject, Color.yellow);
-                    selectedParts.Add(clickedObject);
-                    Debug.Log("Selected: " + clickedObject.name);
+                // Also highlight its marker children
+                SelectMarkers(clickedObject);
 
-                    // Also highlight its marker children
-                    SelectMarkers(clickedObject);
-
-                    RebuildPivot();
-                }
+                RebuildPivot();
             }
         }
+
     }
-    
+
     // Highlight & mark all child markers
     void SelectMarkers(GameObject parent)
     {
@@ -113,32 +111,43 @@ public class FurnitureRotator : MonoBehaviour
         }
     }
 
-    void HandleRotation()
+    void _HandleRotation(float x, float y, float z)
     {
         if (selectedParts.Count == 0) return;
 
         Transform targetTransform = selectedParts.Count > 0 && pivot != null ? pivot.transform : selectedParts[0].transform;
+        targetTransform.Rotate(x, y, z, Space.World);
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) // Down
-        {
-            targetTransform.Rotate(90f, 0f, 0f, Space.World);
-            Debug.Log("Rotated +90° on X axis");
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) // Up
-        {
-            targetTransform.Rotate(-90f, 0f, 0f, Space.World);
-            Debug.Log("Rotated -90° on X axis");
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) // Left
-        {
-            targetTransform.Rotate(0f, -90f, 0f, Space.World);
-            Debug.Log("Rotated -90° on Y axis");
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow)) // Right
-        {
-            targetTransform.Rotate(0f, 90f, 0f, Space.World);
-            Debug.Log("Rotated +90° on Y axis");
-        }
+        Debug.Log($"Rotated {x} on X axis\n{y} on Y axis\n{z} on Z axis");
+    }
+
+
+    public void OnRotateObjectUp(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        _HandleRotation(-90f, 0f, 0f);
+    }
+
+    public void OnRotateObjectRight(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        _HandleRotation(0f, 90f, 0f);
+    }
+
+    public void OnRotateObjectDown(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        _HandleRotation(90f, 0f, 0f);
+    }
+
+    public void OnRotateObjectLeft(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        _HandleRotation(0f, -90f, 0f);
     }
 
     void RebuildPivot()

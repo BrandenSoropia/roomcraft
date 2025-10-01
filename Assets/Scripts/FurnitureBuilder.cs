@@ -29,6 +29,7 @@ public class FurnitureBuilder : MonoBehaviour
 
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
+    Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
     */
     Ray _GetCurrentScreenCenterRay()
     {
@@ -40,49 +41,37 @@ public class FurnitureBuilder : MonoBehaviour
     Thus it should be triggered only when the button is pressed once! 
     Configured from Player Input.StarterAssets.
     */
-    public void OnBuildSelection()
+    public void OnBuildSelection(InputValue inputValue)
     {
-        if (selectedPiece == null)
-        {
-            HandleSelection();
-        }
-        else
-        {
-            HandleAttachment();
-        }
-    }
+        if (!inputValue.isPressed) return;
 
-    void HandleSelection()
-    {
-        // Raycast from center of screen. Previously used ScreenPointToRay for cursor only.
-        if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit)) return;
-
-        GameObject targer = hit.collider.gameObject;
-
-        // Ignore markers for selection
-        if (!targer.CompareTag("Marker"))
-        {
-            if (targer == selectedPiece)
-                DeselectPiece();
-            else
-                SelectPiece(targer);
-        }
-    }
-
-    void HandleAttachment()
-    {
         if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit)) return;
 
         GameObject clicked = hit.collider.gameObject;
 
-        if (clicked.CompareTag("Marker"))
-        {
-            AttachPieceToMarker(clicked.transform);
+        Debug.Log("### clicked: " + clicked.gameObject.name);
 
-            // Destroy the original selected piece
-            Destroy(selectedPiece);
+        if (selectedPiece == null)
+        {
+            SelectPiece(clicked);
+        }
+        else if (selectedPiece != null && clicked == selectedPiece)
+        {
             DeselectPiece();
         }
+        else if (selectedPiece != null && clicked.CompareTag("Marker"))
+        {
+            HandleAttachment(clicked);
+        }
+    }
+
+    void HandleAttachment(GameObject clicked)
+    {
+        AttachPieceToMarker(clicked.transform);
+
+        // Destroy the original selected piece
+        Destroy(selectedPiece);
+        DeselectPiece();
     }
 
     void SelectPiece(GameObject piece)
@@ -109,6 +98,8 @@ public class FurnitureBuilder : MonoBehaviour
 
     void DeselectPiece()
     {
+        Debug.Log("### Build Deselected!");
+
         if (selectedRenderer != null)
             selectedRenderer.material.color = selectedOriginalColor;
 
