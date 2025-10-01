@@ -7,6 +7,9 @@ public class FurnitureRotator : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
 
+    [Header("SFX Controller")]
+    [SerializeField] PlayerSFXController playerSFXController;
+
     private List<GameObject> selectedParts = new List<GameObject>();
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
 
@@ -58,6 +61,9 @@ public class FurnitureRotator : MonoBehaviour
                 selectedParts.Remove(clickedObject);
                 Debug.Log("Deselected: " + clickedObject.name);
 
+                playerSFXController.PlayDeselectPieceSFX();
+
+
                 RebuildPivot();
             }
             else
@@ -69,6 +75,8 @@ public class FurnitureRotator : MonoBehaviour
 
                 // Also highlight its marker children
                 SelectMarkers(clickedObject);
+
+                playerSFXController.PlaySelectPieceSFX();
 
                 RebuildPivot();
             }
@@ -105,6 +113,8 @@ public class FurnitureRotator : MonoBehaviour
     void _HandleRotation(float x, float y, float z)
     {
         if (selectedParts.Count == 0) return;
+
+        playerSFXController.PlayRotateSFX();
 
         Transform targetTransform = selectedParts.Count > 0 && pivot != null ? pivot.transform : selectedParts[0].transform;
         targetTransform.Rotate(x, y, z, Space.World);

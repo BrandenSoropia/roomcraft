@@ -11,6 +11,10 @@ public class FurnitureBuilder : MonoBehaviour
     // Audio 
     public MusicManager musicManager;
 
+    [Header("SFX Controller")]
+    [SerializeField] PlayerSFXController playerSFXController;
+
+
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
@@ -54,14 +58,19 @@ public class FurnitureBuilder : MonoBehaviour
         if (selectedPiece == null)
         {
             SelectPiece(clicked);
+            playerSFXController.PlaySelectPieceSFX();
         }
         else if (selectedPiece != null && clicked == selectedPiece)
         {
             DeselectPiece();
+            playerSFXController.PlayDeselectPieceSFX();
+
         }
         else if (selectedPiece != null && clicked.CompareTag("Marker"))
         {
             HandleAttachment(clicked);
+            playerSFXController.PlayAttachSFX();
+
         }
     }
 

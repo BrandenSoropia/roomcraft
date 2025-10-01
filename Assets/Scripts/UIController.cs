@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    [Header("SFX Controller")]
+    [SerializeField] PlayerSFXController playerSFXController;
+
     public List<Sprite> shelfIcons;
     public List<Sprite> deskIcons;
     public List<Sprite> couchIcons;
@@ -112,11 +115,14 @@ public class UIController : MonoBehaviour
         {
             UIbar.localPosition -= new Vector3(0, 100, 0);
             closed = true;
+
+            playerSFXController.PlayCloseInventorySFX();
         }
         else
         {
             UIbar.localPosition += new Vector3(0, 100, 0);
             closed = false;
+            playerSFXController.PlayOpenInventorySFX();
         }
     }
 

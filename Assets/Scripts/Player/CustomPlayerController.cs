@@ -18,6 +18,7 @@ public class CustomPlayerController : MonoBehaviour
 
     [SerializeField] UIController uiController;
     [SerializeField] PlayerInput myPlayerInput;
+    [SerializeField] PlayerSFXController playerSFXController;
 
     // Stuff that controls player
     GameModeController myGameModeController;
@@ -65,6 +66,7 @@ public class CustomPlayerController : MonoBehaviour
             EnablePlayer();
             myIsoFurnitureController.enabled = false;
             myPlayerInput.SwitchCurrentActionMap("Player");
+            playerSFXController.PlayCloseInventorySFX();
 
         }
         else
@@ -73,6 +75,7 @@ public class CustomPlayerController : MonoBehaviour
             DisablePlayer();
             myIsoFurnitureController.enabled = true;
             myPlayerInput.SwitchCurrentActionMap("Isometric");
+            playerSFXController.PlayOpenInventorySFX();
         }
     }
 
