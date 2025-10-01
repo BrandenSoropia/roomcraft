@@ -16,6 +16,8 @@ Requirements:
 public class CustomPlayerController : MonoBehaviour
 {
 
+    [SerializeField] UIController uiController;
+
     // Stuff that controls player
     GameModeController myGameModeController;
     FirstPersonController myFirstPersonController;
@@ -41,6 +43,13 @@ public class CustomPlayerController : MonoBehaviour
     void Update()
     {
         HandleToggleOverheadView();
+    }
+
+    public void OnToggleInventory(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        uiController.UItab();
     }
 
     private void HandleToggleOverheadView()

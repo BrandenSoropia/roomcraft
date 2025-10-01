@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     public List<Image> popSlots;
     public RectTransform UIbar;
     public GameObject popWindow;
-    private bool closed = false;
+    [SerializeField] bool closed = true;
     private bool uiMode = false;
     private bool popOpen = false;
 
@@ -23,7 +23,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         popWindow.SetActive(false);
-
+        closed = true;
     }
 
     // Update is called once per frame
