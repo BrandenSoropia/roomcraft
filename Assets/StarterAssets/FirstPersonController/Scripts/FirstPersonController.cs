@@ -119,7 +119,7 @@ namespace StarterAssets
 			GroundedCheck();
 			if (gameManager.GetIsPlayerMovementEnabled())
 			{
-				Debug.Log("###HERE");
+				
 				Move();
 			}
 
