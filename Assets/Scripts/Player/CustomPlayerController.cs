@@ -41,6 +41,11 @@ public class CustomPlayerController : MonoBehaviour
         myIsoFurnitureController = GetComponent<IsoFurnitureController>();
     }
 
+    public void OnQuitGame()
+    {
+        Application.Quit();
+    }
+
     public void OnToggleInventory(InputValue inputValue)
     {
         if (!inputValue.isPressed) return;
