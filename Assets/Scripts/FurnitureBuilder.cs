@@ -18,6 +18,8 @@ public class FurnitureBuilder : MonoBehaviour
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
+    
+    private readonly Color lightGreen = new Color(0.66f, 0.78f, 0.52f, 1f); 
 
     // Marker highlighting
     private List<Renderer> highlightedMarkers = new List<Renderer>();
@@ -92,7 +94,7 @@ public class FurnitureBuilder : MonoBehaviour
         if (selectedRenderer != null)
         {
             selectedOriginalColor = selectedRenderer.material.color;
-            selectedRenderer.material.color = Color.green;
+            selectedRenderer.material.color = lightGreen;
         }
 
         HighlightAllMarkers();
@@ -137,7 +139,7 @@ public class FurnitureBuilder : MonoBehaviour
                 if (rend != null && !markerOriginalColors.ContainsKey(rend))
                 {
                     markerOriginalColors[rend] = rend.material.color;
-                    rend.material.color = Color.green;
+                    rend.material.color = lightGreen;
                     highlightedMarkers.Add(rend);
                 }
             }
