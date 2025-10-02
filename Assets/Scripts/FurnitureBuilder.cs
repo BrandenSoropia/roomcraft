@@ -157,7 +157,7 @@ public class FurnitureBuilder : MonoBehaviour
             return;
         }
 
-        GameObject newPiece = Instantiate(selectedPiece);
+        GameObject newPiece = Instantiate(selectedPiece, marker.transform.position, Quaternion.identity);
 
         // Apply local scale of the selected piece
         newPiece.transform.localScale = selectedPiece.transform.localScale;
@@ -180,7 +180,7 @@ public class FurnitureBuilder : MonoBehaviour
         musicManager.PlayAttaching();
 
         // Match rotation with marker
-        newPiece.transform.rotation = marker.rotation;
+        //newPiece.transform.rotation = marker.rotation;
 
         // Snap piece so bottom aligns with marker
         Renderer rend = newPiece.GetComponentInChildren<Renderer>();
