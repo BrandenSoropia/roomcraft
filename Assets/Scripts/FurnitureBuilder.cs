@@ -199,17 +199,10 @@ public class FurnitureBuilder : MonoBehaviour
 
             if (marker.name.Contains("_side_marker"))
             {
-                newPiece.transform.position = marker.position;
-                
-                // Get marker renderer to find bottom
-                Renderer markerRend = marker.GetComponent<Renderer>();
-                if (markerRend != null)
-                {
-                    // Offset so bottom aligns
-                    float pieceBottomY = rend.bounds.min.y;
-                    float markerBottomY = markerRend.bounds.min.y;
-                    offset.y = markerBottomY - pieceBottomY;
-                }
+                // Snap the side of the piece to the marker
+                Vector3 sideLocal = localBounds.center - Vector3.forward * localBounds.extents.z; // front face of piece
+                Vector3 sideWorld = rend.transform.TransformPoint(sideLocal);
+                offset = marker.position - sideWorld;
             }
             else
             {
