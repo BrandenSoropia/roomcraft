@@ -15,6 +15,8 @@ public class FurnitureRotator : MonoBehaviour
 
     private GameObject pivot; // Temporary pivot for group rotations
 
+    private readonly Color softYellow = new Color(0.988f, 0.933f, 0.447f, 1f);
+    
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
     Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
@@ -69,7 +71,7 @@ public class FurnitureRotator : MonoBehaviour
             else
             {
                 // Select parent
-                Highlight(clickedObject, Color.yellow);
+                Highlight(clickedObject, softYellow);
                 selectedParts.Add(clickedObject);
                 Debug.Log("Selected: " + clickedObject.name);
 
@@ -91,7 +93,7 @@ public class FurnitureRotator : MonoBehaviour
         {
             if (child.CompareTag("Marker"))
             {
-                Highlight(child.gameObject, Color.yellow);
+                Highlight(child.gameObject, softYellow);
                 Debug.Log("Also highlighted marker: " + child.name);
             }
         }
