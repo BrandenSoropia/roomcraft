@@ -6,17 +6,26 @@ public class InventoryManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public List<Sprite> itemIcons;
     public UIController UIController;
-    public Dictionary<GameObject, Sprite> inventory;
+    public FurniturePiece[] inventory;
+    public Camera playerCamera;
+    public bool spawning;
+    private Vector3 spawnPosition;
 
     void Start()
     {
-        inventory = new Dictionary<GameObject, Sprite>();
+        inventory = new FurniturePiece[6];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            spawnPosition = hit.point;
+        }
     }
 
     //This method is to show the inventory's connection to the UI for the Tech Demo only
@@ -31,12 +40,30 @@ public class InventoryManager : MonoBehaviour
         UIController.shelfIcons.Add(itemIcons[5]);
     }
 
-    //This method might be changed depending on the implementation of furniture items
-    public void AddToInventory(GameObject item, Sprite icon)
+    public void Unbox(List<FurniturePiece> items)
     {
-        if (!inventory.ContainsKey(item))
+        if (items.Count <= 6)
         {
-            inventory.Add(item, icon);
+            UIController.deskIcons.Clear();
+            for (int i = 0; i < items.Count; i++)
+            {
+                UIController.deskIcons.Add(items[i].icon);
+                inventory[i] = items[i];
+            }
+            UIController.DeskClick();
+        }
+    }
+
+    public void SpawnPiece(int slot)
+    {
+        if (inventory[slot] != null)
+        {
+            Debug.Log("spawn a piece: " + spawnPosition);
+            FurniturePiece obj = Instantiate(inventory[slot], spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            Debug.Log("no item");
         }
     }
 }

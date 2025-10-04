@@ -14,6 +14,7 @@ public class FurnitureRotator : MonoBehaviour
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
 
     private GameObject pivot; // Temporary pivot for group rotations
+    public InventoryManager inventoryManager;
 
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
@@ -49,6 +50,20 @@ public class FurnitureRotator : MonoBehaviour
 
             if (clickedObject.CompareTag("Environment"))
             {
+                return;
+            }
+
+            if (clickedObject.CompareTag("FurnitureBox"))
+            {
+                FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
+
+                if (fb != null)
+                {
+                    inventoryManager.Unbox(fb.items);
+                }
+
+                Destroy(clickedObject, 1.5f);
+
                 return;
             }
 
