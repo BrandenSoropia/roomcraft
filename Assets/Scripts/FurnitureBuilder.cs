@@ -18,6 +18,8 @@ public class FurnitureBuilder : MonoBehaviour
     private GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
+    
+    private readonly Color lightGreen = new Color(0.66f, 0.78f, 0.52f, 1f); 
 
     // Marker highlighting
     private List<Renderer> highlightedMarkers = new List<Renderer>();
@@ -92,7 +94,7 @@ public class FurnitureBuilder : MonoBehaviour
         if (selectedRenderer != null)
         {
             selectedOriginalColor = selectedRenderer.material.color;
-            selectedRenderer.material.color = Color.red;
+            selectedRenderer.material.color = lightGreen;
         }
 
         HighlightAllMarkers();
@@ -124,19 +126,20 @@ public class FurnitureBuilder : MonoBehaviour
 
         // Expected marker prefix"
         string markerPrefix = baseName + "_marker";
+        string sideMarkerPrefix = baseName + "_side_marker";
 
         GameObject[] markers = GameObject.FindGameObjectsWithTag("Marker");
 
         foreach (GameObject marker in markers)
         {
             // Match only markers that start with markerPrefix
-            if (marker.name.StartsWith(markerPrefix))
+            if (marker.name.StartsWith(markerPrefix) || marker.name.StartsWith(sideMarkerPrefix))
             {
                 Renderer rend = marker.GetComponent<Renderer>();
                 if (rend != null && !markerOriginalColors.ContainsKey(rend))
                 {
                     markerOriginalColors[rend] = rend.material.color;
-                    rend.material.color = Color.red;
+                    rend.material.color = lightGreen;
                     highlightedMarkers.Add(rend);
                 }
             }
@@ -188,14 +191,29 @@ public class FurnitureBuilder : MonoBehaviour
         // Match rotation with marker
         newPiece.transform.rotation = marker.rotation;
 
-        // Snap piece so bottom aligns with marker
+
+        // Snap piece depending on marker type
         Renderer rend = newPiece.GetComponentInChildren<Renderer>();
         if (rend != null)
         {
             Bounds localBounds = rend.localBounds;
-            Vector3 bottomLocal = localBounds.center - Vector3.up * localBounds.extents.y;
-            Vector3 bottomWorld = rend.transform.TransformPoint(bottomLocal);
-            Vector3 offset = marker.position - bottomWorld;
+            Vector3 offset = Vector3.zero;
+
+            if (marker.name.Contains("_side_marker"))
+            {
+                // Snap the side of the piece to the marker
+                Vector3 sideLocal = localBounds.center - Vector3.forward * localBounds.extents.z; // front face of piece
+                Vector3 sideWorld = rend.transform.TransformPoint(sideLocal);
+                offset = marker.position - sideWorld;
+            }
+            else
+            {
+                // Default: snap bottom of the piece to marker
+                Vector3 bottomLocal = localBounds.center - Vector3.up * localBounds.extents.y;
+                Vector3 bottomWorld = rend.transform.TransformPoint(bottomLocal);
+                offset = marker.position - bottomWorld;
+            }
+
             newPiece.transform.position += offset;
         }
         else
