@@ -26,20 +26,19 @@ public class CustomPlayerController : MonoBehaviour
     PlayerAnimationController myPlayerAnimationController;
     IsoFurnitureController myIsoFurnitureController;
 
-    private StarterAssetsInputs _input;
-
     // State Flags
     bool _isIsometricViewEnabled = false;
 
 
     void Start()
     {
-        _input = GetComponent<StarterAssetsInputs>();
-
         myGameModeController = GetComponent<GameModeController>();
         myFirstPersonController = GetComponent<FirstPersonController>();
         myPlayerAnimationController = GetComponent<PlayerAnimationController>();
         myIsoFurnitureController = GetComponent<IsoFurnitureController>();
+
+        // Make sure isometric controller is off first thing. Sometimes we forget to turn it off in editor.
+        myIsoFurnitureController.enabled = false;
     }
 
     public void OnQuitGame()
@@ -64,6 +63,9 @@ public class CustomPlayerController : MonoBehaviour
         {
             _isIsometricViewEnabled = false;
             myIsoFurnitureController.enabled = false;
+
+            SetPlayerScriptsEnabledState(true);
+
             myPlayerInput.SwitchCurrentActionMap("Player");
             playerSFXController.PlayCloseInventorySFX();
             myGameModeController.ShowOriginalView();
@@ -72,9 +74,16 @@ public class CustomPlayerController : MonoBehaviour
         {
             _isIsometricViewEnabled = true;
             myIsoFurnitureController.enabled = true;
+            SetPlayerScriptsEnabledState(false);
             myPlayerInput.SwitchCurrentActionMap("Isometric");
             playerSFXController.PlayOpenInventorySFX();
             myGameModeController.ShowOverheadView();
         }
+    }
+
+    void SetPlayerScriptsEnabledState(bool newState)
+    {
+        myFirstPersonController.enabled = newState;
+        myPlayerAnimationController.enabled = newState;
     }
 }
