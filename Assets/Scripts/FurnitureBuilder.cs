@@ -54,8 +54,15 @@ public class FurnitureBuilder : MonoBehaviour
 
         if (selectedPiece == null)
         {
-            SelectPiece(clicked);
-            playerSFXController.PlaySelectPieceSFX();
+            if (clicked.CompareTag("Furniture"))
+        	{
+            	SelectPiece(clicked);
+            	playerSFXController.PlaySelectPieceSFX();
+        	} 
+        	else
+        	{
+            	Debug.Log("Clicked object is not part of Furniture — selection ignored.");
+        	}
         }
         else if (selectedPiece != null && clicked == selectedPiece)
         {
