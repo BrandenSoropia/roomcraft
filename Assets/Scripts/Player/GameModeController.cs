@@ -16,25 +16,6 @@ public class GameModeController : MonoBehaviour
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject overheadCamera;
 
-    // Actual state controller for transitioning cameras
-
-    public void ToggleOverheadView()
-    {
-        if (!gameManager.GetIsBuildingEnabled())
-        {
-            ShowOriginalView();
-
-            gameManager.SetIsBuildingEnabled(true);
-        }
-        else
-        {
-            ShowOverheadView();
-
-            gameManager.SetIsBuildingEnabled(false);
-        }
-    }
-
-
     public void ShowOverheadView()
     {
 

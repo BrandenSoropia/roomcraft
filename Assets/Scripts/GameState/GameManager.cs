@@ -24,24 +24,4 @@ public class GameManager : MonoBehaviour
             _instance = this;
         }
     }
-
-    public bool GetIsBuildingEnabled()
-    {
-        return _isBuildingEnabled;
-    }
-
-    public void SetIsBuildingEnabled(bool newState)
-    {
-        _isBuildingEnabled = newState;
-    }
-
-    public bool GetIsPlayerMovementEnabled()
-    {
-        return _isPlayerMovementEnabled;
-    }
-
-    public void SetIsPlayerMovementEnabled(bool newState)
-    {
-        _isPlayerMovementEnabled = newState;
-    }
 }

@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2472580119336233529}
   - component: {fileID: 3938495079865136402}
-  - component: {fileID: 4600298463320238636}
   - component: {fileID: 1370719623507766632}
   - component: {fileID: 5976862808757759719}
-  - component: {fileID: 6625468141680910692}
+  - component: {fileID: 3312235432532059399}
+  - component: {fileID: 8084872931714714891}
   m_Layer: 0
-  m_Name: OverheadCamera
-  m_TagString: Untagged
+  m_Name: IsometricCamera
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,13 +29,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8452438802858017246}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08282785, y: -0.90198, z: 0.19996412, w: 0.3736123}
-  m_LocalPosition: {x: 10.2, y: 8, z: 10.12}
+  m_LocalRotation: {x: -0.09904573, y: 0.8923992, z: -0.23911768, w: -0.36964363}
+  m_LocalPosition: {x: 15, y: 15, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 25, y: -135, z: 0}
+  m_LocalEulerAnglesHint: {x: 30, y: 225, z: 0}
 --- !u!20 &3938495079865136402
 Camera:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 18
+  orthographic size: 13
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -87,49 +87,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &4600298463320238636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8452438802858017246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Priority:
-    Enabled: 0
-    m_Value: 0
-  OutputChannel: 1
-  StandbyUpdate: 2
-  m_StreamingVersion: 0
-  m_LegacyPriority: 0
-  Target:
-    TrackingTarget: {fileID: 0}
-    LookAtTarget: {fileID: 0}
-    CustomLookAtTarget: 0
-  Lens:
-    FieldOfView: 40
-    OrthographicSize: 10
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
-    Dutch: 0
-    ModeOverride: 0
-    PhysicalProperties:
-      GateFit: 2
-      SensorSize: {x: 21.946, y: 16.002}
-      LensShift: {x: 0, y: 0}
-      FocusDistance: 10
-      Iso: 200
-      ShutterSpeed: 0.005
-      Aperture: 16
-      BladeCount: 5
-      Curvature: {x: 2, y: 11}
-      BarrelClipping: 0.25
-      Anamorphism: 0
-  BlendHint: 0
 --- !u!81 &1370719623507766632
 AudioListener:
   m_ObjectHideFlags: 0
@@ -174,7 +131,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -182,7 +138,8 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &6625468141680910692
+  m_Version: 2
+--- !u!114 &3312235432532059399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,8 +148,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 8452438802858017246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bafe8517e5d8808419ec05cad3abd388, type: 3}
+  m_Script: {fileID: 11500000, guid: 19189c0c05db34a4ea562c62a752b882, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  panSpeed: 20
-  _input: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::IsoCamController
+  controller: {fileID: 0}
+  radius: 20
+  isoPitch: 30
+  addHeight: 3
+  yawSpeed: 90
+  pitchSpeed: 90
+  minPitch: 10
+  maxPitch: 90
+  zoomSpeed: 3
+  minZoom: 3
+  maxZoom: 12
+  moveSmooth: 0.1
+--- !u!114 &8084872931714714891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452438802858017246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46a70bf5f072a70438a914a4a27d2103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallAutoHider_ScreenTriangle
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
+  maxDistance: 100
+  screenEdgeMargin: 0.002
+  A: {x: 0, y: 0}
+  B: {x: 0.5, y: 0.5}
+  C: {x: 1, y: 0}
+  fadeMaterial: {fileID: 2100000, guid: cffdfabcd8a66de479ce7df67ca60083, type: 2}
+  fadeAlpha: 0.2
+  fadeLerpSpeed: 20
+  useShadowsOnly: 1

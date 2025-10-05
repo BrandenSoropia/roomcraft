@@ -26,11 +26,6 @@ public class FurnitureBuilder : MonoBehaviour
     // Button Press State
     [SerializeField] bool _isRightTriggerPressed = false;
 
-    void Update()
-    {
-        if (!gameManager.GetIsBuildingEnabled()) return;
-    }
-
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
     Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html

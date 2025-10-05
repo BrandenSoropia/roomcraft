@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "StarterAssets",
     "maps": [
         {
@@ -114,7 +115,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleOverheadView",
+                    "name": "ToggleIsometricView",
                     "type": "Button",
                     "id": "07d5a69b-c13c-4d16-8051-37d4dc1d4c77",
                     "expectedControlType": "",
@@ -206,18 +207,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "ToggleOverheadView",
+                    "action": "ToggleIsometricView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "5cf6ce63-7b5e-4d2e-beb2-09567effd012",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "ToggleOverheadView",
+                    "action": "ToggleIsometricView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -3,28 +3,31 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class FurnitureSelectable : MonoBehaviour
 {
-    [Header("Optional highlight")]
-    [SerializeField] private Renderer[] renderersToTint;
-    [SerializeField] private float selectedEmission = 1.25f;
+    [Header("Highlight Settings")]
+    [SerializeField] private Color glowColor = Color.yellow;
+    [SerializeField] private float glowIntensity = 2f;
 
-    public Rigidbody RB { get; private set; }
+    public Rigidbody RB { get; private set; }   // <— bring RB back
 
-    Color[] _baseEmissions;
-    static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+    private Renderer[] renderersToTint;
 
     void Awake()
     {
-        RB = GetComponent<Rigidbody>();
-        if (renderersToTint == null || renderersToTint.Length == 0)
-            renderersToTint = GetComponentsInChildren<Renderer>(true);
+        RB = GetComponent<Rigidbody>(); // cache once
 
-        _baseEmissions = new Color[renderersToTint.Length];
-        for (int i = 0; i < renderersToTint.Length; i++)
+        // auto-grab all renderers
+        renderersToTint = GetComponentsInChildren<Renderer>(true);
+
+        // make sure emission keyword exists; start off
+        foreach (var r in renderersToTint)
         {
-            var r = renderersToTint[i];
-            if (r != null && r.sharedMaterial != null && r.sharedMaterial.HasProperty(EmissionColor))
+            foreach (var mat in r.materials)
             {
-                _baseEmissions[i] = r.sharedMaterial.GetColor(EmissionColor);
+                if (mat.HasProperty("_EmissionColor"))
+                {
+                    mat.EnableKeyword("_EMISSION");
+                    mat.SetColor("_EmissionColor", Color.black);
+                }
             }
         }
     }
@@ -33,24 +36,26 @@ public class FurnitureSelectable : MonoBehaviour
     {
         if (renderersToTint == null) return;
 
-        for (int i = 0; i < renderersToTint.Length; i++)
+        foreach (var r in renderersToTint)
         {
-            var r = renderersToTint[i];
-            if (r == null || r.material == null) continue;
-
-            if (r.material.HasProperty("_EmissionColor"))
+            foreach (var mat in r.materials)
             {
-                if (selected)
+                if (mat.HasProperty("_EmissionColor"))
                 {
-                    r.material.EnableKeyword("_EMISSION");
-                    r.material.SetColor("_EmissionColor", Color.yellow * 2f); // bright yellow glow
-                }
-                else
-                {
-                    r.material.SetColor("_EmissionColor", Color.black); // reset
+                    mat.SetColor("_EmissionColor",
+                        selected ? glowColor * glowIntensity : Color.black);
                 }
             }
         }
     }
 
+    public Vector3 GetWorldRotationPivot()
+    {
+        // Use renderers to estimate footprint center (XZ) and bottom (Y)
+        var rends = GetComponentsInChildren<Renderer>(true);
+        if (rends.Length == 0) return transform.position;
+        Bounds wb = rends[0].bounds;
+        for (int i = 1; i < rends.Length; i++) wb.Encapsulate(rends[i].bounds);
+        return new Vector3(wb.center.x, wb.min.y, wb.center.z);
+    }
 }

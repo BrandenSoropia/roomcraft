@@ -29,7 +29,7 @@ public class CustomPlayerController : MonoBehaviour
     private StarterAssetsInputs _input;
 
     // State Flags
-    bool _isOverheadViewEnabled = false;
+    bool _isIsometricViewEnabled = false;
 
 
     void Start()
@@ -55,52 +55,26 @@ public class CustomPlayerController : MonoBehaviour
         uiController.UItab();
     }
 
-    public void OnToggleOverheadView(InputValue inputValue)
+    public void OnToggleIsometricView(InputValue inputValue)
     {
 
         if (!inputValue.isPressed) return;
 
-        if (_isOverheadViewEnabled)
+        if (_isIsometricViewEnabled)
         {
-            DisableOverheadView();
-            EnablePlayer();
+            _isIsometricViewEnabled = false;
             myIsoFurnitureController.enabled = false;
             myPlayerInput.SwitchCurrentActionMap("Player");
             playerSFXController.PlayCloseInventorySFX();
-
+            myGameModeController.ShowOriginalView();
         }
         else
         {
-            EnableOverheadView();
-            DisablePlayer();
+            _isIsometricViewEnabled = true;
             myIsoFurnitureController.enabled = true;
             myPlayerInput.SwitchCurrentActionMap("Isometric");
             playerSFXController.PlayOpenInventorySFX();
+            myGameModeController.ShowOverheadView();
         }
-    }
-
-    private void DisableOverheadView()
-    {
-        _isOverheadViewEnabled = false;
-        myGameModeController.ToggleOverheadView();
-    }
-
-    private void EnableOverheadView()
-    {
-        _isOverheadViewEnabled = true;
-        myGameModeController.ToggleOverheadView();
-    }
-
-    // Might not be needed if mapping switch works! 
-    private void DisablePlayer()
-    {
-        myFirstPersonController.enabled = false;
-        myPlayerAnimationController.enabled = false;
-    }
-
-    private void EnablePlayer()
-    {
-        myFirstPersonController.enabled = true;
-        myPlayerAnimationController.enabled = true;
     }
 }

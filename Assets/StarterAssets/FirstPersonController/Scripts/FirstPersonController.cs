@@ -117,11 +117,7 @@ namespace StarterAssets
 		{
 			JumpAndGravity();
 			GroundedCheck();
-			if (gameManager.GetIsPlayerMovementEnabled())
-			{
-				Move();
-			}
-
+			Move();
 		}
 
 		private void LateUpdate()

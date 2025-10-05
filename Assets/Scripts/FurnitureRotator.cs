@@ -25,11 +25,6 @@ public class FurnitureRotator : MonoBehaviour
         return Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
     }
 
-    void Update()
-    {
-        if (!gameManager.GetIsBuildingEnabled()) return;
-    }
-
     public void OnRotateSelection()
     {
         HandleSelection();
