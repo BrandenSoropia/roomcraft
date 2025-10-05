@@ -533,7 +533,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "ToggleOverheadView",
+                    "name": "ToggleIsometricView",
                     "type": "Button",
                     "id": "f4b772cb-fd9c-4492-a1c7-3be08ad9e789",
                     "expectedControlType": "",
@@ -572,18 +572,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "ToggleOverheadView",
+                    "action": "ToggleIsometricView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "667dbb8b-558f-4ca7-b045-f5965a714dc2",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "ToggleOverheadView",
+                    "action": "ToggleIsometricView",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
