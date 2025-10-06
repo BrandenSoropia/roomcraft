@@ -31,7 +31,6 @@ public class IsoCamController : MonoBehaviour
     private InputAction orbitAction;
     private InputAction zoomInAction;
     private InputAction zoomOutAction;
-    private InputAction orbitKeyboardAction;
 
     FurnitureSelectable sel;
     float yawDeg;
@@ -86,10 +85,8 @@ public class IsoCamController : MonoBehaviour
         if (!sel && controller) sel = controller.CurrentSelection;
         if (!sel) return;
 
-        // --- Orbit with right stick or keyboard 2D vector ---
-        Vector2 stick = orbitAction.ReadValue<Vector2>();
-        Vector2 orbitInput = stick + keys;
-
+        // --- Orbit ---
+        Vector2 orbitInput = orbitAction.ReadValue<Vector2>();
         yawDeg += orbitInput.x * yawSpeed * Time.deltaTime;
         pitchDeg += orbitInput.y * pitchSpeed * Time.deltaTime;
         pitchDeg = Mathf.Clamp(pitchDeg, minPitch, maxPitch);
