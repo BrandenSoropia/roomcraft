@@ -58,7 +58,7 @@ public class IsoFurnitureController : MonoBehaviour
         }
 
         // Bind actions
-        var map = inputActions.FindActionMap("Furniture");
+        var map = inputActions.FindActionMap("Placement");
         moveAction = map.FindAction("Move");
         rotateLeftAction = map.FindAction("RotateLeft");
         rotateRightAction = map.FindAction("RotateRight");
