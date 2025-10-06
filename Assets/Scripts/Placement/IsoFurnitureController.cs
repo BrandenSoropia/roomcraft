@@ -119,15 +119,20 @@ public class IsoFurnitureController : MonoBehaviour
     {
         if (furniture == null || furniture.Length == 0) return;
 
-        if (_current != null) _current.SetSelected(false);
+        if (_current != null)
+            _current.SetSelected(false); // always turn off highlight
 
         _index = Mathf.Clamp(newIndex, 0, furniture.Length - 1);
         _current = furniture[_index];
         _currentRB = _current.RB;
 
-        _current.SetSelected(true);
+        // ✅ Only highlight if the assigned camera is active
+        if (cam != null && cam.isActiveAndEnabled)
+            _current.SetSelected(true);
+
         SelectionChanged?.Invoke(_current);
     }
+
 
     void Cycle(int dir)
     {
