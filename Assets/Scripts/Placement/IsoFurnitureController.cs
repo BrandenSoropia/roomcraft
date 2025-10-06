@@ -38,6 +38,9 @@ public class IsoFurnitureController : MonoBehaviour
 
     public event System.Action<FurnitureSelectable> SelectionChanged;
 
+    private bool _wasCameraActive = true;
+
+
     void Start()
     {
         if (cam == null) cam = Camera.main;
@@ -91,6 +94,14 @@ public class IsoFurnitureController : MonoBehaviour
 
         _prevNext = nextSel;
         _prevPrev = prevSel;
+
+        bool camActive = cam != null && cam.isActiveAndEnabled;
+
+        if (_current != null && camActive != _wasCameraActive)
+        {
+            _current.SetSelected(camActive); // toggle highlight on/off
+            _wasCameraActive = camActive;
+        }
     }
 
     void FixedUpdate()
