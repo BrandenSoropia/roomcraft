@@ -63,12 +63,11 @@ public class CustomPlayerController : MonoBehaviour
         {
             _isIsometricViewEnabled = false;
             myIsoFurnitureController.enabled = false;
-
             SetPlayerScriptsEnabledState(true);
-
             myPlayerInput.SwitchCurrentActionMap("Player");
             playerSFXController.PlayCloseInventorySFX();
             myGameModeController.ShowOriginalView();
+            myIsoFurnitureController.SetCameraActive(false);
         }
         else
         {
@@ -78,6 +77,7 @@ public class CustomPlayerController : MonoBehaviour
             myPlayerInput.SwitchCurrentActionMap("Isometric");
             playerSFXController.PlayOpenInventorySFX();
             myGameModeController.ShowOverheadView();
+            myIsoFurnitureController.SetCameraActive(true);
         }
     }
 

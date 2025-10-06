@@ -159,4 +159,10 @@ public class IsoFurnitureController : MonoBehaviour
         Vector3 move = right * input.x + fwd * input.y;
         return move.sqrMagnitude > 1e-4f ? move.normalized : Vector3.zero;
     }
+
+    public void SetCameraActive(bool isActive)
+    {
+        if (_current != null)
+            _current.SetSelected(isActive);
+    }
 }
