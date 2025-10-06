@@ -5,25 +5,33 @@ public class IsoCamController : MonoBehaviour
 {
     [Header("Follow")]
     [SerializeField] private IsoFurnitureController controller;
-    [SerializeField] private float radius = 10f;     // orbit distance
-    [SerializeField] private float isoPitch = 30f;   // default pitch if not moved
-    [SerializeField] private float addHeight = 3f;   // extra vertical offset
+    [SerializeField] private float radius = 10f;
+    [SerializeField] private float isoPitch = 30f;
+    [SerializeField] private float addHeight = 3f;
 
     [Header("Orbit Speeds")]
-    [SerializeField] private float yawSpeed = 90f;   // deg/sec per stick deflection
-    [SerializeField] private float pitchSpeed = 90f; // deg/sec per stick deflection
+    [SerializeField] private float yawSpeed = 90f;
+    [SerializeField] private float pitchSpeed = 90f;
 
     [Header("Pitch Limits")]
-    [SerializeField] private float minPitch = 10f;   // shallow
-    [SerializeField] private float maxPitch = 90f;   // top-down
+    [SerializeField] private float minPitch = 10f;
+    [SerializeField] private float maxPitch = 90f;
 
-    [Header("Zoom (orthographic size)")]
-    [SerializeField] private float zoomSpeed = 3f;   // units/sec with buttons/keys
+    [Header("Zoom")]
+    [SerializeField] private float zoomSpeed = 3f;
     [SerializeField] private float minZoom = 3f;
     [SerializeField] private float maxZoom = 12f;
 
-    [Header("Smoothing (seconds)")]
+    [Header("Smoothing")]
     [SerializeField] private float moveSmooth = 0.10f;
+
+    [Header("Input Actions")]
+    public InputActionAsset inputActions;
+
+    private InputAction orbitAction;
+    private InputAction zoomInAction;
+    private InputAction zoomOutAction;
+    private InputAction orbitKeyboardAction;
 
     FurnitureSelectable sel;
     float yawDeg;
@@ -42,6 +50,14 @@ public class IsoCamController : MonoBehaviour
 
         cam = GetComponent<Camera>();
         if (!cam) cam = Camera.main;
+
+        // Input actions
+        var camMap = inputActions.FindActionMap("Placement");
+        orbitAction = camMap.FindAction("Orbit");
+        zoomInAction = camMap.FindAction("ZoomIn");
+        zoomOutAction = camMap.FindAction("ZoomOut");
+
+        camMap.Enable();
     }
 
     void OnDestroy()
@@ -51,7 +67,6 @@ public class IsoCamController : MonoBehaviour
 
     void Start()
     {
-        // start from isoPitch
         pitchDeg = Mathf.Clamp(isoPitch, minPitch, maxPitch);
         sel = controller ? controller.CurrentSelection : null;
 
@@ -71,61 +86,25 @@ public class IsoCamController : MonoBehaviour
         if (!sel && controller) sel = controller.CurrentSelection;
         if (!sel) return;
 
-        // --- Orbit with right stick (yaw/pitch) ---
-        if (Gamepad.current != null)
-        {
-            Vector2 stick = Gamepad.current.rightStick.ReadValue();
-            if (Mathf.Abs(stick.x) > 0.1f)
-                yawDeg += stick.x * yawSpeed * Time.deltaTime;
-            if (Mathf.Abs(stick.y) > 0.1f)
-                pitchDeg += stick.y * pitchSpeed * Time.deltaTime;
-        }
+        // --- Orbit with right stick or keyboard 2D vector ---
+        Vector2 stick = orbitAction.ReadValue<Vector2>();
+        Vector2 orbitInput = stick + keys;
 
-        // --- Keyboard backup for orbit: IJKL ---
-        // I = pitch up, K = pitch down, J = yaw left, L = yaw right
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.jKey.isPressed) yawDeg -= yawSpeed * Time.deltaTime;
-            if (Keyboard.current.lKey.isPressed) yawDeg += yawSpeed * Time.deltaTime;
-            if (Keyboard.current.iKey.isPressed) pitchDeg += pitchSpeed * Time.deltaTime;
-            if (Keyboard.current.kKey.isPressed) pitchDeg -= pitchSpeed * Time.deltaTime;
-
-            // (Optional) keep arrows as additional fallback
-            if (Keyboard.current.leftArrowKey.isPressed)  yawDeg -= yawSpeed * Time.deltaTime;
-            if (Keyboard.current.rightArrowKey.isPressed) yawDeg += yawSpeed * Time.deltaTime;
-        }
-
+        yawDeg += orbitInput.x * yawSpeed * Time.deltaTime;
+        pitchDeg += orbitInput.y * pitchSpeed * Time.deltaTime;
         pitchDeg = Mathf.Clamp(pitchDeg, minPitch, maxPitch);
 
-        // --- Zoom with Y/A buttons ---
-        if (Gamepad.current != null)
-        {
-            if (Gamepad.current.buttonNorth.isPressed) // Y = zoom in
-                cam.orthographicSize = Mathf.Max(minZoom, cam.orthographicSize - zoomSpeed * Time.deltaTime);
-            if (Gamepad.current.buttonSouth.isPressed) // A = zoom out
-                cam.orthographicSize = Mathf.Min(maxZoom, cam.orthographicSize + zoomSpeed * Time.deltaTime);
-        }
+        // --- Zoom ---
+        if (zoomInAction.IsPressed())
+            cam.orthographicSize = Mathf.Max(minZoom, cam.orthographicSize - zoomSpeed * Time.deltaTime);
 
-        // --- Keyboard backup for zoom: R/F ---
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.rKey.isPressed) // zoom in
-                cam.orthographicSize = Mathf.Max(minZoom, cam.orthographicSize - zoomSpeed * Time.deltaTime);
-            if (Keyboard.current.fKey.isPressed) // zoom out
-                cam.orthographicSize = Mathf.Min(maxZoom, cam.orthographicSize + zoomSpeed * Time.deltaTime);
+        if (zoomOutAction.IsPressed())
+            cam.orthographicSize = Mathf.Min(maxZoom, cam.orthographicSize + zoomSpeed * Time.deltaTime);
 
-            // (Optional) keep PageUp/PageDown as well
-            if (Keyboard.current.pageUpKey.isPressed)
-                cam.orthographicSize = Mathf.Max(minZoom, cam.orthographicSize - zoomSpeed * Time.deltaTime);
-            if (Keyboard.current.pageDownKey.isPressed)
-                cam.orthographicSize = Mathf.Min(maxZoom, cam.orthographicSize + zoomSpeed * Time.deltaTime);
-        }
-
-        // --- Position & Rotation ---
+        // --- Camera Position ---
         Vector3 pivot = sel.GetWorldRotationPivot();
         Quaternion rot = Quaternion.Euler(pitchDeg, yawDeg, 0f);
 
-        // addHeight is still included, scaled by zoom (so zooming pushes camera vertically a bit)
         float zoom01 = Mathf.InverseLerp(minZoom, maxZoom, cam.orthographicSize);
         Vector3 offset = rot * new Vector3(0f, addHeight * zoom01, -radius);
         Vector3 desiredPos = pivot + offset;
