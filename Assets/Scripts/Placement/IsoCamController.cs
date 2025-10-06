@@ -36,7 +36,9 @@ public class IsoCamController : MonoBehaviour
     float yawDeg;
     float pitchDeg;
     Vector3 vel;
-    Camera cam;
+    
+    [Header("Camera")]
+    [SerializeField] private Camera cam;
 
     void Awake()
     {
