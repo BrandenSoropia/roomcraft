@@ -2,15 +2,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Game Stats")]
+    public int _numCorrectPlacementFurniture = 0;
+
     private static GameManager _instance;
 
     public static GameManager Instance { get { return _instance; } }
-
-
-    [Header("State for Debugging")]
-    public bool _isBuildingEnabled = true;
-    public bool _isPlayerMovementEnabled = true;
-
 
     // Maintain singleton
     private void Awake()
@@ -23,5 +20,15 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+    }
+
+    public void IncrementNumCorrectPlacementFurniture()
+    {
+        _numCorrectPlacementFurniture += 1;
+    }
+
+    public void DecrementNumCorrectPlacementFurniture()
+    {
+        _numCorrectPlacementFurniture -= 1;
     }
 }
