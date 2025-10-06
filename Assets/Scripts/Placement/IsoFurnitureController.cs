@@ -38,6 +38,7 @@ public class IsoFurnitureController : MonoBehaviour
 
     public event System.Action<FurnitureSelectable> SelectionChanged;
 
+
     void Start()
     {
         if (cam == null) cam = Camera.main;
@@ -119,15 +120,20 @@ public class IsoFurnitureController : MonoBehaviour
     {
         if (furniture == null || furniture.Length == 0) return;
 
-        if (_current != null) _current.SetSelected(false);
+        if (_current != null)
+            _current.SetSelected(false); // always turn off highlight
 
         _index = Mathf.Clamp(newIndex, 0, furniture.Length - 1);
         _current = furniture[_index];
         _currentRB = _current.RB;
 
-        _current.SetSelected(true);
+        // ✅ Only highlight if the assigned camera is active
+        if (cam != null && cam.isActiveAndEnabled)
+            _current.SetSelected(true);
+
         SelectionChanged?.Invoke(_current);
     }
+
 
     void Cycle(int dir)
     {
@@ -152,5 +158,11 @@ public class IsoFurnitureController : MonoBehaviour
 
         Vector3 move = right * input.x + fwd * input.y;
         return move.sqrMagnitude > 1e-4f ? move.normalized : Vector3.zero;
+    }
+
+    public void SetCameraActive(bool isActive)
+    {
+        if (_current != null)
+            _current.SetSelected(isActive);
     }
 }
