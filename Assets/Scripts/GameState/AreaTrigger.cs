@@ -13,27 +13,21 @@ Requirements:
 public class AreaTrigger : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
-    [SerializeField] Transform parentObject; // the root object whose children we care about
+    public Transform parentObject { get; set; } // the root object whose children we care about
+    public int numPieces { get; set; }
 
     private HashSet<Collider> inside = new HashSet<Collider>();
     private bool _hasReducedPlacementCall = false;
 
 
-    private Collider[] childColliders;
-
-    void Start()
-    {
-        childColliders = parentObject.GetComponentsInChildren<Collider>();
-
-    }
-
     void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("Furniture") || other.CompareTag("Marker")) && System.Array.Exists(childColliders, c => c == other))
+        // TODO: check if piece base name matches
+        if ((other.CompareTag("Furniture") || other.CompareTag("Marker")))
         {
             inside.Add(other);
 
-            if (inside.Count == childColliders.Length)
+            if (inside.Count == numPieces)
             {
                 gameManager.IncrementNumCorrectPlacementFurniture();
                 _hasReducedPlacementCall = false; // Reset this so we can reduce the total placed counter again

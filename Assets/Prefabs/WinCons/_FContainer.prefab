@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6452725201399779785}
   - component: {fileID: 4516629511273521509}
   - component: {fileID: 9028162078031938730}
+  - component: {fileID: 6007335450212736141}
   m_Layer: 0
   m_Name: _FContainer
   m_TagString: FContainer
@@ -74,3 +75,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureSelectable
   glowColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   glowIntensity: 2
+--- !u!114 &6007335450212736141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194086798087203968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2baba73371911544818c158012773e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AreaGizmo
+  gizmoColor: {r: 1, g: 0, b: 0.84085894, a: 0.5}

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 814798915327447549}
   - component: {fileID: 6835231254336893385}
   m_Layer: 0
-  m_Name: bed_pillows_geo
+  m_Name: bed_geo_pillows
   m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
