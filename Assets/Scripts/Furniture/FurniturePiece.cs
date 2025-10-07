@@ -9,22 +9,20 @@ public class FurniturePiece : MonoBehaviour
     public List<Mesh> models;
     public Mesh defaultModel;
     public Sprite icon;
+    public bool isPlaced = false;
+    // private Furniture parentFurniture;
 
-    private void Awake()
-    {
-        
-    }
+    // private void Awake()
+    // {
+    //     parentFurniture = GetComponentInParent<Furniture>();
+    // }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // public void PlacePiece()
+    // {
+    //     if (!isPlaced)
+    //     {
+    //         isPlaced = true;
+    //         parentFurniture.CheckCompletion();
+    //     }
+    // }
 }

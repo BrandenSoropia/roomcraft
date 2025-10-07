@@ -3,7 +3,7 @@ using UnityEngine;
 [ExecuteAlways] // so it shows even in edit mode
 public class AreaGizmo : MonoBehaviour
 {
-    public Color gizmoColor = new Color(0f, 1f, 0f, 0.25f); // semi-transparent green
+    public Color gizmoColor = new Color(0f, 1f, 0f, 0.5f); // semi-transparent green
 
     private void OnDrawGizmos()
     {

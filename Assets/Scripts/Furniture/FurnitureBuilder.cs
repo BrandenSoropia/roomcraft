@@ -6,6 +6,8 @@ public class FurnitureBuilder : MonoBehaviour
 {
     [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
+    [SerializeField] FurnitureManager furnitureManager;
+
     // Visual Effect
     public GameObject placingEffectModel;
     // Audio 
@@ -24,9 +26,6 @@ public class FurnitureBuilder : MonoBehaviour
     // Marker highlighting
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
-
-    // Button Press State
-    [SerializeField] bool _isRightTriggerPressed = false;
 
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
@@ -80,10 +79,10 @@ public class FurnitureBuilder : MonoBehaviour
 
     void HandleAttachment(GameObject clicked)
     {
-        AttachPieceToMarker(clicked.transform);
+        AttachPieceToMarker(clicked);
 
         // Destroy the original selected piece
-        Destroy(selectedPiece);
+        // Destroy(selectedPiece);
         DeselectPiece();
     }
 
@@ -165,7 +164,7 @@ public class FurnitureBuilder : MonoBehaviour
         markerOriginalColors.Clear();
     }
 
-    void AttachPieceToMarker(Transform marker)
+    void AttachPieceToMarker(GameObject marker)
     {
         if (selectedPiece == null)
         {
@@ -173,34 +172,34 @@ public class FurnitureBuilder : MonoBehaviour
             return;
         }
 
-        GameObject newPiece = Instantiate(selectedPiece);
+        // GameObject newPiece = Instantiate(selectedPiece);
 
         // Apply local scale of the selected piece
-        newPiece.transform.localScale = selectedPiece.transform.localScale;
+        // newPiece.transform.localScale = selectedPiece.transform.localScale;
 
-        // If parent is scaled, match that too
-        if (selectedPiece.transform.parent != null)
-        {
-            newPiece.transform.localScale = Vector3.Scale(
-                selectedPiece.transform.localScale,
-                selectedPiece.transform.parent.localScale
-            );
-        }
+        // // If parent is scaled, match that too
+        // if (selectedPiece.transform.parent != null)
+        // {
+        //     newPiece.transform.localScale = Vector3.Scale(
+        //         selectedPiece.transform.localScale,
+        //         selectedPiece.transform.parent.localScale
+        //     );
+        // }
 
         // Instantiate the effect
         GameObject placingEffect = Instantiate(placingEffectModel);
-        placingEffect.transform.position = marker.position;
+        placingEffect.transform.position = marker.transform.position;
         Destroy(placingEffect, 2.5f);
 
         // Audio Effect
         musicManager.PlayAttaching();
 
         // Match rotation with marker
-        newPiece.transform.rotation = marker.rotation;
+        selectedPiece.transform.rotation = marker.transform.rotation;
 
 
         // Snap piece depending on marker type
-        Renderer rend = newPiece.GetComponentInChildren<Renderer>();
+        Renderer rend = selectedPiece.GetComponentInChildren<Renderer>();
         if (rend != null)
         {
             Bounds localBounds = rend.localBounds;
@@ -211,33 +210,36 @@ public class FurnitureBuilder : MonoBehaviour
                 // Snap the side of the piece to the marker
                 Vector3 sideLocal = localBounds.center - Vector3.forward * localBounds.extents.z; // front face of piece
                 Vector3 sideWorld = rend.transform.TransformPoint(sideLocal);
-                offset = marker.position - sideWorld;
+                offset = marker.transform.position - sideWorld;
             }
             else
             {
                 // Default: snap bottom of the piece to marker
                 Vector3 bottomLocal = localBounds.center - Vector3.up * localBounds.extents.y;
                 Vector3 bottomWorld = rend.transform.TransformPoint(bottomLocal);
-                offset = marker.position - bottomWorld;
+                offset = marker.transform.position - bottomWorld;
             }
 
-            newPiece.transform.position += offset;
+            selectedPiece.transform.position += offset;
         }
         else
         {
-            newPiece.transform.position = marker.position;
+            selectedPiece.transform.position = marker.transform.position;
         }
 
-        // Use the original piece's parent, not the marker's parent
-        if (selectedPiece != null && selectedPiece.transform.parent != null)
+        /*
+        When the first ever piece of a furniture is attached to another,
+        basically set the FContainer as both their parent. 
+        */
+        Transform basePieceParentTransform = marker.transform.parent.transform?.parent;
+
+        if ((basePieceParentTransform == null) || !basePieceParentTransform.CompareTag("FContainer"))
         {
-            newPiece.transform.SetParent(selectedPiece.transform.parent, true);
-        }
-        else if (marker.parent != null) // fallback to marker parent
-        {
-            newPiece.transform.SetParent(marker.parent, true);
+            furnitureManager.AttachPieceToFContainer(marker.transform.parent.gameObject);
         }
 
-        Debug.Log($"Attached new piece {newPiece.name} to marker {marker.name}");
+        furnitureManager.AttachPieceToFContainer(selectedPiece);
+
+        Debug.Log($"Attached new piece {selectedPiece.name} to marker {marker.name}");
     }
 }
