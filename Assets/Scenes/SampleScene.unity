@@ -1049,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8194086798087203968, guid: ba2f3d8d030fe604c833253c8080d235, type: 3}
       propertyPath: m_Name
-      value: PRP_Bed_01_Container
+      value: PRP_Bed_01_FContainer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
