@@ -232,7 +232,6 @@ public class FurnitureBuilder : MonoBehaviour
         basically set the FContainer as both their parent. 
         */
         Transform basePieceParentTransform = marker.transform.parent.transform?.parent;
-
         if ((basePieceParentTransform == null) || !basePieceParentTransform.CompareTag("FContainer"))
         {
             furnitureManager.AttachPieceToFContainer(marker.transform.parent.gameObject);

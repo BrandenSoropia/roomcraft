@@ -10,15 +10,21 @@ Requirements:
 */
 public class FurnitureManager : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
     [SerializeField] private List<FurnitureDataSO> furnitureList;
     [SerializeField] GameObject[] placementAreas;
 
-    private Dictionary<string, FurnitureState> _furnitureStates;
+    public Dictionary<string, FurnitureState> _furnitureStates;
     [SerializeField] List<GameObject> _furnitureContainers = new List<GameObject>();
 
 
     // Build furniture state given furniture data and create FContainers
     void Awake()
+    {
+        BuildFurniturePieceState();
+    }
+
+    void BuildFurniturePieceState()
     {
         _furnitureStates = new Dictionary<string, FurnitureState>();
 
@@ -27,7 +33,6 @@ public class FurnitureManager : MonoBehaviour
             if (!_furnitureStates.ContainsKey(data.baseName))
             {
                 _furnitureStates[data.baseName] = new FurnitureState(data);
-
             }
             else
             {
@@ -41,7 +46,7 @@ public class FurnitureManager : MonoBehaviour
         foreach (var data in furnitureList)
         {
             GameObject newFContainer = CreateFurnitureContainer(data.baseName, data.fContainerPrefab);
-            // SetPlacementAreaTargetFurniture(data.baseName, newFContainer.transform);
+            SetPlacementAreaTargetFurniture(data.baseName, newFContainer.transform);
         }
     }
 
@@ -56,12 +61,15 @@ public class FurnitureManager : MonoBehaviour
     }
 
     // Required or else placement areas won't know what specific furniture to check for
-    void SetPlacementAreaTargetFurniture(string baseName, Transform targettransform)
+    void SetPlacementAreaTargetFurniture(string baseName, Transform targetTransform)
     {
         GameObject found = placementAreas.FirstOrDefault(obj =>
                     obj.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase));
 
-        found.GetComponent<AreaTrigger>().parentObject = targettransform;
+        if (found != null)
+        {
+            found.GetComponent<AreaTrigger>().parentObject = targetTransform;
+        }
     }
 
     public void AttachPieceToFContainer(GameObject piece)
@@ -71,22 +79,26 @@ public class FurnitureManager : MonoBehaviour
         string baseName = $"{namePieces[0]}_{namePieces[1]}_{namePieces[2]}";
 
         // get the container with the matching base name of the selected piece
-        GameObject found = _furnitureContainers.FirstOrDefault(obj =>
+        GameObject fContainer = _furnitureContainers.FirstOrDefault(obj =>
                     obj.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase));
 
-        piece.transform.SetParent(found.transform, true);
+        piece.transform.SetParent(fContainer.transform, true);
+
+        TrackPieceCount(baseName, fContainer);
     }
 
-    public void AddPiece(string baseName)
+    public void TrackPieceCount(string baseName, GameObject fContainer)
     {
         if (_furnitureStates.TryGetValue(baseName, out FurnitureState state))
         {
-            state.assembledPieces++;
-            Debug.Log($"{baseName} progress: {state.assembledPieces}/{state.data.numTotalPieces}");
-
-            if (state.IsComplete)
+            if (!state.IsComplete)
             {
-                OnFurnitureCompleted(baseName);
+                state.assembledPieces++;
+                Debug.Log($"{baseName} progress: {state.assembledPieces}/{state.data.numTotalPieces}");
+            }
+            else
+            {
+                OnFurnitureCompleted(baseName, fContainer);
             }
         }
         else
@@ -95,10 +107,17 @@ public class FurnitureManager : MonoBehaviour
         }
     }
 
-    private void OnFurnitureCompleted(string baseName)
+    private void OnFurnitureCompleted(string baseName, GameObject fContainer)
     {
         Debug.Log($"{baseName} is fully built!");
-        // Add completion logic (rewards, unlock next stage, etc.)
+
+        gameManager.IncrementNumBuilt();
+        EnableFurniturePlacement(fContainer);
+    }
+
+    void EnableFurniturePlacement(GameObject fContainer)
+    {
+        fContainer.GetComponent<FurnitureSelectable>().enabled = true;
     }
 
     public FurnitureState GetState(string baseName)
