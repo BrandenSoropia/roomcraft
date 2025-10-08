@@ -71,6 +71,7 @@ public class AreaTrigger : MonoBehaviour
             {
                 gameManager.DecrementNumCorrectPlacementFurniture();
                 _hasReducedPlacementCall = true;
+                myMeshRenderer.material = emptyMaterial;
             }
 
         }
