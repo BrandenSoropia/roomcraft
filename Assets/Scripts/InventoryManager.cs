@@ -4,6 +4,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] float spawnUpModifier = 0;
     public List<Sprite> itemIcons;
     public UIController UIController;
     public FurniturePiece[] inventory;
@@ -59,7 +60,11 @@ public class InventoryManager : MonoBehaviour
         if (inventory[slot] != null)
         {
             Debug.Log("spawn a piece: " + spawnPosition);
-            FurniturePiece obj = Instantiate(inventory[slot], spawnPosition, Quaternion.identity);
+
+            FurniturePiece item = inventory[slot];
+            // Some pieces are spawning underground,so here's a hack to custom fix each piece
+            Vector3 yOffset = (Vector3.up * item.yOffset);
+            FurniturePiece obj = Instantiate(item, spawnPosition + yOffset, Quaternion.identity);
         }
         else
         {

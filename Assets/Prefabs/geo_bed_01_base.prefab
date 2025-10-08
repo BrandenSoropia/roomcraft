@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
+  yOffset: 0.6
   meshRenderer: {fileID: 4007071457523312317}
   meshFilter: {fileID: 5318626385519858968}
   models: []

@@ -126,8 +126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
+  yOffset: 4
   meshRenderer: {fileID: 1246519398343856414}
   meshFilter: {fileID: 2457392356600530061}
   models: []
   defaultModel: {fileID: 0}
   icon: {fileID: 21300000, guid: 603ce68b1d8b8461d802fd7339503d1e, type: 3}
+  isPlaced: 0

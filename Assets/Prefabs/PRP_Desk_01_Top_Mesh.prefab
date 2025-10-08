@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 5185814157145288439}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12819.071, y: 1149.2162, z: 6129.2783}
-  m_LocalScale: {x: 0.0003, y: 0.0003, z: 0.0003}
+  m_LocalPosition: {x: -12818.697, y: 1149.2162, z: 6129.2124}
+  m_LocalScale: {x: 0.00029868, y: 0.0003, z: 0.00029640002}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5060580424337149743}
@@ -130,11 +130,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
+  yOffset: 0.5
   meshRenderer: {fileID: 9156884393268041624}
   meshFilter: {fileID: 1195013914049910957}
   models: []
   defaultModel: {fileID: 0}
   icon: {fileID: 21300000, guid: 7fd96b83f56964b57887177a59a8dc76, type: 3}
+  isPlaced: 0
 --- !u!1001 &1794190730375393984
 PrefabInstance:
   m_ObjectHideFlags: 0
