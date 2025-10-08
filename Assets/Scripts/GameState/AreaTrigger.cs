@@ -8,7 +8,7 @@ Place this on each PlacementArea.
 Requirements:
 - Each furniture piece must have:
   - a collider
-  - either tagged as "Furniture" or "Marker" since we have to count all colliders present
+  - tagged as "Furniture" since we have to count all colliders present
 */
 public class AreaTrigger : MonoBehaviour
 {
@@ -22,10 +22,14 @@ public class AreaTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // TODO: check if piece base name matches
-        if ((other.CompareTag("Furniture") || other.CompareTag("Marker")))
+        string baseName = MyUtils.GetFurnitureGOBaseName(other.name);
+
+        if (other.CompareTag("Furniture")
+         && other.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase)
+         && !inside.Contains(other))
         {
             inside.Add(other);
+            Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
 
             if (inside.Count == numPieces)
             {
@@ -40,6 +44,8 @@ public class AreaTrigger : MonoBehaviour
         if ((other.CompareTag("Furniture") || other.CompareTag("Marker")) && inside.Contains(other))
         {
             inside.Remove(other);
+            Debug.Log($"-1: Colliders in: {inside.Count}/{numPieces}");
+
 
             /*
             Only allow reducing the total placement counter once per exit.

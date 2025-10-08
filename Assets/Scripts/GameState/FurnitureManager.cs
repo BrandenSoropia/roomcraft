@@ -46,7 +46,7 @@ public class FurnitureManager : MonoBehaviour
         foreach (var data in furnitureList)
         {
             GameObject newFContainer = CreateFurnitureContainer(data.baseName, data.fContainerPrefab);
-            SetPlacementAreaTargetFurniture(data.baseName, newFContainer.transform);
+            SetPlacementAreaTargetFurniture(data, newFContainer.transform);
         }
     }
 
@@ -61,14 +61,16 @@ public class FurnitureManager : MonoBehaviour
     }
 
     // Required or else placement areas won't know what specific furniture to check for
-    void SetPlacementAreaTargetFurniture(string baseName, Transform targetTransform)
+    void SetPlacementAreaTargetFurniture(FurnitureDataSO data, Transform targetTransform)
     {
         GameObject found = placementAreas.FirstOrDefault(obj =>
-                    obj.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase));
+                    obj.name.Contains(data.baseName, System.StringComparison.CurrentCultureIgnoreCase));
 
         if (found != null)
         {
-            found.GetComponent<AreaTrigger>().parentObject = targetTransform;
+            AreaTrigger at = found.GetComponent<AreaTrigger>();
+            at.parentObject = targetTransform;
+            at.numPieces = data.numTotalPieces;
         }
     }
 
@@ -95,10 +97,12 @@ public class FurnitureManager : MonoBehaviour
             {
                 state.assembledPieces++;
                 Debug.Log($"{baseName} progress: {state.assembledPieces}/{state.data.numTotalPieces}");
-            }
-            else
-            {
-                OnFurnitureCompleted(baseName, fContainer);
+
+                // Do the check again once incremented
+                if (state.IsComplete)
+                {
+                    OnFurnitureCompleted(baseName, fContainer);
+                }
             }
         }
         else

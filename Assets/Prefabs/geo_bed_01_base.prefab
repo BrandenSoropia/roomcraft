@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1056154586378828453
+--- !u!1 &4050732190907386909
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,50 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 238459724921010745}
-  - component: {fileID: 7440568128472408968}
-  - component: {fileID: 8057300717719932668}
-  - component: {fileID: 6563621751290257569}
-  - component: {fileID: 9071047261560929887}
-  - component: {fileID: 6767116730417964533}
+  - component: {fileID: 6712194383542779550}
+  - component: {fileID: 5318626385519858968}
+  - component: {fileID: 4007071457523312317}
+  - component: {fileID: 5041049097419811933}
+  - component: {fileID: 905374816855780324}
+  - component: {fileID: 7312120273517422748}
   m_Layer: 0
-  m_Name: bed_geo_mattress
+  m_Name: geo_bed_01_base
   m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &238459724921010745
+--- !u!4 &6712194383542779550
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
+  m_GameObject: {fileID: 4050732190907386909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.1789477, y: 0.06, z: 1.43}
+  m_LocalPosition: {x: 3.1789474, y: 0.3666462, z: -2.5475254}
   m_LocalScale: {x: 3, y: 1.5, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5137065636002359072}
+  - {fileID: 238669453802589651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7440568128472408968
+--- !u!33 &5318626385519858968
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
-  m_Mesh: {fileID: -2010026067012414497, guid: 80a57042d43256248ae46588186e0837, type: 3}
---- !u!23 &8057300717719932668
+  m_GameObject: {fileID: 4050732190907386909}
+  m_Mesh: {fileID: -8472707735780335184, guid: 80a57042d43256248ae46588186e0837, type: 3}
+--- !u!23 &4007071457523312317
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
+  m_GameObject: {fileID: 4050732190907386909}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -70,9 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 139321225592565800, guid: 80a57042d43256248ae46588186e0837, type: 3}
-  - {fileID: 8748892135801146194, guid: 80a57042d43256248ae46588186e0837, type: 3}
-  - {fileID: 832450570744773222, guid: 80a57042d43256248ae46588186e0837, type: 3}
+  - {fileID: 8616976612357503114, guid: 80a57042d43256248ae46588186e0837, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,13 +93,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6563621751290257569
+--- !u!64 &5041049097419811933
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
+  m_GameObject: {fileID: 4050732190907386909}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -116,14 +114,14 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -2010026067012414497, guid: 80a57042d43256248ae46588186e0837, type: 3}
---- !u!65 &9071047261560929887
+  m_Mesh: {fileID: -8472707735780335184, guid: 80a57042d43256248ae46588186e0837, type: 3}
+--- !u!65 &905374816855780324
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
+  m_GameObject: {fileID: 4050732190907386909}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -136,57 +134,57 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 2.1833494, y: 0.3133818, z: 3.4238162}
-  m_Center: {x: 0.00000023841858, y: 0.000000059604645, z: -0.00000011920929}
---- !u!114 &6767116730417964533
+  m_Size: {x: 2.1410832, y: 0.73347276, z: 3.4414937}
+  m_Center: {x: 0.000000059604645, y: -0.000000029802322, z: -0.00000011920929}
+--- !u!114 &7312120273517422748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1056154586378828453}
+  m_GameObject: {fileID: 4050732190907386909}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  meshRenderer: {fileID: 8057300717719932668}
-  meshFilter: {fileID: 7440568128472408968}
+  meshRenderer: {fileID: 4007071457523312317}
+  meshFilter: {fileID: 5318626385519858968}
   models: []
   defaultModel: {fileID: 0}
-  icon: {fileID: 21300000, guid: c8a10cd7b9d58f8418c7839f508b2927, type: 3}
+  icon: {fileID: 21300000, guid: ff14e411c5160c9448d6910b84755583, type: 3}
   isPlaced: 0
---- !u!1001 &8639770959758794048
+--- !u!1001 &3739052609005303731
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 238459724921010745}
+    m_TransformParent: {fileID: 6712194383542779550}
     m_Modifications:
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7015733
+      value: 2.101421
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.145736
+      value: 3.3535025
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0099
+      value: -0.0007
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.141
+      value: 0.37
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.2973
+      value: 0.0119
       objectReference: {fileID: 0}
     - target: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -218,15 +216,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764607243116334212, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_Name
-      value: bed_geo_pillows_marker
+      value: geo_bed_01_mattress_marker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
---- !u!4 &5137065636002359072 stripped
+--- !u!4 &238669453802589651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3507217874120997472, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
-  m_PrefabInstance: {fileID: 8639770959758794048}
+  m_PrefabInstance: {fileID: 3739052609005303731}
   m_PrefabAsset: {fileID: 0}
