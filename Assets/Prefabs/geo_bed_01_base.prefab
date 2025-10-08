@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 905374816855780324}
   - component: {fileID: 7312120273517422748}
   m_Layer: 0
-  m_Name: bed_base_geo
-  m_TagString: Untagged
+  m_Name: geo_bed_01_base
+  m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,11 +148,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
+  yOffset: 0.6
   meshRenderer: {fileID: 4007071457523312317}
   meshFilter: {fileID: 5318626385519858968}
   models: []
   defaultModel: {fileID: 0}
   icon: {fileID: 21300000, guid: ff14e411c5160c9448d6910b84755583, type: 3}
+  isPlaced: 0
 --- !u!1001 &3739052609005303731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -215,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764607243116334212, guid: dac03c8f27a21476a9e8790318f9594a, type: 3}
       propertyPath: m_Name
-      value: bed_geo_marker
+      value: geo_bed_01_mattress_marker
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

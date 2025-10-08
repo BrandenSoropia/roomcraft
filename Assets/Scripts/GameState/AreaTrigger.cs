@@ -1,0 +1,79 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+/*
+Place this on each PlacementArea.
+1 PlacementArea to 1 furniture.
+
+Requirements:
+- Each furniture piece must have:
+  - a collider
+  - tagged as "Furniture" since we have to count all colliders present
+*/
+public class AreaTrigger : MonoBehaviour
+{
+    [SerializeField] GameManager gameManager;
+    [SerializeField] Material emptyMaterial;
+    [SerializeField] Material correctPlacementMaterial;
+
+    public Transform parentObject { get; set; } // the root object whose children we care about
+    public int numPieces { get; set; }
+
+    private HashSet<Collider> inside = new HashSet<Collider>();
+    private bool _hasReducedPlacementCall = false;
+
+    MeshRenderer myMeshRenderer;
+
+    void Start()
+    {
+        myMeshRenderer = GetComponent<MeshRenderer>();
+        myMeshRenderer.material = emptyMaterial;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        string baseName = MyUtils.GetFurnitureGOBaseName(other.name);
+
+        if (other.CompareTag("Furniture")
+         && other.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase)
+         && !inside.Contains(other))
+        {
+            inside.Add(other);
+            Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
+
+            CheckIfEntirelyInArea();
+        }
+    }
+
+    void CheckIfEntirelyInArea()
+    {
+        if (inside.Count == numPieces)
+        {
+            gameManager.IncrementNumCorrectPlacementFurniture();
+            _hasReducedPlacementCall = false; // Reset this so we can reduce the total placed counter again
+            myMeshRenderer.material = correctPlacementMaterial;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if ((other.CompareTag("Furniture") || other.CompareTag("Marker")) && inside.Contains(other))
+        {
+            inside.Remove(other);
+            Debug.Log($"-1: Colliders in: {inside.Count}/{numPieces}");
+
+
+            /*
+            Only allow reducing the total placement counter once per exit.
+            Without this, it will decrement the progress each time any piece exits the area.
+            */
+            if (!_hasReducedPlacementCall)
+            {
+                gameManager.DecrementNumCorrectPlacementFurniture();
+                _hasReducedPlacementCall = true;
+                myMeshRenderer.material = emptyMaterial;
+            }
+
+        }
+    }
+}

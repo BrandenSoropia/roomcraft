@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 814798915327447549}
   - component: {fileID: 6835231254336893385}
   m_Layer: 0
-  m_Name: bed_pillows_geo
+  m_Name: geo_bed_01_pillows
   m_TagString: Furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,3 +153,4 @@ MonoBehaviour:
   models: []
   defaultModel: {fileID: 0}
   icon: {fileID: 21300000, guid: b24ec6e033b6b124ba9488018dcc7173, type: 3}
+  isPlaced: 0

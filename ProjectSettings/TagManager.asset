@@ -9,6 +9,7 @@ TagManager:
   - Marker
   - Furniture
   - CinemachineTarget
+  - FContainer
   layers:
   - Default
   - TransparentFX
