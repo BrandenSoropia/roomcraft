@@ -74,7 +74,7 @@ public class CustomPlayerController : MonoBehaviour
             _isIsometricViewEnabled = true;
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
-            myPlayerInput.SwitchCurrentActionMap("Isometric");
+            myPlayerInput.SwitchCurrentActionMap("Placement");
             playerSFXController.PlayOpenInventorySFX();
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
