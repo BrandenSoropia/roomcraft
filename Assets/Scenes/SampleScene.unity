@@ -3089,7 +3089,7 @@ MonoBehaviour:
   numTotalFurniture: 3
   placementProgressGUI: {fileID: 146585728}
   buildProgressGUI: {fileID: 1683109549}
-  winMessageGUI: {fileID: 0}
+  winMessageGUI: {fileID: 991942100}
 --- !u!114 &1754259336
 MonoBehaviour:
   m_ObjectHideFlags: 0
