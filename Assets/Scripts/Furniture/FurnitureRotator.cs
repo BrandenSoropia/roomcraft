@@ -38,6 +38,11 @@ public class FurnitureRotator : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
+            if (clickedObject.CompareTag("Untagged"))
+            {
+                return;
+            }
+
             // If it's a Marker, treat its parent as the clicked object
             if (clickedObject.CompareTag("Marker") && clickedObject.transform.parent != null)
             {

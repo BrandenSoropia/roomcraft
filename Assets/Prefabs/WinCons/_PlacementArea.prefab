@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6445662441079926717}
   - component: {fileID: 4539077215119329054}
   - component: {fileID: 5965368481126054500}
-  - component: {fileID: 6427113107919860830}
   - component: {fileID: 6592102469202381845}
   m_Layer: 0
   m_Name: _PlacementArea
@@ -31,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.4, y: 1.24, z: 23.16}
-  m_LocalScale: {x: 8.694909, y: 9.212323, z: 10.470333}
+  m_LocalScale: {x: 7.3845983, y: 6.677197, z: 12.140109}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6427339873290762823}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -69,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fdec8b24297f70741b8bfa7c63170262, type: 2}
+  - {fileID: 2100000, guid: 05491868e895dbc40a26a70fede0b287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -113,19 +112,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6427113107919860830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6427339873290762823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2baba73371911544818c158012773e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AreaGizmo
-  gizmoColor: {r: 0, g: 1, b: 0, a: 0.25}
 --- !u!114 &6592102469202381845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +125,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AreaTrigger
   gameManager: {fileID: 0}
+  emptyMaterial: {fileID: 2100000, guid: 05491868e895dbc40a26a70fede0b287, type: 2}
+  correctPlacementMaterial: {fileID: 2100000, guid: fdec8b24297f70741b8bfa7c63170262, type: 2}

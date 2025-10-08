@@ -13,12 +13,22 @@ Requirements:
 public class AreaTrigger : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
+    [SerializeField] Material emptyMaterial;
+    [SerializeField] Material correctPlacementMaterial;
+
     public Transform parentObject { get; set; } // the root object whose children we care about
     public int numPieces { get; set; }
 
     private HashSet<Collider> inside = new HashSet<Collider>();
     private bool _hasReducedPlacementCall = false;
 
+    MeshRenderer myMeshRenderer;
+
+    void Start()
+    {
+        myMeshRenderer = GetComponent<MeshRenderer>();
+        myMeshRenderer.material = emptyMaterial;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -31,11 +41,17 @@ public class AreaTrigger : MonoBehaviour
             inside.Add(other);
             Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
 
-            if (inside.Count == numPieces)
-            {
-                gameManager.IncrementNumCorrectPlacementFurniture();
-                _hasReducedPlacementCall = false; // Reset this so we can reduce the total placed counter again
-            }
+            CheckIfEntirelyInArea();
+        }
+    }
+
+    void CheckIfEntirelyInArea()
+    {
+        if (inside.Count == numPieces)
+        {
+            gameManager.IncrementNumCorrectPlacementFurniture();
+            _hasReducedPlacementCall = false; // Reset this so we can reduce the total placed counter again
+            myMeshRenderer.material = correctPlacementMaterial;
         }
     }
 

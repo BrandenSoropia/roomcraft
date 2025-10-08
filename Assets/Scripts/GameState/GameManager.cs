@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Controlled UI")]
     [SerializeField] TextMeshProUGUI placementProgressGUI;
     [SerializeField] TextMeshProUGUI buildProgressGUI;
+    [SerializeField] TextMeshProUGUI winMessageGUI;
 
     // messy, furniture manager knows this already. maybe connect somehow in the future
 
@@ -39,10 +40,20 @@ public class GameManager : MonoBehaviour
         UpdateBuildProgressGUI();
     }
 
+    void CheckCommissionComplete()
+    {
+        if (_numCorrectPlacementFurniture == numTotalFurniture)
+        {
+            winMessageGUI.enabled = true;
+        }
+    }
+
     public void IncrementNumCorrectPlacementFurniture()
     {
         _numCorrectPlacementFurniture += 1;
         UpdatePlacementProgressGUI();
+
+        CheckCommissionComplete();
     }
 
     public void DecrementNumCorrectPlacementFurniture()
