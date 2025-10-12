@@ -477,6 +477,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ba073efa-9e6c-44f3-a385-8f6cfb47da00",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4ee6f7c0-3c83-4d71-a540-48ea72d5e141",
                     "path": "<Keyboard>/e",
                     "interactions": "",
@@ -869,6 +880,45 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Prev",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "d740502f-aebf-45ed-949d-1e351be3a00a",
+            "actions": [
+                {
+                    "name": "ToggleInventory",
+                    "type": "Button",
+                    "id": "d3b4ae21-a34d-4d26-ac9d-1b35037a748e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ecc58587-1c07-477a-97f3-ea5a7d3486d0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7113aea1-f72c-4e8e-9d04-2da4efc3a29e",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "ToggleInventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

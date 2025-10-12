@@ -2,6 +2,7 @@ using StarterAssets;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 #endif
 
 /*
@@ -16,7 +17,11 @@ Requirements:
 public class CustomPlayerController : MonoBehaviour
 {
 
+    [Header("UI Controllers")]
     [SerializeField] UIController uiController;
+    [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
+
+    [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
     [SerializeField] PlayerSFXController playerSFXController;
 
@@ -28,6 +33,7 @@ public class CustomPlayerController : MonoBehaviour
 
     // State Flags
     bool _isIsometricViewEnabled = false;
+    bool _isInventoryOpen = false;
 
 
     void Start()
