@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [Header("SFX Controller")]
+    [Header("Player Controllers")]
+    [SerializeField] PlayerInput playerInput;
     [SerializeField] PlayerSFXController playerSFXController;
+
+    [Header("UI Controllers")]
+    [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
+    [SerializeField] EventSystem eventSystem;
+    [SerializeField] GameObject firstSelectedGO;
 
     public List<Sprite> shelfIcons;
     public List<Sprite> deskIcons;
@@ -111,10 +120,29 @@ public class UIController : MonoBehaviour
 
     public void UItab()
     {
+
+        /*
+        The Canvas' Event System GO has a heavily linked UI controller script
+        that only works with it's default Action Asset, "InputSystem_Action". We can't
+        copy/paste the mapping into Player's.
+
+        The unity requires player and UI Input Assets to be separate. 
+        Since both are active by default, we need to control them such
+        that only 1 is active at the same time so we don't navigate UI
+        while moving the player for example.
+
+        We need to keep Player Input enabled so we can still toggle on/off UI.
+        We use a simple map switch to "disable" regular player controls but keep
+        UI controls active and listening.
+        */
         if (!closed)
         {
             UIbar.localPosition -= new Vector3(0, 100, 0);
             closed = true;
+
+            inputSystemUIInputModule.enabled = false;
+            playerInput.SwitchCurrentActionMap("Player");
+            eventSystem.SetSelectedGameObject(null);
 
             playerSFXController.PlayCloseInventorySFX();
         }
@@ -122,6 +150,12 @@ public class UIController : MonoBehaviour
         {
             UIbar.localPosition += new Vector3(0, 100, 0);
             closed = false;
+
+            inputSystemUIInputModule.enabled = true;
+            playerInput.SwitchCurrentActionMap("UI");
+            eventSystem.SetSelectedGameObject(firstSelectedGO);
+
+
             playerSFXController.PlayOpenInventorySFX();
         }
     }
