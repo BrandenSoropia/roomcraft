@@ -21,7 +21,7 @@ public class InteractController : MonoBehaviour
 
             if (clickedObject.CompareTag("FurnitureBox"))
             {
-                inventoryManager.SetUpExamplePicks();
+                //inventoryManager.SetUpExamplePicks();
                 Destroy(clickedObject, 1.5f);
                 return;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FurniturePiece : MonoBehaviour
 {
-    public float yOffset = 0;
+    //public float yOffset = 0;
     public MeshRenderer meshRenderer;
     public MeshFilter meshFilter;
     public List<Mesh> models;
