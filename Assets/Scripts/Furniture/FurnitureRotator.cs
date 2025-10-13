@@ -205,4 +205,32 @@ public class FurnitureRotator : MonoBehaviour
             rend.material.color = originalColors[obj];
         }
     }
+
+    public void OnDeletePiece(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        if (selectedParts.Count > 0)
+        {
+            playerSFXController.PlayDeselectPieceSFX();
+
+            List<GameObject> _piecesToDestroy = selectedParts;
+
+            // Reset state
+            selectedParts = new List<GameObject>();
+            originalColors.Clear();
+
+            _piecesToDestroy.ForEach(p =>
+            {
+                Destroy(p);
+            });
+
+            // Probably has a bug if we have multiple RotationPivots
+            GameObject rotationPivotGO = GameObject.Find("RotationPivot");
+            if (rotationPivotGO)
+            {
+                Destroy(rotationPivotGO);
+            }
+        }
+    }
 }

@@ -61,6 +61,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DeletePiece",
+                    "type": "Button",
+                    "id": "092ae5ba-083d-48f2-9128-8526a6ebf825",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ChangePlane",
                     "type": "Button",
                     "id": "ec5776c4-c1db-4064-8cac-163e142335fd",
@@ -485,6 +494,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangePlane",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c803d363-a700-4894-9551-cbc277e2c24a",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "DeletePiece",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3715ec28-92fa-4b18-bc16-f3c0a9ad0e15",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "DeletePiece",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
