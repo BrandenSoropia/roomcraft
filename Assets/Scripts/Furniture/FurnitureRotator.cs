@@ -55,20 +55,6 @@ public class FurnitureRotator : MonoBehaviour
                 return;
             }
 
-            if (clickedObject.CompareTag("FurnitureBox"))
-            {
-                FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
-
-                if (fb != null)
-                {
-                    inventoryManager.Unbox(fb.items);
-                }
-
-                Destroy(clickedObject, 1.5f);
-
-                return;
-            }
-
             if (selectedParts.Contains(clickedObject))
             {
                 // Deselect parent and its markers

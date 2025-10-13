@@ -18,13 +18,21 @@ public class InteractController : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
-
             if (clickedObject.CompareTag("FurnitureBox"))
             {
-                inventoryManager.SetUpExamplePicks();
+                FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
+
+                if (fb != null)
+                {
+                    inventoryManager.Unbox(fb.items);
+                }
+
                 Destroy(clickedObject, 1.5f);
+
                 return;
             }
         }
     }
+
+
 }

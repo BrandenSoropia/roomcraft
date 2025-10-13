@@ -29,18 +29,6 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    //This method is to show the inventory's connection to the UI for the Tech Demo only
-    public void SetUpExamplePicks()
-    {
-        UIController.couchIcons.Add(itemIcons[0]);
-        UIController.couchIcons.Add(itemIcons[1]);
-        UIController.couchIcons.Add(itemIcons[2]);
-
-        UIController.shelfIcons.Add(itemIcons[3]);
-        UIController.shelfIcons.Add(itemIcons[4]);
-        UIController.shelfIcons.Add(itemIcons[5]);
-    }
-
     public void Unbox(List<FurniturePiece> items)
     {
         if (items.Count <= 6)
