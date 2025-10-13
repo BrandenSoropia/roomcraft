@@ -241,4 +241,20 @@ public class FurnitureBuilder : MonoBehaviour
 
         Debug.Log($"Attached new piece {selectedPiece.name} to marker {marker.name}");
     }
+
+    public void OnDeletePiece(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        if (selectedPiece != null)
+        {
+            GameObject _pieceToDestroy = selectedPiece;
+
+            DeselectPiece(); // Reset state before deleting
+
+            Destroy(_pieceToDestroy);
+
+            playerSFXController.PlayDeselectPieceSFX();
+        }
+    }
 }
