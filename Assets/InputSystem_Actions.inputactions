@@ -95,40 +95,9 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleInventory",
-                    "type": "Button",
-                    "id": "00244121-3cde-46a4-9b4e-2acd27cb3b32",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "fa368c23-d439-483d-9590-9dcc9432286d",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "ToggleInventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "afe3af2c-70ac-4e01-a456-0bb6ab17d49d",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse;Keyboard&Mouse",
-                    "action": "ToggleInventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "Gamepad",
                     "id": "809f371f-c5e2-4e7a-83a1-d867598f40dd",

@@ -125,12 +125,11 @@ public class FurnitureRotator : MonoBehaviour
         Debug.Log($"Rotated {x} on X axis\n{y} on Y axis\n{z} on Z axis");
     }
 
-
-    public void OnRotateObjectUp(InputValue inputValue)
+    public void OnChangePlane(InputValue inputValue)
     {
         if (!inputValue.isPressed) return;
 
-        _HandleRotation(-90f, 0f, 0f);
+        _HandleRotation(0, 0f, 90f);
     }
 
     public void OnRotateObjectRight(InputValue inputValue)
@@ -138,13 +137,6 @@ public class FurnitureRotator : MonoBehaviour
         if (!inputValue.isPressed) return;
 
         _HandleRotation(0f, 90f, 0f);
-    }
-
-    public void OnRotateObjectDown(InputValue inputValue)
-    {
-        if (!inputValue.isPressed) return;
-
-        _HandleRotation(90f, 0f, 0f);
     }
 
     public void OnRotateObjectLeft(InputValue inputValue)
