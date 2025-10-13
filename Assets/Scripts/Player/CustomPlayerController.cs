@@ -33,8 +33,6 @@ public class CustomPlayerController : MonoBehaviour
 
     // State Flags
     bool _isIsometricViewEnabled = false;
-    bool _isInventoryOpen = false;
-
 
     void Start()
     {
