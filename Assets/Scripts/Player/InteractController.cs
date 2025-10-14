@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class InteractController : MonoBehaviour
 {
     [SerializeField] InventoryManager inventoryManager;
+    [SerializeField] Animator MyAnimator;
 
     Ray _GetCurrentScreenCenterRay()
     {
@@ -20,6 +21,11 @@ public class InteractController : MonoBehaviour
 
             if (clickedObject.CompareTag("FurnitureBox"))
             {
+                if (MyAnimator != null)
+                {
+                    MyAnimator.SetTrigger("BoxOpening");
+                }
+
                 FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
 
                 if (fb != null)
@@ -33,6 +39,4 @@ public class InteractController : MonoBehaviour
             }
         }
     }
-
-
 }
