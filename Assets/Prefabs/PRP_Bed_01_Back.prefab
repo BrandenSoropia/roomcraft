@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.08, y: 0.00000013712793, z: 0.15636659}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8079583058330875261}
@@ -126,11 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
+  yOffset: 0
   meshRenderer: {fileID: 6773871857652452452}
   meshFilter: {fileID: 8557810191873982107}
   models: []
   defaultModel: {fileID: 0}
   icon: {fileID: 21300000, guid: 02a89161f02f65e4881e65b933348877, type: 3}
+  isPlaced: 0
 --- !u!1001 &5543596283151279896
 PrefabInstance:
   m_ObjectHideFlags: 0
