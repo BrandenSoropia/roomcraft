@@ -52,7 +52,7 @@ public class InventoryManager : MonoBehaviour
             FurniturePiece item = inventory[slot];
             // Some pieces are spawning underground,so here's a hack to custom fix each piece
             Vector3 yOffset = (Vector3.up * item.yOffset);
-            FurniturePiece obj = Instantiate(item, spawnPosition + yOffset, Quaternion.identity);
+            FurniturePiece obj = Instantiate(item, spawnPosition + yOffset, item.transform.rotation);
         }
         else
         {
