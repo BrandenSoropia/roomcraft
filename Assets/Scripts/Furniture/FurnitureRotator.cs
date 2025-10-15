@@ -12,6 +12,7 @@ public class FurnitureRotator : MonoBehaviour
 
     private List<GameObject> selectedParts = new List<GameObject>();
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
+    private Dictionary<GameObject, Transform> originalParents = new Dictionary<GameObject, Transform>();
 
     private GameObject pivot; // Temporary pivot for group rotations
     public InventoryManager inventoryManager;
@@ -148,7 +149,7 @@ public class FurnitureRotator : MonoBehaviour
 
     void RebuildPivot()
     {
-        // If pivot exists, unparent its children safely
+        // Restore all previous parent-child relationships before rebuilding
         if (pivot != null)
         {
             List<Transform> children = new List<Transform>();
@@ -159,17 +160,28 @@ public class FurnitureRotator : MonoBehaviour
             }
 
             foreach (Transform child in children)
-                child.SetParent(null, true);
+            {
+                if (originalParents.ContainsKey(child.gameObject) && originalParents[child.gameObject] != null)
+                {
+                    child.SetParent(originalParents[child.gameObject], true); // restore
+                }
+                else
+                {
+                    child.SetParent(null, true); // fallback
+                }
+            }
 
             Destroy(pivot);
             pivot = null;
+            originalParents.Clear(); // reset tracking
         }
 
-        // Create new pivot only if more than 0 object selected
+        // Create a new pivot if any parts are still selected
         if (selectedParts.Count > 0)
         {
             pivot = new GameObject("RotationPivot");
 
+            // Compute the geometric center of selected objects
             Vector3 center = Vector3.zero;
             foreach (var obj in selectedParts)
                 center += obj.transform.position;
@@ -177,10 +189,19 @@ public class FurnitureRotator : MonoBehaviour
 
             pivot.transform.position = center;
 
+            // Temporarily parent all selected parts under this pivot
             foreach (var obj in selectedParts)
             {
                 if (obj != null)
+                {
+                    // Save original parent before re-parenting
+                    if (!originalParents.ContainsKey(obj))
+                    {
+                        originalParents[obj] = obj.transform.parent;
+                    }
+
                     obj.transform.SetParent(pivot.transform, true);
+                }
             }
         }
     }
