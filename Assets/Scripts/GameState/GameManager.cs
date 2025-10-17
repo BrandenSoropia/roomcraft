@@ -50,16 +50,23 @@ public class GameManager : MonoBehaviour
 
     public void IncrementNumCorrectPlacementFurniture()
     {
-        _numCorrectPlacementFurniture += 1;
-        UpdatePlacementProgressGUI();
+        if (_numCorrectPlacementFurniture == numTotalFurniture)
+        {
+            _numCorrectPlacementFurniture += 1;
+            UpdatePlacementProgressGUI();
 
-        CheckCommissionComplete();
+            CheckCommissionComplete();
+        }
+
     }
 
     public void DecrementNumCorrectPlacementFurniture()
     {
-        _numCorrectPlacementFurniture -= 1;
-        UpdatePlacementProgressGUI();
+        if (_numCorrectPlacementFurniture != 0)
+        {
+            _numCorrectPlacementFurniture -= 1;
+            UpdatePlacementProgressGUI();
+        }
     }
 
     public void IncrementNumBuilt()

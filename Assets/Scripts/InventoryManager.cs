@@ -42,7 +42,7 @@ public class InventoryManager : MonoBehaviour
         {
             currentGhost.transform.position = spawnPosition + yOffset;
 
-            if (Input.GetMouseButtonDown(0) && ghostController != null)
+            if ((Input.GetMouseButtonDown(0) || Input.GetButtonDown("Submit")) && ghostController != null)
             {
                 if (ghostController.noCollision)
                 {

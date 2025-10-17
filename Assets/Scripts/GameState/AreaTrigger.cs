@@ -15,6 +15,8 @@ public class AreaTrigger : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] Material emptyMaterial;
     [SerializeField] Material correctPlacementMaterial;
+    [SerializeField] Material incorrectPlacementMaterial;
+
 
     public Transform parentObject { get; set; } // the root object whose children we care about
     public int numPieces { get; set; }
@@ -34,15 +36,22 @@ public class AreaTrigger : MonoBehaviour
     {
         string baseName = MyUtils.GetFurnitureGOBaseName(other.name);
 
-        if (other.CompareTag("Furniture")
-         && other.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase)
-         && !inside.Contains(other))
+        if (other.CompareTag("Furniture"))
         {
-            inside.Add(other);
-            Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
+            if (other.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase)
+                && !inside.Contains(other))
+            {
+                inside.Add(other);
+                Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
 
-            CheckIfEntirelyInArea();
+                CheckIfEntirelyInArea();
+            }
+            else
+            {
+                myMeshRenderer.material = incorrectPlacementMaterial;
+            }
         }
+
     }
 
     void CheckIfEntirelyInArea()

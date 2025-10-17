@@ -20,6 +20,8 @@ public class CustomPlayerController : MonoBehaviour
     [Header("UI Controllers")]
     [SerializeField] UIController uiController;
     [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
+    [SerializeField] GameObject buildControlsUI;
+    [SerializeField] GameObject isometricControlsUI;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -65,6 +67,9 @@ public class CustomPlayerController : MonoBehaviour
 
         if (_isIsometricViewEnabled)
         {
+            isometricControlsUI.SetActive(false);
+            buildControlsUI.SetActive(true);
+
             _isIsometricViewEnabled = false;
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
@@ -75,6 +80,9 @@ public class CustomPlayerController : MonoBehaviour
         }
         else
         {
+            isometricControlsUI.SetActive(true);
+            buildControlsUI.SetActive(false);
+
             _isIsometricViewEnabled = true;
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
