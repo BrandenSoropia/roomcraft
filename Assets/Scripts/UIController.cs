@@ -27,7 +27,7 @@ public class UIController : MonoBehaviour
     public List<Image> popSlots;
     public RectTransform UIbar;
     public GameObject popWindow;
-    [SerializeField] bool closed = true;
+    [SerializeField]public bool closed = true;
     private bool uiMode = false;
     private bool popOpen = false;
 
