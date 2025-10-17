@@ -238,7 +238,30 @@ public class FurnitureBuilder : MonoBehaviour
         }
 
         furnitureManager.AttachPieceToFContainer(selectedPiece);
+        
+        // Assign marker's parent as parent of selected piece
+        if (marker.transform.parent != null)
+        {
+            selectedPiece.transform.SetParent(marker.transform.parent, true);
+        }
+
 
         Debug.Log($"Attached new piece {selectedPiece.name} to marker {marker.name}");
+    }
+
+    public void OnDeletePiece(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        if (selectedPiece != null)
+        {
+            GameObject _pieceToDestroy = selectedPiece;
+
+            DeselectPiece(); // Reset state before deleting
+
+            Destroy(_pieceToDestroy);
+
+            playerSFXController.PlayDeselectPieceSFX();
+        }
     }
 }

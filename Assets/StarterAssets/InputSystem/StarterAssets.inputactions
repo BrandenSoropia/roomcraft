@@ -61,9 +61,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RotateObjectUp",
+                    "name": "DeletePiece",
                     "type": "Button",
-                    "id": "2b972c22-db7d-4a01-95ed-ecad73df84c3",
+                    "id": "092ae5ba-083d-48f2-9128-8526a6ebf825",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangePlane",
+                    "type": "Button",
+                    "id": "ec5776c4-c1db-4064-8cac-163e142335fd",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -73,15 +82,6 @@
                     "name": "RotateObjectRight",
                     "type": "Button",
                     "id": "f101caf9-0577-4c42-bf1e-d44023558e4d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RotateObjectDown",
-                    "type": "Button",
-                    "id": "cc35a4a0-8d35-4b74-babd-295880ca328d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -378,30 +378,8 @@
                 },
                 {
                     "name": "",
-                    "id": "00c9c35c-b21d-43d4-b0fd-5f43491479a4",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "RotateObjectUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "89cb9a52-f759-411e-8a4a-8f1cf62f4841",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RotateObjectUp",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "39bb4d00-675f-475f-a228-849c2fa447c0",
-                    "path": "<Keyboard>/rightArrow",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
@@ -412,7 +390,7 @@
                 {
                     "name": "",
                     "id": "8f803dc2-6702-4e8f-8b10-20c6b78bd4c1",
-                    "path": "<Gamepad>/dpad/right",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -423,7 +401,7 @@
                 {
                     "name": "",
                     "id": "494a6d8e-8172-494d-b55e-4fee232f07c9",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
@@ -434,7 +412,7 @@
                 {
                     "name": "",
                     "id": "ab9b320c-c6a9-4746-9c66-c7b2a85d4321",
-                    "path": "<Gamepad>/dpad/left",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -444,30 +422,8 @@
                 },
                 {
                     "name": "",
-                    "id": "6a70a798-529f-4b25-a55d-ced85bdd26e5",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "RotateObjectDown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "517625b1-6595-42fc-bbdd-f4298f94b9d9",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RotateObjectDown",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "01d62117-0944-4989-8626-93c11de69262",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -516,6 +472,50 @@
                     "processors": "",
                     "groups": ";KeyboardMouse",
                     "action": "QuitGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ee377b6-c73f-4123-ad4d-edfcbcaf3ad6",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ChangePlane",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "510f268c-dd56-4514-8fba-9e69f32a2d3e",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangePlane",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c803d363-a700-4894-9551-cbc277e2c24a",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "DeletePiece",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3715ec28-92fa-4b18-bc16-f3c0a9ad0e15",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "DeletePiece",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -830,22 +830,22 @@
                 },
                 {
                     "name": "",
-                    "id": "5c00e537-3a4c-469e-a05b-df72c01f8a62",
-                    "path": "<Keyboard>/e",
+                    "id": "01c2b605-a50f-4b68-a6ec-21462d4c33d6",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";KeyboardMouse",
+                    "groups": ";Gamepad",
                     "action": "RotateRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "01c2b605-a50f-4b68-a6ec-21462d4c33d6",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "5c00e537-3a4c-469e-a05b-df72c01f8a62",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";KeyboardMouse",
                     "action": "RotateRight",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -903,7 +903,7 @@
                 {
                     "name": "",
                     "id": "ecc58587-1c07-477a-97f3-ea5a7d3486d0",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",

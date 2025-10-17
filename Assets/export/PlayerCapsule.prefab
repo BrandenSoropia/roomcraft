@@ -51,10 +51,10 @@ GameObject:
   - component: {fileID: 4260338377666475930}
   - component: {fileID: 5960042815996331039}
   - component: {fileID: 4922683175401022438}
-  - component: {fileID: 4845527505090840211}
   - component: {fileID: 915045923215286086}
   - component: {fileID: 8308569983892852485}
   - component: {fileID: 1236254471036090475}
+  - component: {fileID: 3130978238140330169}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -296,6 +296,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -317,6 +319,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -348,7 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 0}
+  inputSystemUIInputModule: {fileID: 0}
   myPlayerInput: {fileID: 7865015448551729769}
+  playerSFXController: {fileID: 3712643092613913353}
 --- !u!114 &4922683175401022438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,23 +369,6 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   playerCamera: {fileID: 4626316127775021849}
   overheadCamera: {fileID: 0}
---- !u!114 &4845527505090840211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7892947364345689007}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4afc06c3b4a545f4ba24cee267fc82e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  furniture: []
-  moveSpeed: 10
-  maxSpeed: 3.5
-  rotationSpeed: 120
-  cam: {fileID: 0}
 --- !u!114 &915045923215286086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,9 +382,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameManager: {fileID: 0}
+  furnitureManager: {fileID: 0}
   placingEffectModel: {fileID: 5478223930336832509, guid: a7732affad522d64b8aa84f2e8c5e581, type: 3}
   musicManager: {fileID: 0}
-  _isRightTriggerPressed: 0
+  playerSFXController: {fileID: 3712643092613913353}
 --- !u!114 &8308569983892852485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +399,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameManager: {fileID: 0}
+  playerSFXController: {fileID: 3712643092613913353}
+  inventoryManager: {fileID: 0}
 --- !u!114 &1236254471036090475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +414,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryManager: {fileID: 0}
+--- !u!114 &3130978238140330169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7892947364345689007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b4449ee9f9114b45b44dbecd011ddf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IsoFurnitureController
+  furniture: []
+  moveSpeed: 2.5
+  maxSpeed: 3.5
+  rotationSpeed: 120
+  cam: {fileID: 0}
+  inputActions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
 --- !u!1 &8869246048571391383
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +444,8 @@ GameObject:
   - component: {fileID: 6570851368550783669}
   - component: {fileID: 1227185663862973209}
   - component: {fileID: 5001358776832456224}
+  - component: {fileID: 6213447947867573966}
+  - component: {fileID: 3712643092613913353}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
@@ -486,6 +497,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -507,6 +520,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -519,6 +533,121 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8869246048571391383}
   m_Enabled: 1
+--- !u!82 &6213447947867573966
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869246048571391383}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3712643092613913353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869246048571391383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02bc5ae9437d0594c801fdcbc1f056ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attachSfx: {fileID: 8300000, guid: f2e83e56862f8ce439f2fdfa7cd2e73b, type: 3}
+  rotateSfx: {fileID: 8300000, guid: 010604e0b7a6b184abb805e68428694a, type: 3}
+  selectPieceSfx: {fileID: 8300000, guid: 2b336beb7c9eeb24d90a29527addac75, type: 3}
+  deselectPieceSfx: {fileID: 8300000, guid: 4453f3c211e232344ab0b23a89c3487d, type: 3}
+  closeInventorySfx: {fileID: 8300000, guid: 85d138deadd664142a7f547c67da163f, type: 3}
+  openInventorySfx: {fileID: 8300000, guid: 80034e59e1d3cb347a7275103face9db, type: 3}
 --- !u!1001 &4380597792581166334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -637,7 +766,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -645,6 +773,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!4 &4626316127775021852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9005220659476430818, guid: 2d3a85ecde41a8246a79669975912b74, type: 3}

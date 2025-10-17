@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class InteractController : MonoBehaviour
 {
     [SerializeField] InventoryManager inventoryManager;
+    [SerializeField] Animator MyAnimator;
 
     Ray _GetCurrentScreenCenterRay()
     {
@@ -18,11 +19,22 @@ public class InteractController : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
-
             if (clickedObject.CompareTag("FurnitureBox"))
             {
-                //inventoryManager.SetUpExamplePicks();
+                if (MyAnimator != null)
+                {
+                    MyAnimator.SetTrigger("BoxOpening");
+                }
+
+                FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
+
+                if (fb != null)
+                {
+                    inventoryManager.Unbox(fb.items);
+                }
+
                 Destroy(clickedObject, 1.5f);
+
                 return;
             }
         }
