@@ -14,7 +14,11 @@ public class UIController : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PlayerSFXController playerSFXController;
 
-    [Header("UI Controllers")]
+    [Header("UI Controls")]
+    [SerializeField] HorizontalLayoutGroup buildPrimaryUILayout;
+    [SerializeField] RectOffset padding;
+
+    [Header("UI Inputs")]
     [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
     [SerializeField] EventSystem eventSystem;
     [SerializeField] GameObject firstSelectedGO;
@@ -36,6 +40,8 @@ public class UIController : MonoBehaviour
     {
         popWindow.SetActive(false);
         closed = true;
+
+
     }
 
     // Update is called once per frame
@@ -145,6 +151,7 @@ public class UIController : MonoBehaviour
             eventSystem.SetSelectedGameObject(null);
 
             playerSFXController.PlayCloseInventorySFX();
+            buildPrimaryUILayout.padding = new RectOffset(0, 0, 0, 0);
         }
         else
         {
@@ -157,6 +164,7 @@ public class UIController : MonoBehaviour
 
 
             playerSFXController.PlayOpenInventorySFX();
+            buildPrimaryUILayout.padding = padding;
         }
     }
 

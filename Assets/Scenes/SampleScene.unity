@@ -6279,6 +6279,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1596872237}
     - target: {fileID: 1258729722221219419, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
+      propertyPath: padding.m_Bottom
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258729722221219419, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       propertyPath: playerSFXController
       value: 
       objectReference: {fileID: 1781092145}
@@ -6286,6 +6290,10 @@ PrefabInstance:
       propertyPath: popSlots.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1258729722221219419, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
+      propertyPath: buildPrimaryUILayout
+      value: 
+      objectReference: {fileID: 1743357356}
     - target: {fileID: 1258729722221219419, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       propertyPath: 'popSlots.Array.data[0]'
       value: 
@@ -6804,7 +6812,7 @@ PrefabInstance:
       objectReference: {fileID: 7970375526676320489, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     - target: {fileID: 8999030048525529808, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 9066370366026483290, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       propertyPath: m_FirstSelected
@@ -6823,7 +6831,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6821229721407664659, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8767718481216075120, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       insertIndex: -1
