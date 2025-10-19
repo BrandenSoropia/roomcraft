@@ -21,6 +21,7 @@ public class GameModeController : MonoBehaviour
 
     public void ShowOverheadView()
     {
+        DeselectAllFurniture(); // Ensure selections/pivots are cleared before switching
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
@@ -58,5 +59,19 @@ public class GameModeController : MonoBehaviour
 #endif
         }
         return wallHider;
+    }
+
+    // Deselect all furniture selections and remove any pivots
+    void DeselectAllFurniture()
+    {
+#if UNITY_2023_1_OR_NEWER
+        var rotators = Object.FindObjectsByType<FurnitureRotator>(FindObjectsSortMode.None);
+#else
+        var rotators = Object.FindObjectsOfType<FurnitureRotator>();
+#endif
+        foreach (var r in rotators)
+        {
+            if (r) r.DeselectAll();
+        }
     }
 }
