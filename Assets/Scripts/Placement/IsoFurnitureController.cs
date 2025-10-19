@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class IsoFurnitureController : MonoBehaviour
 {
     [Header("Discovery")]
     [SerializeField] private FurnitureSelectable[] furniture;
+
+    // Active, movable items we can select/move.
+    private List<FurnitureSelectable> activeFurniture = new List<FurnitureSelectable>();
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 2.5f;
@@ -43,7 +47,7 @@ public class IsoFurnitureController : MonoBehaviour
     {
         if (cam == null) cam = Camera.main;
 
-        // Filter furniture with Rigidbody
+        // Discover all with Rigidbody (do NOT filter by IsMovable here so we can subscribe to changes).
         if (furniture == null || furniture.Length == 0)
         {
             furniture = Object.FindObjectsByType<FurnitureSelectable>(
@@ -51,12 +55,18 @@ public class IsoFurnitureController : MonoBehaviour
                 FindObjectsSortMode.None
             );
         }
+        // Keep only items that exist and have RB; movability handled dynamically.
         furniture = System.Array.FindAll(furniture, f => f != null && f.RB != null);
-        if (furniture.Length == 0)
+
+        // Subscribe to movability changes.
+        for (int i = 0; i < furniture.Length; i++)
         {
-            Debug.LogWarning("[IsoFurnitureController] No FurnitureSelectable with Rigidbody found.");
-            return;
+            furniture[i].MovableChanged -= OnFurnitureMovableChanged; // avoid dupes
+            furniture[i].MovableChanged += OnFurnitureMovableChanged;
         }
+
+        // Build initial active list and select if available.
+        RefreshActiveFurniture();
 
         // Bind actions
         var map = inputActions.FindActionMap("Placement");
@@ -67,7 +77,24 @@ public class IsoFurnitureController : MonoBehaviour
         prevAction = map.FindAction("Prev");
 
         map.Enable();
-        SelectIndex(0);
+
+        if (activeFurniture.Count > 0)
+            SelectIndex(0);
+        else
+            Debug.LogWarning("[IsoFurnitureController] No movable FurnitureSelectable found at start.");
+    }
+
+    void OnDestroy()
+    {
+        // Unsubscribe from movability changes.
+        if (furniture != null)
+        {
+            for (int i = 0; i < furniture.Length; i++)
+            {
+                if (furniture[i] != null)
+                    furniture[i].MovableChanged -= OnFurnitureMovableChanged;
+            }
+        }
     }
 
     void Update()
@@ -87,8 +114,11 @@ public class IsoFurnitureController : MonoBehaviour
         bool nextSel = nextAction.IsPressed();
         bool prevSel = prevAction.IsPressed();
 
-        if (nextSel && !_prevNext) Cycle(1);
-        if (prevSel && !_prevPrev) Cycle(-1);
+        if (activeFurniture.Count > 0)
+        {
+            if (nextSel && !_prevNext) Cycle(1);
+            if (prevSel && !_prevPrev) Cycle(-1);
+        }
 
         _prevNext = nextSel;
         _prevPrev = prevSel;
@@ -118,13 +148,13 @@ public class IsoFurnitureController : MonoBehaviour
     // ---------- Selection ----------
     void SelectIndex(int newIndex)
     {
-        if (furniture == null || furniture.Length == 0) return;
+        if (activeFurniture == null || activeFurniture.Count == 0) return;
 
         if (_current != null)
             _current.SetSelected(false); // always turn off highlight
 
-        _index = Mathf.Clamp(newIndex, 0, furniture.Length - 1);
-        _current = furniture[_index];
+        _index = Mathf.Clamp(newIndex, 0, activeFurniture.Count - 1);
+        _current = activeFurniture[_index];
         _currentRB = _current.RB;
 
         // ✅ Only highlight if the assigned camera is active
@@ -134,12 +164,59 @@ public class IsoFurnitureController : MonoBehaviour
         SelectionChanged?.Invoke(_current);
     }
 
-
     void Cycle(int dir)
     {
-        int n = furniture.Length;
+        int n = activeFurniture.Count;
+        if (n == 0) return;
         int newIdx = ((_index + dir) % n + n) % n;
         SelectIndex(newIdx);
+    }
+
+    // ---------- Dynamic movability handling ----------
+    void OnFurnitureMovableChanged(FurnitureSelectable f, bool movable)
+    {
+        RefreshActiveFurniture();
+    }
+
+    void RefreshActiveFurniture()
+    {
+        var prev = _current;
+
+        // Rebuild active list from all discovered items.
+        activeFurniture.Clear();
+        for (int i = 0; i < furniture.Length; i++)
+        {
+            var it = furniture[i];
+            if (it != null && it.RB != null && it.IsMovable)
+                activeFurniture.Add(it);
+        }
+
+        if (activeFurniture.Count == 0)
+        {
+            if (_current != null) _current.SetSelected(false);
+            _current = null;
+            _currentRB = null;
+            _index = -1;
+            SelectionChanged?.Invoke(null);
+            return;
+        }
+
+        // Keep current if still movable; otherwise pick a valid one.
+        if (prev != null && prev.IsMovable)
+        {
+            int idx = activeFurniture.IndexOf(prev);
+            if (idx >= 0)
+            {
+                _index = idx;
+                _current = prev;
+                _currentRB = _current.RB;
+                if (cam != null && cam.isActiveAndEnabled) _current.SetSelected(true);
+                SelectionChanged?.Invoke(_current);
+                return;
+            }
+        }
+
+        SelectIndex(Mathf.Clamp(_index, 0, activeFurniture.Count - 1));
     }
 
     // ---------- Utilities ----------

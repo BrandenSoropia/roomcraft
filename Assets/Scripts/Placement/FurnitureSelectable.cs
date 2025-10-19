@@ -7,13 +7,21 @@ public class FurnitureSelectable : MonoBehaviour
     [SerializeField] private Color glowColor = Color.yellow;
     [SerializeField] private float glowIntensity = 2f;
 
+    [Header("Movement")]
+    [SerializeField] private bool canMove = true;
+    public bool IsMovable => canMove;
+
+    public event System.Action<FurnitureSelectable, bool> MovableChanged;
+
     public Rigidbody RB { get; private set; }   // <— bring RB back
 
     private Renderer[] renderersToTint;
+    private bool _lastCanMove;
 
     void Awake()
     {
         RB = GetComponent<Rigidbody>(); // cache once
+        _lastCanMove = canMove;
 
         // auto-grab all renderers
         renderersToTint = GetComponentsInChildren<Renderer>(true);
@@ -29,6 +37,26 @@ public class FurnitureSelectable : MonoBehaviour
                     mat.SetColor("_EmissionColor", Color.black);
                 }
             }
+        }
+    }
+
+    // Call this from code to toggle movability at runtime.
+    public void SetMovable(bool movable)
+    {
+        if (canMove == movable) return;
+        canMove = movable;
+        _lastCanMove = canMove;
+        MovableChanged?.Invoke(this, canMove);
+    }
+
+    // Detect changes made in the Inspector during play mode.
+    void OnValidate()
+    {
+        if (!Application.isPlaying) return;
+        if (_lastCanMove != canMove)
+        {
+            _lastCanMove = canMove;
+            MovableChanged?.Invoke(this, canMove);
         }
     }
 
