@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     public void IncrementNumCorrectPlacementFurniture()
     {
-        if (_numCorrectPlacementFurniture == numTotalFurniture)
+        if (_numCorrectPlacementFurniture != numTotalFurniture)
         {
             _numCorrectPlacementFurniture += 1;
             UpdatePlacementProgressGUI();
