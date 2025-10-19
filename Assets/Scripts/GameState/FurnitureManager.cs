@@ -117,6 +117,7 @@ public class FurnitureManager : MonoBehaviour
 
         gameManager.IncrementNumBuilt();
         EnableFurniturePlacement(fContainer);
+        fContainer.GetComponent<FurnitureSelectable>().SetMovable(true);
     }
 
     void EnableFurniturePlacement(GameObject fContainer)

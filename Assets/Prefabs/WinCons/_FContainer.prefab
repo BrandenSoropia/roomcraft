@@ -75,6 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FurnitureSelectable
   glowColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   glowIntensity: 2
+  canMove: 0
 --- !u!114 &6007335450212736141
 MonoBehaviour:
   m_ObjectHideFlags: 0

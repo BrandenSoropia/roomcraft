@@ -23,6 +23,9 @@ public class WallAutoHider_ScreenTriangle : MonoBehaviour
     [SerializeField] private float fadeLerpSpeed = 20f;
     [SerializeField] private bool useShadowsOnly = false;
 
+    [Header("Enable/Disable")]
+    [SerializeField] private bool hidingEnabled = true;
+
     Camera cam;
 
     // Cache all wall renderers we might hide (optional; you can also populate this at runtime)
@@ -63,14 +66,26 @@ public class WallAutoHider_ScreenTriangle : MonoBehaviour
     void OnDestroy()
     {
         // restore anything left hidden
-        foreach (var kv in activeHidden) RestoreRenderer(kv.Value);
-        activeHidden.Clear();
+        RestoreAllHidden();
+    }
+
+    void OnDisable()
+    {
+        // ensure scene is clean when component is disabled
+        RestoreAllHidden();
     }
 
     void LateUpdate()
     {
         if (!cam) cam = Camera.main;
         if (!cam) return;
+
+        // Early out when hiding disabled; also ensure anything previously hidden is restored
+        if (!hidingEnabled)
+        {
+            if (activeHidden.Count > 0) RestoreAllHidden();
+            return;
+        }
 
         // Precompute camera frustum for quick reject
         var planes = GeometryUtility.CalculateFrustumPlanes(cam);
@@ -234,6 +249,28 @@ public class WallAutoHider_ScreenTriangle : MonoBehaviour
             }
         }
     }
+
+    // New: restore all currently hidden renderers
+    void RestoreAllHidden()
+    {
+        foreach (var kv in activeHidden) RestoreRenderer(kv.Value);
+        activeHidden.Clear();
+        thisFrameHits.Clear();
+    }
+
+    // ----------------- Toggle API -----------------
+    public bool HidingEnabled => hidingEnabled;
+
+    public void SetHiding(bool enabled)
+    {
+        if (hidingEnabled == enabled) return;
+        hidingEnabled = enabled;
+        if (!hidingEnabled) RestoreAllHidden();
+    }
+
+    public void ToggleHiding() => SetHiding(!hidingEnabled);
+    public void EnableHiding() => SetHiding(true);
+    public void DisableHiding() => SetHiding(false);
 
     // ----------------- Math helpers -----------------
     static Vector3[] GetBoundsCorners(Bounds b)

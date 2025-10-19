@@ -227,6 +227,25 @@ public class FurnitureRotator : MonoBehaviour
         }
     }
 
+    // Deselect everything and ensure the pivot is rebuilt/removed
+    public void DeselectAll()
+    {
+        if (selectedParts.Count > 0)
+        {
+            foreach (var obj in new List<GameObject>(selectedParts))
+            {
+                RestoreColor(obj);
+                DeselectMarkers(obj);
+            }
+            selectedParts.Clear();
+            originalColors.Clear();
+            playerSFXController.PlayDeselectPieceSFX();
+        }
+
+        // Always rebuild to ensure any existing pivot is removed
+        RebuildPivot();
+    }
+
     public void OnDeletePiece(InputValue inputValue)
     {
         if (!inputValue.isPressed) return;
