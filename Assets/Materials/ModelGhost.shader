@@ -55,8 +55,8 @@ Shader "Custom/TransparentGlow"
             {
                 Varyings OUT;
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS);
-                OUT.normalWS = normalize(TransformObjectToWorldNormal(IN.normalOS));
-                OUT.viewDirWS = GetWorldSpaceViewDir(TransformObjectToWorld(IN.positionOS));
+                OUT.normalWS = normalize(TransformObjectToWorldNormal(IN.normalOS).xyz);
+                OUT.viewDirWS = GetWorldSpaceViewDir(TransformObjectToWorld(IN.positionOS).xyz);
                 return OUT;
             }
 
