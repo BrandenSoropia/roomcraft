@@ -34,9 +34,6 @@ public class CustomPlayerController : MonoBehaviour
     PlayerAnimationController myPlayerAnimationController;
     IsoFurnitureController myIsoFurnitureController;
 
-    // State Flags
-    bool _isIsometricViewEnabled = false;
-
     void Start()
     {
         myGameModeController = GetComponent<GameModeController>();
@@ -66,14 +63,13 @@ public class CustomPlayerController : MonoBehaviour
 
         if (!inputValue.isPressed) return;
 
-        if (_isIsometricViewEnabled)
+        if (gameManager.CurrentState == GameState.IsometricMode)
         {
             gameManager.SetState(GameState.BuildMode);
 
             isometricControlsUI.SetActive(false);
             buildControlsUI.SetActive(true);
 
-            _isIsometricViewEnabled = false;
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
             myPlayerInput.SwitchCurrentActionMap("Player");
@@ -88,7 +84,6 @@ public class CustomPlayerController : MonoBehaviour
             isometricControlsUI.SetActive(true);
             buildControlsUI.SetActive(false);
 
-            _isIsometricViewEnabled = true;
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
             myPlayerInput.SwitchCurrentActionMap("Placement");

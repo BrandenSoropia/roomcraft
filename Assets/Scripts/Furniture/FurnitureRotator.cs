@@ -220,10 +220,13 @@ public class FurnitureRotator : MonoBehaviour
 
     void RestoreColor(GameObject obj)
     {
-        Renderer rend = obj.GetComponent<Renderer>();
-        if (rend != null && originalColors.ContainsKey(obj))
+        if (obj != null)
         {
-            rend.material.color = originalColors[obj];
+            Renderer rend = obj.GetComponent<Renderer>();
+            if (rend != null && originalColors.ContainsKey(obj))
+            {
+                rend.material.color = originalColors[obj];
+            }
         }
     }
 
