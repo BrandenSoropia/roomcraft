@@ -2422,6 +2422,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1754259335}
+    - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: uiController
       value: 
       objectReference: {fileID: 384480752}
@@ -6541,6 +6545,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 198766674}
     m_Modifications:
+    - target: {fileID: 4539077215119329054, guid: 42ea3a8125fd60448aff53b094275d4d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965368481126054500, guid: 42ea3a8125fd60448aff53b094275d4d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6427339873290762823, guid: 42ea3a8125fd60448aff53b094275d4d, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6427339873290762823, guid: 42ea3a8125fd60448aff53b094275d4d, type: 3}
       propertyPath: m_Name
       value: PRP_Desk_01_PlacementArea

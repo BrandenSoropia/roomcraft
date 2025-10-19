@@ -13,6 +13,8 @@ Requirements:
 public class AreaTrigger : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
+
+    [Header("Indicator Colours")]
     [SerializeField] Material emptyMaterial;
     [SerializeField] Material correctPlacementMaterial;
     [SerializeField] Material incorrectPlacementMaterial;
@@ -25,11 +27,17 @@ public class AreaTrigger : MonoBehaviour
     private bool _hasReducedPlacementCall = false;
 
     MeshRenderer myMeshRenderer;
+    BoxCollider myBoxCollider;
 
     void Start()
     {
         myMeshRenderer = GetComponent<MeshRenderer>();
         myMeshRenderer.material = emptyMaterial;
+        myBoxCollider = GetComponent<BoxCollider>();
+
+        // Turn off once game starts, but can leave on while developing so we can still see it
+        myMeshRenderer.enabled = false;
+        myBoxCollider.enabled = false;
     }
 
     void OnTriggerEnter(Collider other)
@@ -84,5 +92,45 @@ public class AreaTrigger : MonoBehaviour
             }
 
         }
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe when enabled
+        gameManager.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        // Always unsubscribe to avoid memory leaks
+        gameManager.OnGameStateChanged -= HandleGameStateChanged;
+    }
+
+    private void HandleGameStateChanged(GameState newState)
+    {
+        switch (newState)
+        {
+            case GameState.BuildMode:
+                HideAreaTrigger();
+                break;
+            case GameState.IsometricMode:
+                ShowAreaTrigger();
+                break;
+            default:
+                Debug.Log("Unknown state changed");
+                break;
+        }
+    }
+
+    void HideAreaTrigger()
+    {
+        myBoxCollider.enabled = false;
+        myMeshRenderer.enabled = false;
+    }
+
+    void ShowAreaTrigger()
+    {
+        myBoxCollider.enabled = true;
+        myMeshRenderer.enabled = true;
     }
 }

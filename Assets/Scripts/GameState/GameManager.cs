@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -14,11 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI buildProgressGUI;
     [SerializeField] TextMeshProUGUI winMessageGUI;
 
-    // messy, furniture manager knows this already. maybe connect somehow in the future
-
+    [Header("Game State")]
+    public GameState CurrentState { get; private set; }
+    // Event Listener: gets invoked when the state changes
+    public event Action<GameState> OnGameStateChanged;
 
     private static GameManager _instance;
-
     public static GameManager Instance { get { return _instance; } }
 
     // Maintain singleton
@@ -38,6 +40,17 @@ public class GameManager : MonoBehaviour
     {
         UpdatePlacementProgressGUI(); // Make placement UI is properly matching text to level configuration in GameManager 
         UpdateBuildProgressGUI();
+    }
+
+    public void SetState(GameState newState)
+    {
+        if (newState == CurrentState) return;
+
+        CurrentState = newState;
+
+        OnGameStateChanged?.Invoke(newState);
+
+        Debug.Log($"Game state changed to: {newState}");
     }
 
     void CheckCommissionComplete()
@@ -84,6 +97,4 @@ public class GameManager : MonoBehaviour
     {
         buildProgressGUI.text = $"Built: {numBuilt}/{numTotalFurniture}";
     }
-
-
 }

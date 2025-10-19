@@ -16,6 +16,7 @@ Requirements:
 */
 public class CustomPlayerController : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
 
     [Header("UI Controllers")]
     [SerializeField] UIController uiController;
@@ -67,6 +68,8 @@ public class CustomPlayerController : MonoBehaviour
 
         if (_isIsometricViewEnabled)
         {
+            gameManager.SetState(GameState.BuildMode);
+
             isometricControlsUI.SetActive(false);
             buildControlsUI.SetActive(true);
 
@@ -80,6 +83,8 @@ public class CustomPlayerController : MonoBehaviour
         }
         else
         {
+            gameManager.SetState(GameState.IsometricMode);
+
             isometricControlsUI.SetActive(true);
             buildControlsUI.SetActive(false);
 
