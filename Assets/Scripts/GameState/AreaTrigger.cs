@@ -64,8 +64,6 @@ public class AreaTrigger : MonoBehaviour
 
     void CheckIfEntirelyInArea()
     {
-
-        Debug.Log($" INSIDE: {inside.Count} \n TOTAL PIECES:{numPieces}");
         if (inside.Count == numPieces)
         {
             gameManager.IncrementNumCorrectPlacementFurniture();
