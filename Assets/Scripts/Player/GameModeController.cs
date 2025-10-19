@@ -16,12 +16,17 @@ public class GameModeController : MonoBehaviour
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject overheadCamera;
 
+    [Header("Wall Hiding")]
+    [SerializeField] WallAutoHider_ScreenTriangle wallHider;
+
     public void ShowOverheadView()
     {
-
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
+
+        var h = GetWallHider();
+        if (h) h.EnableHiding();
     }
 
     public void ShowOriginalView()
@@ -29,5 +34,29 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(true);
         overheadCamera.SetActive(false);
         overheadCamera.tag = "Untagged";
+
+        var h = GetWallHider();
+        if (h) h.DisableHiding();
+    }
+
+    // Resolve the hider if not assigned
+    WallAutoHider_ScreenTriangle GetWallHider()
+    {
+        if (wallHider) return wallHider;
+        if (overheadCamera)
+        {
+            wallHider = overheadCamera.GetComponent<WallAutoHider_ScreenTriangle>();
+            if (!wallHider)
+                wallHider = overheadCamera.GetComponentInChildren<WallAutoHider_ScreenTriangle>(true);
+        }
+        if (!wallHider)
+        {
+#if UNITY_2023_1_OR_NEWER
+            wallHider = Object.FindFirstObjectByType<WallAutoHider_ScreenTriangle>();
+#else
+            wallHider = Object.FindObjectOfType<WallAutoHider_ScreenTriangle>();
+#endif
+        }
+        return wallHider;
     }
 }
