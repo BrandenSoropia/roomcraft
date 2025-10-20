@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
-public class FurnitureBuilder : MonoBehaviour
+public class FurnitureBuilder : MonoBehaviour, IRaycastable
 {
     [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
@@ -28,24 +29,14 @@ public class FurnitureBuilder : MonoBehaviour
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
 
     /*
-    Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
-    Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
-    */
-    Ray _GetCurrentScreenCenterRay()
-    {
-        return Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-    }
-
-    /*
     Listen for the BuildSelection button to be pressed.
     Thus it should be triggered only when the button is pressed once! 
     Configured from Player Input.StarterAssets.
     */
-    public void OnBuildSelection(InputValue inputValue)
+    // public void OnBuildSelection(InputValue inputValue)
+    public void OnRaycastHit(RaycastHit hit)
     {
-        if (!inputValue.isPressed) return;
-
-        if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit)) return;
+        if (hit.IsUnityNull()) return;
 
         GameObject clicked = hit.collider.gameObject;
 
@@ -93,20 +84,20 @@ public class FurnitureBuilder : MonoBehaviour
 
     void SelectPiece(GameObject piece)
     {
-        // Restore previous selection
-        if (selectedRenderer != null)
-            selectedRenderer.material.color = selectedOriginalColor;
+        // // Restore previous selection
+        // if (selectedRenderer != null)
+        //     selectedRenderer.material.color = selectedOriginalColor;
 
         RestoreMarkerColors();
 
         selectedPiece = piece;
-        selectedRenderer = selectedPiece.GetComponent<Renderer>();
+        // selectedRenderer = selectedPiece.GetComponent<Renderer>();
 
-        if (selectedRenderer != null)
-        {
-            selectedOriginalColor = selectedRenderer.material.color;
-            selectedRenderer.material.color = lightGreen;
-        }
+        // if (selectedRenderer != null)
+        // {
+        //     selectedOriginalColor = selectedRenderer.material.color;
+        //     selectedRenderer.material.color = lightGreen;
+        // }
 
         HighlightAllMarkers();
 
@@ -117,11 +108,11 @@ public class FurnitureBuilder : MonoBehaviour
     {
         Debug.Log("### Build Deselected!");
 
-        if (selectedRenderer != null)
-            selectedRenderer.material.color = selectedOriginalColor;
+        // if (selectedRenderer != null)
+        //     selectedRenderer.material.color = selectedOriginalColor;
 
         selectedPiece = null;
-        selectedRenderer = null;
+        // selectedRenderer = null;
 
         RestoreMarkerColors();
     }
@@ -159,17 +150,16 @@ public class FurnitureBuilder : MonoBehaviour
 
     void RestoreMarkerColors()
     {
-        if (highlightedMarkers.Count != 0)
+
+        foreach (Renderer rend in highlightedMarkers)
         {
-            foreach (Renderer rend in highlightedMarkers)
-            {
-                if (rend != null && markerOriginalColors.ContainsKey(rend))
+            if (rend != null && markerOriginalColors.ContainsKey(rend))
                     rend.material.color = markerOriginalColors[rend];
             }
 
             highlightedMarkers.Clear();
             markerOriginalColors.Clear();
-        }
+
     }
 
     void AttachPieceToMarker(GameObject marker)
@@ -293,5 +283,12 @@ public class FurnitureBuilder : MonoBehaviour
                 DeselectPiece();
                 break;
         }
+    }
+
+    public void OnDeselect(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        DeselectPiece();
     }
 }

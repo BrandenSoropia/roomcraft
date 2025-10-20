@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
-public class FurnitureRotator : MonoBehaviour
+public class FurnitureRotator : MonoBehaviour, IRaycastable
 {
     [Header("Game Manager")]
     [SerializeField] GameManager gameManager;
@@ -21,24 +22,10 @@ public class FurnitureRotator : MonoBehaviour
     public InventoryManager inventoryManager;
 
     private readonly Color softYellow = new Color(0.988f, 0.933f, 0.447f, 1f);
-    
-    /*
-    Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
-    Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
-    */
-    Ray _GetCurrentScreenCenterRay()
-    {
-        return Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-    }
 
-    public void OnRotateSelection()
+    public void OnRaycastHit(RaycastHit hit)
     {
-        HandleSelection();
-    }
-
-    void HandleSelection()
-    {
-        if (Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit))
+        if (!hit.IsUnityNull())
         {
             GameObject clickedObject = hit.collider.gameObject;
 
@@ -282,5 +269,12 @@ public class FurnitureRotator : MonoBehaviour
                 Destroy(rotationPivotGO);
             }
         }
+    }
+
+    public void OnDeselect(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        DeselectAll();
     }
 }
