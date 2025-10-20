@@ -42,7 +42,7 @@ public class FurnitureRotator : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
-            if (clickedObject.CompareTag("Untagged") || clickedObject.CompareTag("FurnitureBox"))
+            if (clickedObject.CompareTag("Untagged") || clickedObject.CompareTag("FurnitureBox") || clickedObject.CompareTag("Environment"))
             {
                 return;
             }
@@ -52,11 +52,6 @@ public class FurnitureRotator : MonoBehaviour
             {
                 clickedObject = clickedObject.transform.parent.gameObject;
                 Debug.Log("Marker clicked, treating as parent: " + clickedObject.name);
-            }
-
-            if (clickedObject.CompareTag("Environment"))
-            {
-                return;
             }
 
             if (selectedParts.Contains(clickedObject))
