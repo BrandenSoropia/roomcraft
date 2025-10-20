@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -5,20 +6,21 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game Stats")]
     [SerializeField] int _numCorrectPlacementFurniture = 0;
-    [SerializeField] int numBuilt = 0;
+    [SerializeField] int _numBuilt = 0;
     [SerializeField] int numTotalFurniture = 1;
 
 
     [Header("Controlled UI")]
     [SerializeField] TextMeshProUGUI placementProgressGUI;
     [SerializeField] TextMeshProUGUI buildProgressGUI;
-    [SerializeField] TextMeshProUGUI winMessageGUI;
+    [SerializeField] GameObject winMessageGUI;
 
-    // messy, furniture manager knows this already. maybe connect somehow in the future
-
+    [Header("Game State")]
+    public GameState CurrentState { get; private set; }
+    // Event Listener: gets invoked when the state changes
+    public event Action<GameState> OnGameStateChanged;
 
     private static GameManager _instance;
-
     public static GameManager Instance { get { return _instance; } }
 
     // Maintain singleton
@@ -40,17 +42,29 @@ public class GameManager : MonoBehaviour
         UpdateBuildProgressGUI();
     }
 
+    public void SetState(GameState newState)
+    {
+        if (newState == CurrentState) return;
+
+        CurrentState = newState;
+
+        OnGameStateChanged?.Invoke(newState);
+
+        Debug.Log($"Game state changed to: {newState}");
+    }
+
     void CheckCommissionComplete()
     {
         if (_numCorrectPlacementFurniture == numTotalFurniture)
         {
-            winMessageGUI.enabled = true;
+            Debug.Log("Commision Completed!");
+            winMessageGUI.SetActive(true);
         }
     }
 
     public void IncrementNumCorrectPlacementFurniture()
     {
-        if (_numCorrectPlacementFurniture == numTotalFurniture)
+        if (_numCorrectPlacementFurniture != numTotalFurniture)
         {
             _numCorrectPlacementFurniture += 1;
             UpdatePlacementProgressGUI();
@@ -71,7 +85,7 @@ public class GameManager : MonoBehaviour
 
     public void IncrementNumBuilt()
     {
-        numBuilt += 1;
+        _numBuilt += 1;
         UpdateBuildProgressGUI();
     }
 
@@ -82,8 +96,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateBuildProgressGUI()
     {
-        buildProgressGUI.text = $"Built: {numBuilt}/{numTotalFurniture}";
+        buildProgressGUI.text = $"Built: {_numBuilt}/{numTotalFurniture}";
     }
-
-
 }

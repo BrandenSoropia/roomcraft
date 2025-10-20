@@ -16,12 +16,13 @@ Requirements:
 */
 public class CustomPlayerController : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
 
     [Header("UI Controllers")]
     [SerializeField] UIController uiController;
     [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
-    [SerializeField] GameObject buildControlsUI;
-    [SerializeField] GameObject isometricControlsUI;
+    [SerializeField] GameObject buildControlsContainerUI;
+    [SerializeField] GameObject isometricControlsContainerUI;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -32,9 +33,6 @@ public class CustomPlayerController : MonoBehaviour
     FirstPersonController myFirstPersonController;
     PlayerAnimationController myPlayerAnimationController;
     IsoFurnitureController myIsoFurnitureController;
-
-    // State Flags
-    bool _isIsometricViewEnabled = false;
 
     void Start()
     {
@@ -65,12 +63,13 @@ public class CustomPlayerController : MonoBehaviour
 
         if (!inputValue.isPressed) return;
 
-        if (_isIsometricViewEnabled)
+        if (gameManager.CurrentState == GameState.IsometricMode)
         {
-            isometricControlsUI.SetActive(false);
-            buildControlsUI.SetActive(true);
+            gameManager.SetState(GameState.BuildMode);
 
-            _isIsometricViewEnabled = false;
+            isometricControlsContainerUI.SetActive(false);
+            buildControlsContainerUI.SetActive(true);
+
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
             myPlayerInput.SwitchCurrentActionMap("Player");
@@ -80,10 +79,11 @@ public class CustomPlayerController : MonoBehaviour
         }
         else
         {
-            isometricControlsUI.SetActive(true);
-            buildControlsUI.SetActive(false);
+            gameManager.SetState(GameState.IsometricMode);
 
-            _isIsometricViewEnabled = true;
+            isometricControlsContainerUI.SetActive(true);
+            buildControlsContainerUI.SetActive(false);
+
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
             myPlayerInput.SwitchCurrentActionMap("Placement");
