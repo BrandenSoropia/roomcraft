@@ -42,11 +42,11 @@ public class AreaTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        string baseName = MyUtils.GetFurnitureGOBaseName(other.name);
+        string myBaseName = MyUtils.GetFurnitureGOBaseName(transform.name);
 
         if (other.CompareTag("Furniture"))
         {
-            if (other.name.Contains(baseName, System.StringComparison.CurrentCultureIgnoreCase)
+            if (other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase)
                 && !inside.Contains(other))
             {
                 inside.Add(other);

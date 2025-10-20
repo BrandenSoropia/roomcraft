@@ -49,6 +49,11 @@ public class FurnitureBuilder : MonoBehaviour
 
         GameObject clicked = hit.collider.gameObject;
 
+        if (clicked.CompareTag("Untagged") || clicked.CompareTag("FurnitureBox"))
+        {
+            return;
+        }
+
         Debug.Log("### clicked: " + clicked.gameObject.name);
 
         if (selectedPiece == null)

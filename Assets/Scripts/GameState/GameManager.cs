@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Game Stats")]
     [SerializeField] int _numCorrectPlacementFurniture = 0;
-    [SerializeField] int numBuilt = 0;
+    [SerializeField] int _numBuilt = 0;
     [SerializeField] int numTotalFurniture = 1;
 
 
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     public void IncrementNumBuilt()
     {
-        numBuilt += 1;
+        _numBuilt += 1;
         UpdateBuildProgressGUI();
     }
 
@@ -95,6 +95,6 @@ public class GameManager : MonoBehaviour
 
     void UpdateBuildProgressGUI()
     {
-        buildProgressGUI.text = $"Built: {numBuilt}/{numTotalFurniture}";
+        buildProgressGUI.text = $"Built: {_numBuilt}/{numTotalFurniture}";
     }
 }

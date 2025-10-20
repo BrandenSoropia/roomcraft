@@ -39,7 +39,7 @@ public class FurnitureRotator : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
-            if (clickedObject.CompareTag("Untagged"))
+            if (clickedObject.CompareTag("Untagged") || clickedObject.CompareTag("FurnitureBox"))
             {
                 return;
             }

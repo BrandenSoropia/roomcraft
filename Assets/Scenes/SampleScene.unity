@@ -5332,7 +5332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _numCorrectPlacementFurniture: 0
-  numBuilt: 0
+  _numBuilt: 0
   numTotalFurniture: 2
   placementProgressGUI: {fileID: 146585728}
   buildProgressGUI: {fileID: 1683109549}
@@ -6347,6 +6347,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1370719623507766632, guid: d567c4ad981639a428dc866b56587ea3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2472580119336233529, guid: d567c4ad981639a428dc866b56587ea3, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
