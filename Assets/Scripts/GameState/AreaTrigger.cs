@@ -46,20 +46,20 @@ public class AreaTrigger : MonoBehaviour
 
         if (other.CompareTag("Furniture"))
         {
-            if (other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase)
-                && !inside.Contains(other))
+            bool isCorrectFurniture = other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase);
+
+            if (!isCorrectFurniture)
+            {
+                myMeshRenderer.material = incorrectPlacementMaterial;
+            }
+            else if (isCorrectFurniture && !inside.Contains(other))
             {
                 inside.Add(other);
                 Debug.Log($"+1: Colliders in: {inside.Count}/{numPieces}");
 
                 CheckIfEntirelyInArea();
             }
-            else
-            {
-                myMeshRenderer.material = incorrectPlacementMaterial;
-            }
         }
-
     }
 
     void CheckIfEntirelyInArea()
