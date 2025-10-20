@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Controlled UI")]
     [SerializeField] TextMeshProUGUI placementProgressGUI;
     [SerializeField] TextMeshProUGUI buildProgressGUI;
-    [SerializeField] TextMeshProUGUI winMessageGUI;
+    [SerializeField] GameObject winMessageGUI;
 
     [Header("Game State")]
     public GameState CurrentState { get; private set; }
@@ -57,7 +57,8 @@ public class GameManager : MonoBehaviour
     {
         if (_numCorrectPlacementFurniture == numTotalFurniture)
         {
-            winMessageGUI.enabled = true;
+            Debug.Log("Commision Completed!");
+            winMessageGUI.SetActive(true);
         }
     }
 
