@@ -74,23 +74,32 @@ public class AreaTrigger : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if ((other.CompareTag("Furniture") || other.CompareTag("Marker")) && inside.Contains(other))
+        string myBaseName = MyUtils.GetFurnitureGOBaseName(transform.name);
+
+        if (other.CompareTag("Furniture"))
         {
-            inside.Remove(other);
-            Debug.Log($"-1: Colliders in: {inside.Count}/{numPieces}");
-
-
-            /*
-            Only allow reducing the total placement counter once per exit.
-            Without this, it will decrement the progress each time any piece exits the area.
-            */
-            if (!_hasReducedPlacementCall)
+            if (other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase)
+            && inside.Contains(other))
             {
-                gameManager.DecrementNumCorrectPlacementFurniture();
-                _hasReducedPlacementCall = true;
-                myMeshRenderer.material = emptyMaterial;
+                inside.Remove(other);
+                Debug.Log($"-1: Colliders in: {inside.Count}/{numPieces}");
+
+                /*
+                Only allow reducing the total placement counter once per exit.
+                Without this, it will decrement the progress each time any piece exits the area.
+                */
+                if (!_hasReducedPlacementCall)
+                {
+                    gameManager.DecrementNumCorrectPlacementFurniture();
+                    _hasReducedPlacementCall = true;
+                }
             }
 
+            // Reset to empty colour
+            if (inside.Count == 0 && myMeshRenderer.material != emptyMaterial)
+            {
+                myMeshRenderer.material = emptyMaterial;
+            }
         }
     }
 
