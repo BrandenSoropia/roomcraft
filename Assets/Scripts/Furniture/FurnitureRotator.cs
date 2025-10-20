@@ -10,6 +10,9 @@ public class FurnitureRotator : MonoBehaviour
     [Header("SFX Controller")]
     [SerializeField] PlayerSFXController playerSFXController;
 
+    [Header("UI Controllers")]
+    [SerializeField] GameObject rotateControlsContainerGO;
+
     private List<GameObject> selectedParts = new List<GameObject>();
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
     private Dictionary<GameObject, Transform> originalParents = new Dictionary<GameObject, Transform>();
@@ -67,7 +70,6 @@ public class FurnitureRotator : MonoBehaviour
 
                 playerSFXController.PlayDeselectPieceSFX();
 
-
                 RebuildPivot();
             }
             else
@@ -83,6 +85,16 @@ public class FurnitureRotator : MonoBehaviour
                 playerSFXController.PlaySelectPieceSFX();
 
                 RebuildPivot();
+            }
+
+            // At the end, check if there are pieces selected so we show the rotation controls UI
+            if (selectedParts.Count > 0)
+            {
+                rotateControlsContainerGO.SetActive(true);
+            }
+            else
+            {
+                rotateControlsContainerGO.SetActive(false);
             }
         }
 
