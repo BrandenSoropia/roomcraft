@@ -159,14 +159,17 @@ public class FurnitureBuilder : MonoBehaviour
 
     void RestoreMarkerColors()
     {
-        foreach (Renderer rend in highlightedMarkers)
+        if (highlightedMarkers.Count != 0)
         {
-            if (rend != null && markerOriginalColors.ContainsKey(rend))
-                rend.material.color = markerOriginalColors[rend];
-        }
+            foreach (Renderer rend in highlightedMarkers)
+            {
+                if (rend != null && markerOriginalColors.ContainsKey(rend))
+                    rend.material.color = markerOriginalColors[rend];
+            }
 
-        highlightedMarkers.Clear();
-        markerOriginalColors.Clear();
+            highlightedMarkers.Clear();
+            markerOriginalColors.Clear();
+        }
     }
 
     void AttachPieceToMarker(GameObject marker)
@@ -267,6 +270,28 @@ public class FurnitureBuilder : MonoBehaviour
             Destroy(_pieceToDestroy);
 
             playerSFXController.PlayDeselectPieceSFX();
+        }
+    }
+
+    private void OnEnable()
+    {
+        // Subscribe when enabled
+        gameManager.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    private void OnDisable()
+    {
+        // Always unsubscribe to avoid memory leaks
+        gameManager.OnGameStateChanged -= HandleGameStateChanged;
+    }
+
+    private void HandleGameStateChanged(GameState newState)
+    {
+        switch (newState)
+        {
+            case GameState.IsometricMode:
+                DeselectPiece();
+                break;
         }
     }
 }
