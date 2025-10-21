@@ -9,11 +9,19 @@ public class PlayerSFXController : MonoBehaviour
     [SerializeField] AudioClip attachSfx;
     [SerializeField] AudioClip rotateSfx;
     [SerializeField] AudioClip selectPieceSfx;
+    [SerializeField] AudioClip selectBuildPieceSfx;
     [SerializeField] AudioClip deselectPieceSfx;
 
     [Header("Inventory SFX")]
     [SerializeField] AudioClip closeInventorySfx;
     [SerializeField] AudioClip openInventorySfx;
+
+    [Header("Toggle Game Mode SFX")]
+    [SerializeField] AudioClip toBuildModeSfx;
+    [SerializeField] AudioClip toIsometricModeSfx;
+
+    [Header("UI SFX")]
+    [SerializeField] AudioClip navigateUISfx;
 
     void Start()
     {
@@ -35,6 +43,11 @@ public class PlayerSFXController : MonoBehaviour
         myAudioSource.PlayOneShot(selectPieceSfx);
     }
 
+    public void PlaySelectBuildPieceSFX()
+    {
+        myAudioSource.PlayOneShot(selectBuildPieceSfx);
+    }
+
     public void PlayDeselectPieceSFX()
     {
         myAudioSource.PlayOneShot(deselectPieceSfx);
@@ -48,5 +61,22 @@ public class PlayerSFXController : MonoBehaviour
     public void PlayOpenInventorySFX()
     {
         myAudioSource.PlayOneShot(openInventorySfx);
+    }
+
+    // Game Mode
+    public void PlayToBuildModeSFX()
+    {
+        myAudioSource.PlayOneShot(toBuildModeSfx);
+    }
+
+    public void PlayToIsometricModeSFX()
+    {
+        myAudioSource.PlayOneShot(toIsometricModeSfx);
+    }
+
+    // UI
+    public void PlayNavigateUISFX()
+    {
+        myAudioSource.PlayOneShot(navigateUISfx);
     }
 }

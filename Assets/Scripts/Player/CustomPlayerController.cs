@@ -65,6 +65,7 @@ public class CustomPlayerController : MonoBehaviour
 
         if (gameManager.CurrentState == GameState.IsometricMode)
         {
+            // Build Mode on
             gameManager.SetState(GameState.BuildMode);
 
             isometricControlsContainerUI.SetActive(false);
@@ -73,12 +74,13 @@ public class CustomPlayerController : MonoBehaviour
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
             myPlayerInput.SwitchCurrentActionMap("Player");
-            playerSFXController.PlayCloseInventorySFX();
+            playerSFXController.PlayToBuildModeSFX();
             myGameModeController.ShowOriginalView();
             myIsoFurnitureController.SetCameraActive(false);
         }
         else
         {
+            // Isometric Mode on
             gameManager.SetState(GameState.IsometricMode);
 
             isometricControlsContainerUI.SetActive(true);
@@ -87,7 +89,7 @@ public class CustomPlayerController : MonoBehaviour
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
             myPlayerInput.SwitchCurrentActionMap("Placement");
-            playerSFXController.PlayOpenInventorySFX();
+            playerSFXController.PlayToIsometricModeSFX();
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
         }
