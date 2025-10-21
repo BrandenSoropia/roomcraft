@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5041049097419811933}
   - component: {fileID: 905374816855780324}
   - component: {fileID: 7312120273517422748}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: geo_bed_01_base
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  yOffset: 0.6
   meshRenderer: {fileID: 4007071457523312317}
   meshFilter: {fileID: 5318626385519858968}
   models: []

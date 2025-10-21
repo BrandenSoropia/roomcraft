@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2838411906704918124}
   - component: {fileID: 3575239273935100930}
   - component: {fileID: 4010885479093448806}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Bed_01_Front
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -125,7 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  yOffset: 0
   meshRenderer: {fileID: 2838411906704918124}
   meshFilter: {fileID: 7322807663221303504}
   models: []

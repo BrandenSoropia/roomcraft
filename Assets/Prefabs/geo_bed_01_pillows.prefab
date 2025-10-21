@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6543495473073071974}
   - component: {fileID: 814798915327447549}
   - component: {fileID: 6835231254336893385}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: geo_bed_01_pillows
   m_TagString: Furniture
   m_Icon: {fileID: 0}

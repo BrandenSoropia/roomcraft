@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1398912126518070015}
   - component: {fileID: 8665551956464624527}
   - component: {fileID: 8355706671375519263}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Bed_01_Blanket_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 8354281719589127304}
   - component: {fileID: 3281876165982801060}
   - component: {fileID: -161355882899232369}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Bed_01_Matress_01
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -238,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  yOffset: 0
   meshRenderer: {fileID: 8354281719589127304}
   meshFilter: {fileID: 7140875903962868604}
   models: []

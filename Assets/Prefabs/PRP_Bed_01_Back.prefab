@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6773871857652452452}
   - component: {fileID: 3403108982372037255}
   - component: {fileID: 8327765383012165349}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Bed_01_Back
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  yOffset: 0
   meshRenderer: {fileID: 6773871857652452452}
   meshFilter: {fileID: 8557810191873982107}
   models: []
@@ -196,6 +195,10 @@ PrefabInstance:
     - target: {fileID: 8956777077844217734, guid: 871f395f88c0146c3a0a683e97d13a02, type: 3}
       propertyPath: m_Name
       value: PRP_Bed_01_Sides_side_marker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8956777077844217734, guid: 871f395f88c0146c3a0a683e97d13a02, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8956777077844217734, guid: 871f395f88c0146c3a0a683e97d13a02, type: 3}
       propertyPath: m_TagString

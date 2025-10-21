@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8141121745246709718}
   - component: {fileID: 470829308999578260}
   - component: {fileID: 5870925918556709664}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Desk_01_Supports_Mesh
   m_TagString: Furniture
   m_Icon: {fileID: 0}
@@ -125,7 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66aee5b7eb43c2d4c958ab04cf959ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurniturePiece
-  yOffset: 0
   meshRenderer: {fileID: 8141121745246709718}
   meshFilter: {fileID: 3185578548344621319}
   models: []

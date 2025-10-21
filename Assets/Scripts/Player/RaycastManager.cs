@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 
 public class RaycastManager : MonoBehaviour
 {
+    [SerializeField] float raycastDistance = 200f;
+    [SerializeField] LayerMask layerMask;
+
     FurnitureBuilder myFurnitureBuilder;
     FurnitureRotator myFurnitureRotator;
 
@@ -13,10 +16,28 @@ public class RaycastManager : MonoBehaviour
         myFurnitureRotator = GetComponent<FurnitureRotator>();
     }
 
+    void Update()
+    {
+        Ray ray = _GetCurrentScreenCenterRay();
+
+        // 🔹 Draw the ray continuously in Scene view
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
+
+        // Perform the raycast each frame (so you can visualize hit point live)
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, layerMask))
+        {
+            // Draw a red line to the exact hit point
+            Debug.DrawLine(ray.origin, hit.point, Color.red);
+
+            // Draw a small yellow line showing the surface normal
+            Debug.DrawRay(hit.point, hit.normal * 0.25f, Color.yellow);
+        }
+    }
+
     public void OnSelect(InputValue inputValue)
     {
         if (!inputValue.isPressed) return;
-        Debug.Log("### Raycast manager OnSelect Called");
+
         HandleRaycast();
     }
 
@@ -32,7 +53,7 @@ public class RaycastManager : MonoBehaviour
 
     private void HandleRaycast()
     {
-        if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit)) return;
+        if (!Physics.Raycast(_GetCurrentScreenCenterRay(), out RaycastHit hit, Mathf.Infinity, layerMask)) return;
         Debug.Log("Hit: " + hit.transform.name);
 
         // Maybe move interact controller here? Keeps only 1 raycasting script this way?

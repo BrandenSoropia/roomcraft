@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9156884393268041624}
   - component: {fileID: 1356935968217585305}
   - component: {fileID: 4675366389498848474}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PRP_Desk_01_Top_Mesh
   m_TagString: Furniture
   m_Icon: {fileID: 0}

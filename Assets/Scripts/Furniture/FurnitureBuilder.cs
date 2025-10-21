@@ -80,6 +80,7 @@ public class FurnitureBuilder : MonoBehaviour, IRaycastable
         // Destroy the original selected piece
         // Destroy(selectedPiece);
         DeselectPiece();
+        RestoreMarkerColors();
     }
 
     void SelectPiece(GameObject piece)
