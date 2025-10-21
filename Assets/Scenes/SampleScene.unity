@@ -2357,6 +2357,18 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 250
       objectReference: {fileID: 0}
+    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: navigateUISfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 21678f9001fcd6f49bdd380650a4adab, type: 3}
+    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: toBuildModeSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: ef58df93f3476c446a94030e32027f19, type: 3}
+    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: toIsometricModeSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: a91f3f4071297a54798b7bfbee697a8a, type: 3}
     - target: {fileID: 4626316127775021852, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.4
