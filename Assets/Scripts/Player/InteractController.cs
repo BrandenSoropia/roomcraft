@@ -5,6 +5,7 @@ public class InteractController : MonoBehaviour
 {
     [SerializeField] InventoryManager inventoryManager;
     [SerializeField] Animator MyAnimator;
+    [SerializeField] PlayerSFXController playerSFXController;
 
     Ray _GetCurrentScreenCenterRay()
     {
@@ -32,6 +33,8 @@ public class InteractController : MonoBehaviour
                 {
                     inventoryManager.Unbox(fb.items);
                 }
+
+                playerSFXController.PlayUnboxSFX();
 
                 Destroy(clickedObject, 1.5f);
 

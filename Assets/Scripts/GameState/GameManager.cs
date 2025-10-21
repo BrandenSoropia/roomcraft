@@ -49,8 +49,6 @@ public class GameManager : MonoBehaviour
         CurrentState = newState;
 
         OnGameStateChanged?.Invoke(newState);
-
-        Debug.Log($"Game state changed to: {newState}");
     }
 
     void CheckCommissionComplete()

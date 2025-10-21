@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] PlayerSFXController playerSFXController;
+
     [SerializeField] float spawnUpModifier = 0;
     public List<Sprite> itemIcons;
     public UIController UIController;
@@ -84,6 +85,7 @@ public class InventoryManager : MonoBehaviour
 
             FurniturePiece item = inventory[slot];
             FurniturePiece obj = Instantiate(item, spawnPosition + yOffset, Quaternion.identity);
+            playerSFXController.PlaySpawnPieceSFX();
         }
         else
         {

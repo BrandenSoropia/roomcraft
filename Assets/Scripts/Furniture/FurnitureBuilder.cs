@@ -61,7 +61,7 @@ public class FurnitureBuilder : MonoBehaviour
             if (clicked.CompareTag("Furniture"))
         	{
             	SelectPiece(clicked);
-                playerSFXController.PlaySelectBuildPieceSFX();
+                playerSFXController.PlaySelectPieceSFX();
             } 
         	else
         	{
