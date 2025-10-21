@@ -24,6 +24,7 @@ public class InteractController : MonoBehaviour
                 if (MyAnimator != null)
                 {
                     MyAnimator.SetTrigger("BoxOpening");
+                    Debug.Log("BoxOpening trigger");
                 }
 
                 FurnitureBox fb = clickedObject.GetComponent<FurnitureBox>();
