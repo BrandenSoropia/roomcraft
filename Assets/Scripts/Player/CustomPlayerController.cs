@@ -73,7 +73,7 @@ public class CustomPlayerController : MonoBehaviour
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
             myPlayerInput.SwitchCurrentActionMap("Player");
-            playerSFXController.PlayCloseInventorySFX();
+            playerSFXController.PlayToBuildModeSFX();
             myGameModeController.ShowOriginalView();
             myIsoFurnitureController.SetCameraActive(false);
         }
@@ -87,7 +87,7 @@ public class CustomPlayerController : MonoBehaviour
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
             myPlayerInput.SwitchCurrentActionMap("Placement");
-            playerSFXController.PlayOpenInventorySFX();
+            playerSFXController.PlayToIsometricModeSFX();
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
         }
