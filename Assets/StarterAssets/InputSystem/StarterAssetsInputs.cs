@@ -13,6 +13,10 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 
+		[Header("Look Settings")]
+		[Range(0f, 1f)]
+		public float lookSensitivity = 0.5f;
+
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -52,7 +56,8 @@ namespace StarterAssets
 
 		public void LookInput(Vector2 newLookDirection)
 		{
-			look = newLookDirection;
+			// Apply sensitivity to reduce look input magnitude
+			look = newLookDirection * Mathf.Clamp01(lookSensitivity);
 		}
 
 		public void JumpInput(bool newJumpState)
