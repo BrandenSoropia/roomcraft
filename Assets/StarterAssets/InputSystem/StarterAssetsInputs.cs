@@ -15,7 +15,7 @@ namespace StarterAssets
 
 		[Header("Look Settings")]
 		[Range(0f, 1f)]
-		public float lookSensitivity = 0.5f;
+		public float lookSensitivity = 0.3f;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
