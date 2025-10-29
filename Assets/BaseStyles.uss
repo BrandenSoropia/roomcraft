@@ -1,0 +1,21 @@
+:root {
+}
+
+.border {
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-left-color: rgb(173, 186, 255);
+    border-right-color: rgb(173, 186, 255);
+    border-top-color: rgb(173, 186, 255);
+    border-bottom-color: rgb(173, 186, 255);
+}
+
+.backgroundTransparent {
+    background-color: rgba(255, 255, 255, 0);
+}
