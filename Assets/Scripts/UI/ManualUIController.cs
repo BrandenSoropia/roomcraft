@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class ManualUIController : MonoBehaviour
 {
+    [SerializeField] Vector3 offscreenOffset = new Vector3(0, 0, 0);
+
     [Header("Manual Data")]
     [SerializeField] ManualDataSO[] manuals;
 
@@ -13,6 +15,7 @@ public class ManualUIController : MonoBehaviour
     AudioSource myAudioSource;
 
     private GameObject _lastSelected;
+    private bool _isDisplayed = false;
 
     // Actions
     private InputAction _moveAction;
@@ -20,6 +23,8 @@ public class ManualUIController : MonoBehaviour
     void Start()
     {
         myAudioSource = GetComponent<AudioSource>();
+
+        // transform.position = offscreenOffset;
     }
 
 
@@ -48,10 +53,25 @@ public class ManualUIController : MonoBehaviour
             _moveAction.performed -= OnMove;
     }
 
+    public void ToggleDisplay()
+    {
+        if (_isDisplayed)
+        {
+            transform.position = -offscreenOffset;
+            _isDisplayed = false;
+        }
+        else
+        {
+            transform.position = Vector3.zero;
+            _isDisplayed = true;
+        }
+    }
+
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;
+        // Only handle movement when displayed
+        if (!_isDisplayed || !ctx.performed) return;
 
         // Check if d-pad up/down page idx +/- 1
         // Bumpers to change manuals idx +/- 

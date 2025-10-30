@@ -848,6 +848,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a801eed52fe39468d6b08c6e0524a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManualUIController
+  offscreenOffset: {x: 600, y: 0, z: 0}
+  manuals:
+  - {fileID: 11400000, guid: 0256ac58822f5b0488580389519df9b8, type: 2}
+  - {fileID: 11400000, guid: 0256ac58822f5b0488580389519df9b8, type: 2}
   navigateSfx: {fileID: 0}
 --- !u!82 &753894671
 AudioSource:
