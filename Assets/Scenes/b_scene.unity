@@ -849,9 +849,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManualUIController
   offscreenOffset: {x: 600, y: 0, z: 0}
+  _isDisplayed: 1
+  _currentManualIdx: 0
+  _currentPageIdx: 0
+  myManualImageGO: {fileID: 1759780042}
   manuals:
   - {fileID: 11400000, guid: 0256ac58822f5b0488580389519df9b8, type: 2}
-  - {fileID: 11400000, guid: 0256ac58822f5b0488580389519df9b8, type: 2}
+  - {fileID: 11400000, guid: 32a8b5212fd7af445842b3c52c10b7a8, type: 2}
   navigateSfx: {fileID: 0}
 --- !u!82 &753894671
 AudioSource:
@@ -2120,7 +2124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 17bb2662ffaa2a8458099e1df1aa4bca, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

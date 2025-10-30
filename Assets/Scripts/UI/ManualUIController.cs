@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 public class ManualUIController : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class ManualUIController : MonoBehaviour
     [SerializeField] int _currentManualIdx = 0;
     [SerializeField] int _currentPageIdx = 0;
 
-    [Header("Manual Data")]
+    [Header("Manual Configs")]
+    [SerializeField] Image myManualImageGO;
     [SerializeField] ManualDataSO[] manuals;
 
     [Header("SFX")]
@@ -26,6 +28,8 @@ public class ManualUIController : MonoBehaviour
     void Start()
     {
         myAudioSource = GetComponent<AudioSource>();
+
+        UpdateManualPageDisplayed(); // Show the first manual's first page
 
         // Comment these out for easier dev
         // transform.position = offscreenOffset;
@@ -80,25 +84,43 @@ public class ManualUIController : MonoBehaviour
         }
     }
 
+    // Note: Reversed idx increment/decrement to match up/down scrolling through pages
     void HandleChangePage(Vector2 value)
     {
         ManualDataSO currentManual = manuals[_currentManualIdx];
 
         if (value.y > 0)
-            _currentPageIdx = Mathf.Min(currentManual.manualPages.Length - 1, _currentPageIdx + 1);
-        else if (value.y < 0)
+        {
             _currentPageIdx = Mathf.Max(0, _currentPageIdx - 1);
+        }
+        else if (value.y < 0)
+        {
+            _currentPageIdx = Mathf.Min(currentManual.manualPages.Length - 1, _currentPageIdx + 1);
+        }
+
+        UpdateManualPageDisplayed();
     }
 
     void HandleChangeManual(Vector2 value)
     {
         if (value.x > 0)
+        {
             _currentManualIdx = Mathf.Min(manuals.Length - 1, _currentManualIdx + 1);
+        }
         else if (value.x < 0)
+        {
             _currentManualIdx = Mathf.Max(0, _currentManualIdx - 1);
+        }
+
+        _currentPageIdx = 0; // Reset to first page
+
+        UpdateManualPageDisplayed();
     }
 
-
+    void UpdateManualPageDisplayed()
+    {
+        myManualImageGO.sprite = manuals[_currentManualIdx].manualPages[_currentPageIdx];
+    }
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
@@ -123,7 +145,6 @@ public class ManualUIController : MonoBehaviour
         else
         {
             HandleChangePage(value);
-
         }
     }
 }
