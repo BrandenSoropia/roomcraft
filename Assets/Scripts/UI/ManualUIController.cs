@@ -27,7 +27,9 @@ public class ManualUIController : MonoBehaviour
     {
         myAudioSource = GetComponent<AudioSource>();
 
+        // Comment these out for easier dev
         // transform.position = offscreenOffset;
+        // _isDisplayed = false;
     }
 
 
@@ -80,18 +82,20 @@ public class ManualUIController : MonoBehaviour
 
     void HandleChangePage(Vector2 value)
     {
+        ManualDataSO currentManual = manuals[_currentManualIdx];
+
         if (value.y > 0)
-            Debug.Log("Navigate Up");
+            _currentPageIdx = Mathf.Min(currentManual.manualPages.Length - 1, _currentPageIdx + 1);
         else if (value.y < 0)
-            Debug.Log("Navigate Down");
+            _currentPageIdx = Mathf.Max(0, _currentPageIdx - 1);
     }
 
     void HandleChangeManual(Vector2 value)
     {
         if (value.x > 0)
-            Debug.Log("Navigate Right");
+            _currentManualIdx = Mathf.Min(manuals.Length - 1, _currentManualIdx + 1);
         else if (value.x < 0)
-            Debug.Log("Navigate Left");
+            _currentManualIdx = Mathf.Max(0, _currentManualIdx - 1);
     }
 
 
@@ -110,7 +114,6 @@ public class ManualUIController : MonoBehaviour
         if (!_isDisplayed || !ctx.performed || !isValidControlPressed) return;
 
         Vector2 value = ctx.ReadValue<Vector2>();
-
 
         // Check if d-pad up/down page idx +/- 1
         if (value.x != 0)
