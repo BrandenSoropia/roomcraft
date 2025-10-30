@@ -1,10 +1,16 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class ManualUIController : MonoBehaviour
 {
     [SerializeField] Vector3 offscreenOffset = new Vector3(0, 0, 0);
+
+    [Header("Internal State")]
+    [SerializeField] bool _isDisplayed = false;
+    [SerializeField] int _currentManualIdx = 0;
+    [SerializeField] int _currentPageIdx = 0;
 
     [Header("Manual Data")]
     [SerializeField] ManualDataSO[] manuals;
@@ -13,9 +19,6 @@ public class ManualUIController : MonoBehaviour
     [SerializeField] AudioClip navigateSfx;
 
     AudioSource myAudioSource;
-
-    private GameObject _lastSelected;
-    private bool _isDisplayed = false;
 
     // Actions
     private InputAction _moveAction;
@@ -37,10 +40,18 @@ public class ManualUIController : MonoBehaviour
         from the ones seen in the "Input System UI Input Module" component on the EventSystem.
         */
         var uiInput = EventSystem.current?.GetComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+
+        if (uiInput == null)
+        {
+            Debug.LogWarning("No InputSystemUIInputModule found on current EventSystem.");
+            return;
+        }
+
         if (uiInput != null)
         {
             if (uiInput.move != null)
             {
+                Debug.Log("onMove attached");
                 _moveAction = uiInput.move;
                 _moveAction.performed += OnMove; // This gives you your own OnMove handler
             }
@@ -67,22 +78,49 @@ public class ManualUIController : MonoBehaviour
         }
     }
 
+    void HandleChangePage(Vector2 value)
+    {
+        if (value.y > 0)
+            Debug.Log("Navigate Up");
+        else if (value.y < 0)
+            Debug.Log("Navigate Down");
+    }
+
+    void HandleChangeManual(Vector2 value)
+    {
+        if (value.x > 0)
+            Debug.Log("Navigate Right");
+        else if (value.x < 0)
+            Debug.Log("Navigate Left");
+    }
+
+
 
     private void OnMove(InputAction.CallbackContext ctx)
     {
+        bool fromDpad = ctx.control is DpadControl;
+        bool fromArrowKey = ctx.control is KeyControl key &&
+                (key.keyCode == Key.UpArrow ||
+                 key.keyCode == Key.DownArrow ||
+                 key.keyCode == Key.LeftArrow ||
+                 key.keyCode == Key.RightArrow);
+        bool isValidControlPressed = fromDpad || fromArrowKey;
+
         // Only handle movement when displayed
-        if (!_isDisplayed || !ctx.performed) return;
+        if (!_isDisplayed || !ctx.performed || !isValidControlPressed) return;
+
+        Vector2 value = ctx.ReadValue<Vector2>();
+
 
         // Check if d-pad up/down page idx +/- 1
-        // Bumpers to change manuals idx +/- 
-
-        var current = EventSystem.current.currentSelectedGameObject;
-
-        // If selection changed
-        if (current != null && current != _lastSelected)
+        if (value.x != 0)
         {
-            _lastSelected = current;
-            myAudioSource.PlayOneShot(navigateSfx);
+            HandleChangeManual(value);
+        }
+        else
+        {
+            HandleChangePage(value);
+
         }
     }
 }
