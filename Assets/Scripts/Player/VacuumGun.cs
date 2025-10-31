@@ -84,7 +84,7 @@ public class VacuumGun : MonoBehaviour
 
         if (spawned.TryGetComponent<Rigidbody>(out Rigidbody rb))
         {
-            rb.velocity = muzzleOrHoldPoint.forward * shootForce;
+            rb.linearVelocity = muzzleOrHoldPoint.forward * shootForce;
         }
 
         // we "used up" the stored item
