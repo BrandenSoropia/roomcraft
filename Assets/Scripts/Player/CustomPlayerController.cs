@@ -23,6 +23,7 @@ public class CustomPlayerController : MonoBehaviour
     [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
     [SerializeField] GameObject buildControlsContainerUI;
     [SerializeField] GameObject isometricControlsContainerUI;
+    [SerializeField] ManualUIController manualUIController;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -91,6 +92,13 @@ public class CustomPlayerController : MonoBehaviour
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
         }
+    }
+
+    public void OnToggleDisplayManual(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        manualUIController.ToggleDisplay();
     }
 
     void SetPlayerScriptsEnabledState(bool newState)

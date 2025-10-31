@@ -1,0 +1,3 @@
+placeholder GUI from https://penzilla.itch.io/basic-gui-bundle
+
+slicing guide to reuse text boxies - docs.unity3d.com/Manual/sprite/9-slice/9-slicing.html
