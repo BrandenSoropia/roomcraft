@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ManualUIController : MonoBehaviour
 {
@@ -12,10 +14,17 @@ public class ManualUIController : MonoBehaviour
     [SerializeField] bool _isDisplayed = false;
     [SerializeField] int _currentManualIdx = 0;
     [SerializeField] int _currentPageIdx = 0;
+    [SerializeField] ManualDataSO _currentManual;
 
     [Header("Manual Configs")]
     [SerializeField] Image myManualImageGO;
     [SerializeField] ManualDataSO[] manuals;
+
+    [Header("Page UI")]
+    [SerializeField] Color activeStepColor;
+    [SerializeField] Color inactiveStepColor;
+    [SerializeField] GameObject myPageIndicator;
+    [SerializeField] GameObject myManualIndicator;
 
     [Header("SFX")]
     [SerializeField] AudioClip navigateSfx;
@@ -29,7 +38,16 @@ public class ManualUIController : MonoBehaviour
     {
         myAudioSource = GetComponent<AudioSource>();
 
-        UpdateManualPageDisplayed(); // Show the first manual's first page
+        // Manuals setup
+        SetCurrentManual(_currentManualIdx);
+        UpdateTotalManualStepsDisplayed();
+        SetActiveStep(myManualIndicator, _currentManualIdx);
+
+        // Page setup, show first manual's first page
+        UpdatePageDisplayed();
+        UpdateTotalPageStepsDisplayed();
+        SetActiveStep(myPageIndicator, _currentPageIdx);
+
 
         // Comment these out for easier dev
         // transform.position = offscreenOffset;
@@ -70,58 +88,6 @@ public class ManualUIController : MonoBehaviour
             _moveAction.performed -= OnMove;
     }
 
-    public void ToggleDisplay()
-    {
-        if (_isDisplayed)
-        {
-            transform.position = -offscreenOffset;
-            _isDisplayed = false;
-        }
-        else
-        {
-            transform.position = Vector3.zero;
-            _isDisplayed = true;
-        }
-    }
-
-    // Note: Reversed idx increment/decrement to match up/down scrolling through pages
-    void HandleChangePage(Vector2 value)
-    {
-        ManualDataSO currentManual = manuals[_currentManualIdx];
-
-        if (value.y > 0)
-        {
-            _currentPageIdx = Mathf.Max(0, _currentPageIdx - 1);
-        }
-        else if (value.y < 0)
-        {
-            _currentPageIdx = Mathf.Min(currentManual.manualPages.Length - 1, _currentPageIdx + 1);
-        }
-
-        UpdateManualPageDisplayed();
-    }
-
-    void HandleChangeManual(Vector2 value)
-    {
-        if (value.x > 0)
-        {
-            _currentManualIdx = Mathf.Min(manuals.Length - 1, _currentManualIdx + 1);
-        }
-        else if (value.x < 0)
-        {
-            _currentManualIdx = Mathf.Max(0, _currentManualIdx - 1);
-        }
-
-        _currentPageIdx = 0; // Reset to first page
-
-        UpdateManualPageDisplayed();
-    }
-
-    void UpdateManualPageDisplayed()
-    {
-        myManualImageGO.sprite = manuals[_currentManualIdx].manualPages[_currentPageIdx];
-    }
-
     private void OnMove(InputAction.CallbackContext ctx)
     {
         bool fromDpad = ctx.control is DpadControl;
@@ -146,5 +112,130 @@ public class ManualUIController : MonoBehaviour
         {
             HandleChangePage(value);
         }
+    }
+
+    public void ToggleDisplay()
+    {
+        if (_isDisplayed)
+        {
+            transform.position = -offscreenOffset;
+            _isDisplayed = false;
+        }
+        else
+        {
+            transform.position = Vector3.zero;
+            _isDisplayed = true;
+        }
+    }
+
+    // Note: Reversed idx increment/decrement to match up/down scrolling through pages
+    void HandleChangePage(Vector2 value)
+    {
+        int prevPageIdx = _currentPageIdx;
+
+        if (value.y > 0)
+        {
+            _currentPageIdx = Mathf.Max(0, _currentPageIdx - 1);
+        }
+        else if (value.y < 0)
+        {
+            _currentPageIdx = Mathf.Min(_currentManual.manualPages.Length - 1, _currentPageIdx + 1);
+        }
+
+        SetInactiveStep(myPageIndicator, prevPageIdx);
+        SetActiveStep(myPageIndicator, _currentPageIdx);
+
+        UpdatePageDisplayed();
+    }
+
+    void HandleChangeManual(Vector2 value)
+    {
+        int prevManualIdx = _currentManualIdx;
+
+        if (value.x > 0)
+        {
+            _currentManualIdx = Mathf.Min(manuals.Length - 1, _currentManualIdx + 1);
+        }
+        else if (value.x < 0)
+        {
+            _currentManualIdx = Mathf.Max(0, _currentManualIdx - 1);
+        }
+
+        SetInactiveStep(myManualIndicator, prevManualIdx);
+        SetCurrentManual(_currentManualIdx);
+        SetActiveStep(myManualIndicator, _currentManualIdx);
+
+        // Draw the correct amount of circles for pages and start at the first
+        _currentPageIdx = 0; // Reset to first page
+        UpdateTotalPageStepsDisplayed();
+        SetActiveStep(myPageIndicator, _currentPageIdx);
+
+        UpdatePageDisplayed();
+    }
+
+    void SetCurrentManual(int idx)
+    {
+        _currentManual = manuals[idx];
+    }
+
+    void UpdatePageDisplayed()
+    {
+        myManualImageGO.sprite = _currentManual.manualPages[_currentPageIdx];
+    }
+
+    void UpdateTotalPageStepsDisplayed()
+    {
+        int numPagesNeeded = _currentManual.manualPages.Length;
+
+        int numStepsAvailable = myPageIndicator.transform.childCount;
+
+        for (int i = 0; i < numStepsAvailable; i++)
+        {
+            GameObject currentIndicator = myPageIndicator.transform.GetChild(i).gameObject;
+
+            if (i < numPagesNeeded)
+            {
+                currentIndicator.SetActive(true);
+            }
+            else
+            {
+                currentIndicator.SetActive(false);
+            }
+
+            currentIndicator.GetComponent<Image>().color = inactiveStepColor;
+        }
+    }
+
+    void UpdateTotalManualStepsDisplayed()
+    {
+        int numStepsAvailable = myManualIndicator.transform.childCount;
+
+        for (int i = 0; i < numStepsAvailable; i++)
+        {
+            GameObject currentIndicator = myManualIndicator.transform.GetChild(i).gameObject;
+
+            if (i < manuals.Length)
+            {
+                currentIndicator.SetActive(true);
+            }
+            else
+            {
+                currentIndicator.SetActive(false);
+            }
+
+            currentIndicator.GetComponent<Image>().color = inactiveStepColor;
+        }
+    }
+
+    void SetInactiveStep(GameObject targetIndicator, int step)
+    {
+        Debug.Log("target step " + targetIndicator.transform.GetChild(step).name);
+        targetIndicator.transform.GetChild(step).GetComponent<Image>().color = inactiveStepColor;
+    }
+
+    void SetActiveStep(GameObject targetIndicator, int activeStep)
+    {
+        Debug.Log("target step " + targetIndicator.transform.GetChild(activeStep).name);
+        targetIndicator.transform.GetChild(activeStep).GetComponent<Image>().color = activeStepColor;
     }
 }
