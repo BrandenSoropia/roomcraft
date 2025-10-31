@@ -23,6 +23,7 @@ public class ManualUIController : MonoBehaviour
     [Header("Page UI")]
     [SerializeField] Color activeStepColor;
     [SerializeField] Color inactiveStepColor;
+    [SerializeField] GameObject myPageControlsContainer;
     [SerializeField] GameObject myPageIndicator;
     [SerializeField] GameObject myManualIndicator;
 
@@ -30,13 +31,14 @@ public class ManualUIController : MonoBehaviour
     [SerializeField] AudioClip navigateSfx;
 
     AudioSource myAudioSource;
+    RectTransform myRectTransform;
 
-    // Actions
     private InputAction _moveAction;
 
     void Start()
     {
         myAudioSource = GetComponent<AudioSource>();
+        myRectTransform = GetComponent<RectTransform>();
 
         // Manuals setup
         SetCurrentManual(_currentManualIdx);
@@ -50,8 +52,9 @@ public class ManualUIController : MonoBehaviour
 
 
         // Comment these out for easier dev
-        // transform.position = offscreenOffset;
-        // _isDisplayed = false;
+        myRectTransform.anchoredPosition = offscreenOffset;
+        _isDisplayed = false;
+        myPageControlsContainer.SetActive(false); // Hide this so it doesn't appear when manuals UI is hidden off to right
     }
 
 
@@ -88,6 +91,22 @@ public class ManualUIController : MonoBehaviour
             _moveAction.performed -= OnMove;
     }
 
+    public void ToggleDisplay()
+    {
+        if (_isDisplayed)
+        {
+            myRectTransform.anchoredPosition = offscreenOffset;
+            myPageControlsContainer.SetActive(false);
+            _isDisplayed = false;
+        }
+        else
+        {
+            myRectTransform.anchoredPosition = Vector3.zero;
+            myPageControlsContainer.SetActive(true);
+            _isDisplayed = true;
+        }
+    }
+
     private void OnMove(InputAction.CallbackContext ctx)
     {
         bool fromDpad = ctx.control is DpadControl;
@@ -111,20 +130,6 @@ public class ManualUIController : MonoBehaviour
         else
         {
             HandleChangePage(value);
-        }
-    }
-
-    public void ToggleDisplay()
-    {
-        if (_isDisplayed)
-        {
-            transform.position = -offscreenOffset;
-            _isDisplayed = false;
-        }
-        else
-        {
-            transform.position = Vector3.zero;
-            _isDisplayed = true;
         }
     }
 
