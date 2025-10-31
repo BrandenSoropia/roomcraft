@@ -7,6 +7,7 @@ public class ModelGhost : MonoBehaviour
     public Color collideColor;
     public Color spawnColor;
     public MeshRenderer meshRenderer;
+    private int furnitureCollisions = 0;
     void Start()
     {
         noCollision = true;
@@ -22,6 +23,7 @@ public class ModelGhost : MonoBehaviour
     {
         if (other.CompareTag("Furniture"))
         {
+            furnitureCollisions++;
             noCollision = false;
             SetMaterialColor(collideColor);
         }
@@ -31,8 +33,13 @@ public class ModelGhost : MonoBehaviour
     {
         if (other.CompareTag("Furniture"))
         {
-            noCollision = true;
-            SetMaterialColor(spawnColor);
+            furnitureCollisions--;
+            if (furnitureCollisions <= 0)
+            {
+                furnitureCollisions = 0; // just to be safe
+                noCollision = true;
+                SetMaterialColor(spawnColor);
+            }
         }
     }
 

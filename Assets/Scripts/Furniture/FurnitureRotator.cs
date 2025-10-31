@@ -10,6 +10,9 @@ public class FurnitureRotator : MonoBehaviour
     [Header("SFX Controller")]
     [SerializeField] PlayerSFXController playerSFXController;
 
+    [Header("UI Controllers")]
+    [SerializeField] GameObject rotateControlsContainerGO;
+
     private List<GameObject> selectedParts = new List<GameObject>();
     private Dictionary<GameObject, Color> originalColors = new Dictionary<GameObject, Color>();
     private Dictionary<GameObject, Transform> originalParents = new Dictionary<GameObject, Transform>();
@@ -39,7 +42,7 @@ public class FurnitureRotator : MonoBehaviour
         {
             GameObject clickedObject = hit.collider.gameObject;
 
-            if (clickedObject.CompareTag("Untagged"))
+            if (clickedObject.CompareTag("Untagged") || clickedObject.CompareTag("FurnitureBox") || clickedObject.CompareTag("Environment"))
             {
                 return;
             }
@@ -49,11 +52,6 @@ public class FurnitureRotator : MonoBehaviour
             {
                 clickedObject = clickedObject.transform.parent.gameObject;
                 Debug.Log("Marker clicked, treating as parent: " + clickedObject.name);
-            }
-
-            if (clickedObject.CompareTag("Environment"))
-            {
-                return;
             }
 
             if (selectedParts.Contains(clickedObject))
@@ -66,7 +64,6 @@ public class FurnitureRotator : MonoBehaviour
                 Debug.Log("Deselected: " + clickedObject.name);
 
                 playerSFXController.PlayDeselectPieceSFX();
-
 
                 RebuildPivot();
             }
@@ -83,6 +80,16 @@ public class FurnitureRotator : MonoBehaviour
                 playerSFXController.PlaySelectPieceSFX();
 
                 RebuildPivot();
+            }
+
+            // At the end, check if there are pieces selected so we show the rotation controls UI
+            if (selectedParts.Count > 0)
+            {
+                rotateControlsContainerGO.SetActive(true);
+            }
+            else
+            {
+                rotateControlsContainerGO.SetActive(false);
             }
         }
 
@@ -220,10 +227,13 @@ public class FurnitureRotator : MonoBehaviour
 
     void RestoreColor(GameObject obj)
     {
-        Renderer rend = obj.GetComponent<Renderer>();
-        if (rend != null && originalColors.ContainsKey(obj))
+        if (obj != null)
         {
-            rend.material.color = originalColors[obj];
+            Renderer rend = obj.GetComponent<Renderer>();
+            if (rend != null && originalColors.ContainsKey(obj))
+            {
+                rend.material.color = originalColors[obj];
+            }
         }
     }
 

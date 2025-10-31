@@ -127,3 +127,4 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   emptyMaterial: {fileID: 2100000, guid: 05491868e895dbc40a26a70fede0b287, type: 2}
   correctPlacementMaterial: {fileID: 2100000, guid: fdec8b24297f70741b8bfa7c63170262, type: 2}
+  incorrectPlacementMaterial: {fileID: 2100000, guid: bf48cc5f8e14f034ca2add75430b85c9, type: 2}
