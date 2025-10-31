@@ -540,7 +540,7 @@
                 {
                     "name": "",
                     "id": "f29a142b-5ddc-454a-b2f6-2cfbf155d504",
-                    "path": "<Keyboard>/n",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -551,7 +551,7 @@
                 {
                     "name": "",
                     "id": "6175f44d-c9ca-439b-a3e8-612b76ea96d3",
-                    "path": "<Keyboard>/m",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
