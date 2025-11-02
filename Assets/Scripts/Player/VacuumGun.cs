@@ -22,7 +22,7 @@ public class VacuumGun : MonoBehaviour
     [SerializeField] private AnimationCurve popCurve =
         AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    private GameObject storedPrefab;
+    public GameObject storedPrefab;
 
     private void OnEnable()
     {
