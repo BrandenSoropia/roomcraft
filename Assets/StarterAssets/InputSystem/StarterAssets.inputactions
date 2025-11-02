@@ -52,69 +52,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "RotateSelection",
-                    "type": "Button",
-                    "id": "a7c289ca-805c-4274-8262-8f64f699ffa5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "DeletePiece",
-                    "type": "Button",
-                    "id": "092ae5ba-083d-48f2-9128-8526a6ebf825",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ChangePlane",
-                    "type": "Button",
-                    "id": "ec5776c4-c1db-4064-8cac-163e142335fd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RotateObjectRight",
-                    "type": "Button",
-                    "id": "f101caf9-0577-4c42-bf1e-d44023558e4d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RotateObjectLeft",
-                    "type": "Button",
-                    "id": "6fa061c8-4008-468d-ba61-5fb21c196eb4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleInventory",
-                    "type": "Button",
-                    "id": "fb383498-a877-4720-af67-2b3b67566955",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "OpenBox",
-                    "type": "Button",
-                    "id": "5cdb6d9d-d499-4da3-bc98-fc2993deebf1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ToggleIsometricView",
                     "type": "Button",
                     "id": "07d5a69b-c13c-4d16-8051-37d4dc1d4c77",
@@ -136,15 +73,6 @@
                     "name": "Suck",
                     "type": "Button",
                     "id": "cbcc0a49-0832-4a4c-bd67-d6ab84b0efcf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Shoot",
-                    "type": "Button",
-                    "id": "bf88dcfb-acae-4d3e-a3f0-491c9771a9b8",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -374,116 +302,6 @@
                 },
                 {
                     "name": "",
-                    "id": "53b93cf7-cd57-42be-926b-7b8b38dd5918",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "RotateSelection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "778cb9ca-b46e-4c47-920b-7ff49e03eecf",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RotateSelection",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "39bb4d00-675f-475f-a228-849c2fa447c0",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "RotateObjectRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8f803dc2-6702-4e8f-8b10-20c6b78bd4c1",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RotateObjectRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "494a6d8e-8172-494d-b55e-4fee232f07c9",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "RotateObjectLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ab9b320c-c6a9-4746-9c66-c7b2a85d4321",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RotateObjectLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "01d62117-0944-4989-8626-93c11de69262",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "ToggleInventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ba073efa-9e6c-44f3-a385-8f6cfb47da00",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "ToggleInventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4ee6f7c0-3c83-4d71-a540-48ea72d5e141",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "OpenBox",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "04786270-ccb6-4fb5-8801-a3cfa9aafbb4",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "OpenBox",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3495b80a-4639-4467-9a48-20ec7c4d3713",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -495,67 +313,12 @@
                 },
                 {
                     "name": "",
-                    "id": "0ee377b6-c73f-4123-ad4d-edfcbcaf3ad6",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "ChangePlane",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "510f268c-dd56-4514-8fba-9e69f32a2d3e",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangePlane",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c803d363-a700-4894-9551-cbc277e2c24a",
-                    "path": "<Keyboard>/delete",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardMouse",
-                    "action": "DeletePiece",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3715ec28-92fa-4b18-bc16-f3c0a9ad0e15",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "DeletePiece",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f29a142b-5ddc-454a-b2f6-2cfbf155d504",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Suck",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6175f44d-c9ca-439b-a3e8-612b76ea96d3",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
