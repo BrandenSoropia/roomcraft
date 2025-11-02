@@ -67,8 +67,8 @@ public class CustomPlayerController : MonoBehaviour
         {
             gameManager.SetState(GameState.BuildMode);
 
-            isometricControlsContainerUI.SetActive(false);
-            buildControlsContainerUI.SetActive(true);
+            // isometricControlsContainerUI.SetActive(false);
+            // buildControlsContainerUI.SetActive(true);
 
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
@@ -81,8 +81,8 @@ public class CustomPlayerController : MonoBehaviour
         {
             gameManager.SetState(GameState.IsometricMode);
 
-            isometricControlsContainerUI.SetActive(true);
-            buildControlsContainerUI.SetActive(false);
+            // isometricControlsContainerUI.SetActive(true);
+            // buildControlsContainerUI.SetActive(false);
 
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);

@@ -364,7 +364,6 @@ public class FurnitureBuilder : MonoBehaviour
         {
             GameObject clicked = hit.collider.gameObject;
 
-            // ✅ Only proceed if we're hitting a marker
             if (clicked.CompareTag("Marker"))
             {
                 Debug.Log("Valid marker detected: " + clicked.name);
