@@ -59,30 +59,30 @@ public class FurnitureBuilder : MonoBehaviour
 
         Debug.Log("### clicked: " + clicked.gameObject.name);
 
-        if (selectedPiece == null)
-        {
-            if (clicked.CompareTag("Furniture"))
-            {
-                SelectPiece(clicked);
-                playerSFXController.PlaySelectPieceSFX();
-            }
-            else
-            {
-                Debug.Log("Clicked object is not part of Furniture — selection ignored.");
-            }
-        }
-        else if (selectedPiece != null && clicked == selectedPiece)
-        {
-            DeselectPiece();
-            playerSFXController.PlayDeselectPieceSFX();
+        // if (selectedPiece == null)
+        // {
+        //     // if (clicked.CompareTag("Furniture"))
+        //     // {
+        //     //     SelectPiece(clicked);
+        //     //     playerSFXController.PlaySelectPieceSFX();
+        //     // }
+        //     // else
+        //     // {
+        //     //     Debug.Log("Clicked object is not part of Furniture — selection ignored.");
+        //     // }
+        // }
+        // else if (selectedPiece != null && clicked == selectedPiece)
+        // {
+        //     DeselectPiece();
+        //     playerSFXController.PlayDeselectPieceSFX();
 
-        }
-        else if (selectedPiece != null && clicked.CompareTag("Marker"))
-        {
-            HandleAttachment(clicked);
-            playerSFXController.PlayAttachSFX();
+        // }
+        // else if (selectedPiece != null && clicked.CompareTag("Marker"))
+        // {
+        //     HandleAttachment(clicked);
+        //     playerSFXController.PlayAttachSFX();
 
-        }
+        // }
     }
 
     void HandleAttachment(GameObject clicked)

@@ -28,7 +28,7 @@ public class VacuumGun : MonoBehaviour
         AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     // currently held prefab reference
-    private GameObject storedPrefab;
+    public GameObject storedPrefab;
     // a cached copy of the original prefab before deactivation
     private GameObject originalPrefab;
 
@@ -78,22 +78,20 @@ public class VacuumGun : MonoBehaviour
             isHoldingPiece = true;
             Debug.Log("Prepared new piece at Z=-10 for building");
         }
+
+        // Step 2: Try to place the preview
+        bool placed = furnitureBuilder.PlacePendingPiece();
+
+        if (placed)
+        {
+            Debug.Log("Piece placed successfully");
+            storedPrefab = null;          // clear stored reference
+            previewInstance = null;       // clear preview
+            isHoldingPiece = false;
+        }
         else
         {
-            // Step 2: Try to place the preview
-            bool placed = furnitureBuilder.PlacePendingPiece();
-
-            if (placed)
-            {
-                Debug.Log("Piece placed successfully");
-                storedPrefab = null;          // clear stored reference
-                previewInstance = null;       // clear preview
-                isHoldingPiece = false;
-            }
-            else
-            {
-                Debug.Log("No valid marker — placement failed");
-            }
+            Debug.Log("No valid marker — placement failed");
         }
     }
 
