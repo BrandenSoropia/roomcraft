@@ -27,6 +27,9 @@ public class VacuumGun : MonoBehaviour
     private AnimationCurve popCurve =
         AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+    [Header("UI")]
+    [SerializeField] SelectedPieceUIController selectedPieceUIController;
+
     // currently held prefab reference
     public GameObject storedPrefab;
     // a cached copy of the original prefab before deactivation
@@ -88,6 +91,8 @@ public class VacuumGun : MonoBehaviour
             storedPrefab = null;          // clear stored reference
             previewInstance = null;       // clear preview
             isHoldingPiece = false;
+
+            selectedPieceUIController.ClearSelectedPieceImage();
         }
         else
         {
@@ -112,6 +117,8 @@ public class VacuumGun : MonoBehaviour
 
                 // store for later instantiation
                 storedPrefab = originalPrefab;
+
+                selectedPieceUIController.SetSelectedPlaceholderPiece();
 
                 // stop motion & disable physics while "held"
                 var rb = storedPrefab.GetComponent<Rigidbody>();
@@ -166,6 +173,8 @@ public class VacuumGun : MonoBehaviour
         furnitureBuilder.DeselectExternally();
 
         storedPrefab = null;
+
+        selectedPieceUIController.ClearSelectedPieceImage();
     }
 
     private IEnumerator PopScale(Transform t, Vector3 finalScale, float duration, AnimationCurve curve)

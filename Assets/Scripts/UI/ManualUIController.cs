@@ -8,7 +8,9 @@ using System.Linq;
 
 public class ManualUIController : MonoBehaviour
 {
-    [SerializeField] Vector3 offscreenOffset = new Vector3(0, 0, 0);
+    [SerializeField] Vector3 onScreenPosition = new Vector3(0, 0, 0);
+    [SerializeField] Vector3 offScreenPosition = new Vector3(0, 0, 0);
+
 
     [Header("Internal State")]
     [SerializeField] bool _isDisplayed = false;
@@ -52,7 +54,7 @@ public class ManualUIController : MonoBehaviour
 
 
         // Comment these out for easier dev
-        myRectTransform.anchoredPosition = offscreenOffset;
+        myRectTransform.anchoredPosition = offScreenPosition;
         _isDisplayed = false;
         myPageControlsContainer.SetActive(false); // Hide this so it doesn't appear when manuals UI is hidden off to right
     }
@@ -95,13 +97,13 @@ public class ManualUIController : MonoBehaviour
     {
         if (_isDisplayed)
         {
-            myRectTransform.anchoredPosition = offscreenOffset;
+            myRectTransform.anchoredPosition = offScreenPosition;
             myPageControlsContainer.SetActive(false);
             _isDisplayed = false;
         }
         else
         {
-            myRectTransform.anchoredPosition = Vector3.zero;
+            myRectTransform.anchoredPosition = onScreenPosition;
             myPageControlsContainer.SetActive(true);
             _isDisplayed = true;
         }
