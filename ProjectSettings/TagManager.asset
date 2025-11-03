@@ -10,6 +10,7 @@ TagManager:
   - Furniture
   - CinemachineTarget
   - FContainer
+  - Suckable
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - wallMask
   - Ground
   - Player
-  - 
+  - Suckable
   - 
   - 
   - 

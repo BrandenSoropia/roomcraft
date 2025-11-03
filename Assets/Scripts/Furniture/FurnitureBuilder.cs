@@ -17,15 +17,18 @@ public class FurnitureBuilder : MonoBehaviour
     [SerializeField] PlayerSFXController playerSFXController;
 
 
-    private GameObject selectedPiece;
+    public GameObject selectedPiece;
     private Renderer selectedRenderer;
     private Color selectedOriginalColor;
-    
-    private readonly Color lightGreen = new Color(0.66f, 0.78f, 0.52f, 1f); 
+
+    private readonly Color lightGreen = new Color(0.66f, 0.78f, 0.52f, 1f);
 
     // Marker highlighting
     private List<Renderer> highlightedMarkers = new List<Renderer>();
     private Dictionary<Renderer, Color> markerOriginalColors = new Dictionary<Renderer, Color>();
+
+    private bool awaitingAttachment = false;
+    private GameObject pendingPiece;  // piece spawned by VacuumGun
 
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
@@ -56,30 +59,30 @@ public class FurnitureBuilder : MonoBehaviour
 
         Debug.Log("### clicked: " + clicked.gameObject.name);
 
-        if (selectedPiece == null)
-        {
-            if (clicked.CompareTag("Furniture"))
-        	{
-            	SelectPiece(clicked);
-            	playerSFXController.PlaySelectPieceSFX();
-        	} 
-        	else
-        	{
-            	Debug.Log("Clicked object is not part of Furniture — selection ignored.");
-        	}
-        }
-        else if (selectedPiece != null && clicked == selectedPiece)
-        {
-            DeselectPiece();
-            playerSFXController.PlayDeselectPieceSFX();
+        // if (selectedPiece == null)
+        // {
+        //     // if (clicked.CompareTag("Furniture"))
+        //     // {
+        //     //     SelectPiece(clicked);
+        //     //     playerSFXController.PlaySelectPieceSFX();
+        //     // }
+        //     // else
+        //     // {
+        //     //     Debug.Log("Clicked object is not part of Furniture — selection ignored.");
+        //     // }
+        // }
+        // else if (selectedPiece != null && clicked == selectedPiece)
+        // {
+        //     DeselectPiece();
+        //     playerSFXController.PlayDeselectPieceSFX();
 
-        }
-        else if (selectedPiece != null && clicked.CompareTag("Marker"))
-        {
-            HandleAttachment(clicked);
-            playerSFXController.PlayAttachSFX();
+        // }
+        // else if (selectedPiece != null && clicked.CompareTag("Marker"))
+        // {
+        //     HandleAttachment(clicked);
+        //     playerSFXController.PlayAttachSFX();
 
-        }
+        // }
     }
 
     void HandleAttachment(GameObject clicked)
@@ -88,6 +91,7 @@ public class FurnitureBuilder : MonoBehaviour
 
         // Destroy the original selected piece
         // Destroy(selectedPiece);
+        DisablePieceBoxColliders(selectedPiece);
         DeselectPiece();
     }
 
@@ -246,7 +250,7 @@ public class FurnitureBuilder : MonoBehaviour
         }
 
         furnitureManager.AttachPieceToFContainer(selectedPiece);
-        
+
         // Assign marker's parent as parent of selected piece
         if (marker.transform.parent != null)
         {
@@ -294,4 +298,109 @@ public class FurnitureBuilder : MonoBehaviour
                 break;
         }
     }
+
+    // Add this near top of FurnitureBuilder
+    public void SelectExternally(GameObject piece)
+    {
+        if (piece == null) return;
+
+        DeselectPiece(); // ensure we reset any old selection first
+        selectedPiece = piece;
+        selectedRenderer = piece.GetComponent<Renderer>();
+
+        if (selectedRenderer != null)
+        {
+            selectedOriginalColor = selectedRenderer.material.color;
+            selectedRenderer.material.color = lightGreen;
+        }
+
+        HighlightAllMarkers();
+        Debug.Log("Externally selected piece: " + selectedPiece.name);
+    }
+
+    public void DeselectExternally()
+    {
+        DeselectPiece();
+    }
+
+
+    public void PrepareNewPiece(GameObject newPiece)
+    {
+        if (newPiece == null) return;
+
+        Debug.Log("Preparing new piece for building: " + newPiece.name);
+        DeselectPiece();
+
+        pendingPiece = newPiece;
+        awaitingAttachment = true;
+
+        // select & highlight
+        SelectPiece(pendingPiece);
+
+        // freeze physics while held
+        var rb = pendingPiece.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        Debug.Log("Piece ready to be placed — waiting for valid marker.");
+    }
+
+    public bool PlacePendingPiece()
+    {
+        if (!awaitingAttachment || pendingPiece == null)
+        {
+            Debug.LogWarning("No pending piece to place.");
+            return false;
+        }
+
+        bool placedSuccessfully = false;
+
+        // Raycast from screen center
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            GameObject clicked = hit.collider.gameObject;
+
+            if (clicked.CompareTag("Marker"))
+            {
+                Debug.Log("Valid marker detected: " + clicked.name);
+                HandleAttachment(clicked);
+                playerSFXController.PlayAttachSFX();
+                placedSuccessfully = true;
+            }
+            else
+            {
+                Debug.Log("Not looking at a marker — cannot place piece.");
+                playerSFXController.PlayDeselectPieceSFX(); // optional "error" sound
+            }
+        }
+        else
+        {
+            Debug.Log("No hit detected — cannot place piece.");
+        }
+
+        if (placedSuccessfully)
+        {
+            awaitingAttachment = false;
+            pendingPiece = null;
+            // DeselectPiece();
+        }
+
+        return placedSuccessfully;
+    }
+
+    void DisablePieceBoxColliders(GameObject go)
+    {
+        if (go == null) return;
+
+        // Turn off ONLY BoxColliders (leave Markers and other gameplay colliders alone)
+        var boxColliders = go.GetComponentsInChildren<BoxCollider>(includeInactive: true);
+        foreach (var bc in boxColliders)
+            bc.enabled = false;
+    }
+
 }
