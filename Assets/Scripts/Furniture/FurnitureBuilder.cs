@@ -91,6 +91,7 @@ public class FurnitureBuilder : MonoBehaviour
 
         // Destroy the original selected piece
         // Destroy(selectedPiece);
+        DisablePieceBoxColliders(selectedPiece);
         DeselectPiece();
     }
 
@@ -386,10 +387,20 @@ public class FurnitureBuilder : MonoBehaviour
         {
             awaitingAttachment = false;
             pendingPiece = null;
-            DeselectPiece();
+            // DeselectPiece();
         }
 
         return placedSuccessfully;
+    }
+
+    void DisablePieceBoxColliders(GameObject go)
+    {
+        if (go == null) return;
+
+        // Turn off ONLY BoxColliders (leave Markers and other gameplay colliders alone)
+        var boxColliders = go.GetComponentsInChildren<BoxCollider>(includeInactive: true);
+        foreach (var bc in boxColliders)
+            bc.enabled = false;
     }
 
 }

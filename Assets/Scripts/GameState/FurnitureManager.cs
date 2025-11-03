@@ -114,6 +114,9 @@ public class FurnitureManager : MonoBehaviour
     private void OnFurnitureCompleted(string baseName, GameObject fContainer)
     {
         Debug.Log($"{baseName} is fully built!");
+        // log the fcontainer for further use
+        
+        Debug.Log($"FContainer: {fContainer.name} has been completed.");
 
         gameManager.IncrementNumBuilt();
         EnableFurniturePlacement(fContainer);
