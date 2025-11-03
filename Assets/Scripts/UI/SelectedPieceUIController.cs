@@ -1,7 +1,7 @@
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
-public class SelectedItemUIController : MonoBehaviour
+public class SelectedPieceUIController : MonoBehaviour
 {
 
     [SerializeField] GameObject furniturePieceGO;
