@@ -30,7 +30,6 @@ public class UIController : MonoBehaviour
     public List<Sprite> popSlotIcons;
     public List<Image> popSlots;
     public RectTransform UIbar;
-    public GameObject popWindow;
     [SerializeField]public bool closed = true;
     private bool uiMode = false;
     private bool popOpen = false;
@@ -38,10 +37,7 @@ public class UIController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        popWindow.SetActive(false);
         closed = true;
-
-
     }
 
     // Update is called once per frame
@@ -165,20 +161,6 @@ public class UIController : MonoBehaviour
 
             playerSFXController.PlayOpenInventorySFX();
             buildPrimaryUILayout.padding = padding;
-        }
-    }
-
-    public void PopWindow()
-    {
-        if (!popOpen)
-        {
-            popWindow.SetActive(true);
-            popOpen = true;
-        }
-        else
-        {
-            popWindow.SetActive(false);
-            popOpen = false;
         }
     }
 

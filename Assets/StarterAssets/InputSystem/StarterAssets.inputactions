@@ -321,6 +321,17 @@
                     "action": "Suck",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab129c49-b5ac-4066-a102-7b0cd7cf2dd0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "Suck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
