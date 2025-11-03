@@ -19,8 +19,6 @@ public class CustomPlayerController : MonoBehaviour
     [SerializeField] GameManager gameManager;
 
     [Header("UI Controllers")]
-    [SerializeField] UIController uiController;
-    [SerializeField] InputSystemUIInputModule inputSystemUIInputModule;
     [SerializeField] GameObject buildControlsContainerUI;
     [SerializeField] GameObject isometricControlsContainerUI;
     [SerializeField] ManualUIController manualUIController;
@@ -50,13 +48,6 @@ public class CustomPlayerController : MonoBehaviour
     {
         Debug.Log("Quitting game");
         Application.Quit();
-    }
-
-    public void OnToggleInventory(InputValue inputValue)
-    {
-        if (!inputValue.isPressed) return;
-
-        uiController.UItab();
     }
 
     public void OnToggleIsometricView(InputValue inputValue)
