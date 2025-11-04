@@ -3,9 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class StartScreen : MonoBehaviour
 {
+    [SerializeField] string playGameScene;
     public void PlayGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(playGameScene);
     }
 
     public void QuitGame()
