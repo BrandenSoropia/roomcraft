@@ -4087,6 +4087,10 @@ PrefabInstance:
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: throwSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b16943c67f76f14b9a44d6ef431072d, type: 3}
+    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: unboxSfx
       value: 
       objectReference: {fileID: 8300000, guid: 8e72d8ff9434c2a4ea536e7c7d664b4e, type: 3}
@@ -4230,6 +4234,10 @@ PrefabInstance:
       propertyPath: isometricControlsContainerUI
       value: 
       objectReference: {fileID: 1755072366}
+    - target: {fileID: 6213447947867573966, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7892947364345689007, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9085,6 +9093,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3842468933376580149, guid: f7da7327bfb608342825e34424fa4165, type: 3}
+      propertyPath: slideInSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 9f29a1d09e3b7c74daa50d3b1137606f, type: 3}
+    - target: {fileID: 3842468933376580149, guid: f7da7327bfb608342825e34424fa4165, type: 3}
+      propertyPath: navigateSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 91891b2d3237c6e4b8366778858eeab5, type: 3}
+    - target: {fileID: 3842468933376580149, guid: f7da7327bfb608342825e34424fa4165, type: 3}
+      propertyPath: slideOutSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 2b336beb7c9eeb24d90a29527addac75, type: 3}
+    - target: {fileID: 3842468933376580149, guid: f7da7327bfb608342825e34424fa4165, type: 3}
+      propertyPath: changePageSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 91891b2d3237c6e4b8366778858eeab5, type: 3}
+    - target: {fileID: 3842468933376580149, guid: f7da7327bfb608342825e34424fa4165, type: 3}
+      propertyPath: changeManualSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 4453f3c211e232344ab0b23a89c3487d, type: 3}
     - target: {fileID: 3983740584066745570, guid: f7da7327bfb608342825e34424fa4165, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
