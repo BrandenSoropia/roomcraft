@@ -397,10 +397,12 @@ public class FurnitureBuilder : MonoBehaviour
     {
         if (go == null) return;
 
-        // Turn off ONLY BoxColliders (leave Markers and other gameplay colliders alone)
-        var boxColliders = go.GetComponentsInChildren<BoxCollider>(includeInactive: true);
-        foreach (var bc in boxColliders)
-            bc.enabled = false;
+        // turn off box collider for only the piece itself
+        var boxColliders = go.GetComponents<BoxCollider>();
+        foreach (var boxCollider in boxColliders)
+        {
+            boxCollider.enabled = false;
+        }
     }
 
 }

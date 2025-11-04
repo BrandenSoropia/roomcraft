@@ -44,7 +44,7 @@ public class AreaTrigger : MonoBehaviour
     {
         string myBaseName = MyUtils.GetFurnitureGOBaseName(transform.name);
 
-        if (other.CompareTag("Furniture"))
+        if (other.CompareTag("Suckable"))
         {
             bool isCorrectFurniture = other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase);
 
@@ -64,7 +64,7 @@ public class AreaTrigger : MonoBehaviour
 
     void CheckIfEntirelyInArea()
     {
-        if (inside.Count == numPieces)
+        if (inside.Count == 1)
         {
             gameManager.IncrementNumCorrectPlacementFurniture();
             _hasReducedPlacementCall = false; // Reset this so we can reduce the total placed counter again
