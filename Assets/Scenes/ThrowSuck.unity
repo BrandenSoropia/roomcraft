@@ -4105,11 +4105,11 @@ PrefabInstance:
     - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: toBuildModeSfx
       value: 
-      objectReference: {fileID: 8300000, guid: 56b42ee4bc5c31d4fada42bbb52ffd9a, type: 3}
+      objectReference: {fileID: 8300000, guid: 85d138deadd664142a7f547c67da163f, type: 3}
     - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: toIsometricModeSfx
       value: 
-      objectReference: {fileID: 8300000, guid: 1b16943c67f76f14b9a44d6ef431072d, type: 3}
+      objectReference: {fileID: 8300000, guid: 80034e59e1d3cb347a7275103face9db, type: 3}
     - target: {fileID: 3902107423964109246, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.366
@@ -4366,6 +4366,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   selectedPieceUIController: {fileID: 1707115882}
+  playerSFXController: {fileID: 1182965348}
   storedPrefab: {fileID: 0}
 --- !u!4 &1182965352 stripped
 Transform:
