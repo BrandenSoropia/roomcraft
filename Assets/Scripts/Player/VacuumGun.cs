@@ -30,6 +30,9 @@ public class VacuumGun : MonoBehaviour
     [Header("UI")]
     [SerializeField] SelectedPieceUIController selectedPieceUIController;
 
+    [Header("Player SFX")]
+    [SerializeField] PlayerSFXController playerSFXController;
+
     // currently held prefab reference
     public GameObject storedPrefab;
     // a cached copy of the original prefab before deactivation
@@ -150,6 +153,8 @@ public class VacuumGun : MonoBehaviour
         }
 
         if (storedPrefab == null) return;
+
+        playerSFXController.PlayThrowSFX();
 
         GameObject spawned = Instantiate(storedPrefab, muzzleOrHoldPoint.position, muzzleOrHoldPoint.rotation);
         spawned.SetActive(true);

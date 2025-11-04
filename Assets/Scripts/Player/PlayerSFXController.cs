@@ -9,7 +9,9 @@ public class PlayerSFXController : MonoBehaviour
     [SerializeField] AudioClip rotateSfx;
     [SerializeField] AudioClip selectPieceSfx;
     [SerializeField] AudioClip deselectPieceSfx;
+    [SerializeField] AudioClip throwSfx;
     [SerializeField] AudioClip unboxSfx;
+
 
     [Header("Inventory SFX")]
     [SerializeField] AudioClip closeInventorySfx;
@@ -48,6 +50,11 @@ public class PlayerSFXController : MonoBehaviour
     public void PlayDeselectPieceSFX()
     {
         myAudioSource.PlayOneShot(deselectPieceSfx);
+    }
+
+    public void PlayThrowSFX()
+    {
+        myAudioSource.PlayOneShot(throwSfx);
     }
 
     public void PlayUnboxSFX()

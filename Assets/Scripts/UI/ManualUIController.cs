@@ -30,7 +30,14 @@ public class ManualUIController : MonoBehaviour
     [SerializeField] GameObject myManualIndicator;
 
     [Header("SFX")]
-    [SerializeField] AudioClip navigateSfx;
+    [SerializeField] AudioClip slideInSfx;
+    [SerializeField] AudioClip slideOutSfx;
+    [SerializeField] AudioClip changePageSfx;
+    [SerializeField] AudioClip changeManualSfx;
+
+    // Need these since sfx is double playing for some reason... Might be a bug from attaching listeners
+    bool _isPlayingChangePageSfx = false;
+    bool _isPlayingChangeManualSfx = false;
 
     AudioSource myAudioSource;
     RectTransform myRectTransform;
@@ -100,15 +107,22 @@ public class ManualUIController : MonoBehaviour
             myRectTransform.anchoredPosition = offScreenPosition;
             myPageControlsContainer.SetActive(false);
             _isDisplayed = false;
+            myAudioSource.PlayOneShot(slideOutSfx);
         }
         else
         {
             myRectTransform.anchoredPosition = onScreenPosition;
             myPageControlsContainer.SetActive(true);
             _isDisplayed = true;
+            myAudioSource.PlayOneShot(slideInSfx);
         }
     }
 
+
+    /*
+    Because we are manually listening to the UI actions,
+    we have to filter which button is pressed to properly handle controls.
+    */
     private void OnMove(InputAction.CallbackContext ctx)
     {
         bool fromDpad = ctx.control is DpadControl;
@@ -129,14 +143,14 @@ public class ManualUIController : MonoBehaviour
         {
             HandleChangeManual(value);
         }
-        else
+        else if (value.y != 0)
         {
             HandleChangePage(value);
         }
     }
 
     // Note: Reversed idx increment/decrement to match up/down scrolling through pages
-    void HandleChangePage(Vector2 value)
+    void HandleChangePage(Vector2 value, bool enableSfx = true)
     {
         int prevPageIdx = _currentPageIdx;
 
@@ -149,10 +163,20 @@ public class ManualUIController : MonoBehaviour
             _currentPageIdx = Mathf.Min(_currentManual.manualPages.Length - 1, _currentPageIdx + 1);
         }
 
+        // Sfx double plays, so try to stop it with these flags
+        if (enableSfx && !_isPlayingChangePageSfx)
+        {
+            _isPlayingChangePageSfx = true;
+            myAudioSource.PlayOneShot(changePageSfx);
+        }
+
+
         SetInactiveStep(myPageIndicator, prevPageIdx);
         SetActiveStep(myPageIndicator, _currentPageIdx);
 
         UpdatePageDisplayed();
+
+        _isPlayingChangePageSfx = false;
     }
 
     void HandleChangeManual(Vector2 value)
@@ -168,6 +192,14 @@ public class ManualUIController : MonoBehaviour
             _currentManualIdx = Mathf.Max(0, _currentManualIdx - 1);
         }
 
+        // Sfx double plays, so try to stop it with these flags
+        if (!_isPlayingChangeManualSfx)
+        {
+            _isPlayingChangeManualSfx = true;
+            myAudioSource.PlayOneShot(changeManualSfx);
+        }
+
+
         SetInactiveStep(myManualIndicator, prevManualIdx);
         SetCurrentManual(_currentManualIdx);
         SetActiveStep(myManualIndicator, _currentManualIdx);
@@ -178,6 +210,8 @@ public class ManualUIController : MonoBehaviour
         SetActiveStep(myPageIndicator, _currentPageIdx);
 
         UpdatePageDisplayed();
+
+        _isPlayingChangeManualSfx = false;
     }
 
     void SetCurrentManual(int idx)
