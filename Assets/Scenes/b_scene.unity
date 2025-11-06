@@ -1182,6 +1182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameProgressContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 6061363835104496153, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
+      propertyPath: m_text
+      value: 'Built: 10/10'
+      objectReference: {fileID: 0}
     - target: {fileID: 6157079807514808963, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1212,6 +1216,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6793132529171833504, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7395535747246292897, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8995560079338479801, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
