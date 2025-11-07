@@ -15,10 +15,8 @@ public class IsoFurnitureController : MonoBehaviour
     [SerializeField] private float maxSpeed = 3.5f;
 
     [Header("Rotation")]
-    [SerializeField] private float rotationSpeed = 120f;
-
-    [Header("Camera Alignment")]
     [SerializeField] private Camera cam;
+    [SerializeField] private float rotationStep = 90f; // each click rotates by 90 degrees
 
     [Header("Input Actions")]
     public InputActionAsset inputActions;
@@ -26,6 +24,7 @@ public class IsoFurnitureController : MonoBehaviour
     private InputAction moveAction;
     private InputAction rotateLeftAction;
     private InputAction rotateRightAction;
+    private InputAction pitchUpAction;
     private InputAction nextAction;
     private InputAction prevAction;
 
@@ -35,7 +34,8 @@ public class IsoFurnitureController : MonoBehaviour
     private Vector3 _desiredVelocity;
 
     private bool _prevNext, _prevPrev;
-    private float _rotInput;
+    private bool _prevPitchUpHeld;
+    private bool _prevYawLeft, _prevYawRight;
 
     public FurnitureSelectable CurrentSelection => _current;
     public Transform CurrentSelectionTransform => _current ? _current.transform : null;
@@ -50,19 +50,19 @@ public class IsoFurnitureController : MonoBehaviour
         // Discover all with Rigidbody (do NOT filter by IsMovable here so we can subscribe to changes).
         if (furniture == null || furniture.Length == 0)
         {
-            furniture = Object.FindObjectsByType<FurnitureSelectable>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None
-            );
+#if UNITY_2023_1_OR_NEWER
+            furniture = Object.FindObjectsByType<FurnitureSelectable>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+            furniture = Object.FindObjectsOfType<FurnitureSelectable>();
+#endif
         }
         // Keep only items that exist and have RB; movability handled dynamically.
         furniture = System.Array.FindAll(furniture, f => f != null && f.RB != null);
 
-        // Subscribe to movability changes.
-        for (int i = 0; i < furniture.Length; i++)
+        foreach (var f in furniture)
         {
-            furniture[i].MovableChanged -= OnFurnitureMovableChanged; // avoid dupes
-            furniture[i].MovableChanged += OnFurnitureMovableChanged;
+            f.MovableChanged -= OnFurnitureMovableChanged;
+            f.MovableChanged += OnFurnitureMovableChanged;
         }
 
         // Build initial active list and select if available.
@@ -75,7 +75,7 @@ public class IsoFurnitureController : MonoBehaviour
         rotateRightAction = map.FindAction("RotateRight");
         nextAction = map.FindAction("Next");
         prevAction = map.FindAction("Prev");
-
+        pitchUpAction = map.FindAction("PitchUp", false);
         map.Enable();
 
         if (activeFurniture.Count > 0)
@@ -86,15 +86,8 @@ public class IsoFurnitureController : MonoBehaviour
 
     void OnDestroy()
     {
-        // Unsubscribe from movability changes.
-        if (furniture != null)
-        {
-            for (int i = 0; i < furniture.Length; i++)
-            {
-                if (furniture[i] != null)
-                    furniture[i].MovableChanged -= OnFurnitureMovableChanged;
-            }
-        }
+        foreach (var f in furniture)
+            if (f != null) f.MovableChanged -= OnFurnitureMovableChanged;
     }
 
     void Update()
@@ -106,9 +99,20 @@ public class IsoFurnitureController : MonoBehaviour
         _desiredVelocity = moveWorld * moveSpeed;
 
         // --- Rotation ---
-        _rotInput = 0f;
-        if (rotateLeftAction.IsPressed()) _rotInput -= 1f;
-        if (rotateRightAction.IsPressed()) _rotInput += 1f;
+        bool yawLeft = rotateLeftAction.IsPressed();
+        bool yawRight = rotateRightAction.IsPressed();
+        bool pitchUp = IsPitchUpHeld();
+
+        if (activeFurniture.Count > 0 && _currentRB != null)
+        {
+            if (yawLeft && !_prevYawLeft) RotateFurniture(0, -rotationStep, 0);
+            if (yawRight && !_prevYawRight) RotateFurniture(0, rotationStep, 0);
+            if (pitchUp && !_prevPitchUpHeld) RotateFurniture(rotationStep, 0, 0);
+        }
+
+        _prevYawLeft = yawLeft;
+        _prevYawRight = yawRight;
+        _prevPitchUpHeld = pitchUp;
 
         // --- Selection ---
         bool nextSel = nextAction.IsPressed();
@@ -129,20 +133,32 @@ public class IsoFurnitureController : MonoBehaviour
         if (_currentRB != null)
         {
             _currentRB.MovePosition(_currentRB.position + _desiredVelocity * Time.fixedDeltaTime);
-
-            if (Mathf.Abs(_rotInput) > 0f)
-            {
-                float delta = _rotInput * rotationSpeed * Time.fixedDeltaTime;
-                Quaternion q = Quaternion.Euler(0f, delta, 0f);
-
-                Vector3 pivot = _current.GetWorldRotationPivot();
-                Vector3 p0 = _currentRB.position;
-                Vector3 p1 = pivot + q * (p0 - pivot);
-
-                _currentRB.MovePosition(p1);
-                _currentRB.MoveRotation(q * _currentRB.rotation);
-            }
         }
+    }
+
+    // ---------- Rotation ----------
+    void RotateFurniture(float x, float y, float z)
+    {
+        if (_currentRB == null) return;
+
+        // Calculate pivot from combined bounds center
+        Bounds b = GetCombinedBounds(_currentRB.transform);
+        Vector3 pivotPoint = b.center;
+
+        _currentRB.transform.RotateAround(pivotPoint, Vector3.right, x);
+        _currentRB.transform.RotateAround(pivotPoint, Vector3.up, y);
+        _currentRB.transform.RotateAround(pivotPoint, Vector3.forward, z);
+
+        Debug.Log($"Rotated furniture {_currentRB.name} by (x={x}, y={y}, z={z}) around {pivotPoint}");
+    }
+
+    Bounds GetCombinedBounds(Transform t)
+    {
+        Renderer[] rends = t.GetComponentsInChildren<Renderer>(true);
+        if (rends.Length == 0) return new Bounds(t.position, Vector3.zero);
+        Bounds b = rends[0].bounds;
+        for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
+        return b;
     }
 
     // ---------- Selection ----------
@@ -184,12 +200,9 @@ public class IsoFurnitureController : MonoBehaviour
 
         // Rebuild active list from all discovered items.
         activeFurniture.Clear();
-        for (int i = 0; i < furniture.Length; i++)
-        {
-            var it = furniture[i];
+        foreach (var it in furniture)
             if (it != null && it.RB != null && it.IsMovable)
                 activeFurniture.Add(it);
-        }
 
         if (activeFurniture.Count == 0)
         {
@@ -242,4 +255,14 @@ public class IsoFurnitureController : MonoBehaviour
         if (_current != null)
             _current.SetSelected(isActive);
     }
+
+    // ---------- Pitch controls ----------
+    bool IsPitchUpHeld()
+    {
+        bool held = pitchUpAction != null && pitchUpAction.IsPressed();
+        if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame) held = true;
+        if (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame) held = true;
+        return held;
+    }
 }
+

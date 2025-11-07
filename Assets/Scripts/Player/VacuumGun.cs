@@ -109,6 +109,11 @@ public class VacuumGun : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, suckRange))
         {
             GameObject target = hit.collider.gameObject;
+            
+            if (!target.CompareTag(suckableTag) && target.transform.parent != null && target.transform.parent.CompareTag(suckableTag)) 
+            {
+                target = target.transform.parent.gameObject;
+            }
 
             if (target.CompareTag(suckableTag))
             {
