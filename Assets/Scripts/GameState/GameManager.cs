@@ -43,7 +43,18 @@ public class GameManager : MonoBehaviour
     public Button nextProceedButton;
     public Button nextExitButton;
     [SerializeField] private TextMeshProUGUI commissionItemText;
+    
+    public GameObject controllerScreen;
+    public GameObject gameProgressContainer;
+    public GameObject crosshair;
+    public GameObject manualUIContainer;
+    public GameObject selectedPieceContainer;
+    
+    [SerializeField] private TextMeshProUGUI timerText;        // active timer during play
+    [SerializeField] private TextMeshProUGUI timeSpentText;    // shown on Win Screen
 
+    private float _levelStartTime = 0f;
+    private bool _isTimerRunning = false;
 
     public GameState CurrentState { get; private set; }
     public event Action<GameState> OnGameStateChanged;
@@ -196,7 +207,21 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("[GameManager] Level Complete!");
 
-            // ✅ Fill CompletedItemText from CURRENT level placement areas
+            // 🕒 Stop the timer
+            _isTimerRunning = false;
+
+            // 🕒 Compute final elapsed time
+            float totalTime = Time.time - _levelStartTime;
+            int minutes = Mathf.FloorToInt(totalTime / 60f);
+            int seconds = Mathf.FloorToInt(totalTime % 60f);
+
+            if (timeSpentText)
+                timeSpentText.text = $"{minutes:00}:{seconds:00}";
+
+            // ✅ Hide gameplay UI
+            SetGameplayUIVisible(false);
+
+            // Fill CompletedItemText from CURRENT level placement areas
             if (completedItemText && _spawnedPlacementAreas)
             {
                 var names = GetItemPrefixesFromPlacementAreas(_spawnedPlacementAreas);
@@ -219,7 +244,9 @@ public class GameManager : MonoBehaviour
 
         if (HasNextLevel())
         {
-            // ✅ Fill CommissionItemText from NEXT level's placementAreasPrefab
+            // Hide all gameplay UI while NextLevelScreen is showing
+            SetGameplayUIVisible(false);
+
             int next = _currentLevelIndex + 1;
             if (commissionItemText && next >= 0 && next < levels.Count)
             {
@@ -245,6 +272,10 @@ public class GameManager : MonoBehaviour
     void OnProceedClicked()
     {
         if (nextLevelScreen) nextLevelScreen.SetActive(false);
+
+        // Bring gameplay UI back once you start next level
+        SetGameplayUIVisible(true);
+
         int next = _currentLevelIndex + 1;
         if (next < levels.Count)
             LoadLevel(next);
@@ -266,6 +297,8 @@ public class GameManager : MonoBehaviour
     // ================================================================
     void LoadLevel(int index)
     {
+        _isTimerRunning = false;  // stop any old timer before resetting
+
         index = Mathf.Clamp(index, 0, levels.Count - 1);
         var spec = levels[index];
         Debug.Log($"[GameManager] Loading Level {index}: {spec.levelName}");
@@ -275,14 +308,14 @@ public class GameManager : MonoBehaviour
         foreach (Transform t in piecesRoot) t.gameObject.SetActive(false);
         foreach (Transform t in basePiecesRoot) t.gameObject.SetActive(false);
 
-        // 🔹 Attempt to soft-delete any previous FContainer in the scene
+        // Attempt to soft-delete any previous FContainer in the scene
         SafeDestroyFContainer(_spawnedPieces);
         SafeDestroyFContainer(_spawnedBasePieces);
 
-        // 🔹 Destroy previous placement areas (they don’t move)
+        // Destroy previous placement areas (they don’t move)
         SafeDestroy(ref _spawnedPlacementAreas);
 
-        // 🔹 Spawn new prefabs
+        // Spawn new prefabs
         if (spec.piecesPrefab)
         {
             _spawnedPieces = Instantiate(spec.piecesPrefab, piecesRoot);
@@ -309,13 +342,18 @@ public class GameManager : MonoBehaviour
             _numTotalTargets = 0;
         }
 
-        // 🔹 Update UI
+        // Update UI
         _currentLevelIndex = index;
         _numCorrectPlacementFurniture = 0;
         _numBuilt = 0;
 
         UpdatePlacementProgressGUI();
         UpdateBuildProgressGUI();
+        
+        // Reset and start timer
+        _levelStartTime = Time.time;
+        _isTimerRunning = true;
+        if (timerText) timerText.text = "00:00";
     }
 
     int CountPlacementTargets(GameObject placementAreasRootGO)
@@ -495,5 +533,24 @@ public class GameManager : MonoBehaviour
 
         return new List<string>(result);
     }
-}
+    
+    private void SetGameplayUIVisible(bool visible)
+    {
+        if (controllerScreen) controllerScreen.SetActive(visible);
+        if (gameProgressContainer) gameProgressContainer.SetActive(visible);
+        if (crosshair) crosshair.SetActive(visible);
+        if (manualUIContainer) manualUIContainer.SetActive(visible);
+        if (selectedPieceContainer) selectedPieceContainer.SetActive(visible);
+    }
 
+    void Update()
+    {
+        if (_isTimerRunning && timerText)
+        {
+            float elapsed = Time.time - _levelStartTime;
+            int minutes = Mathf.FloorToInt(elapsed / 60f);
+            int seconds = Mathf.FloorToInt(elapsed % 60f);
+            timerText.text = $"{minutes:00}:{seconds:00}";
+        }
+    }
+}
