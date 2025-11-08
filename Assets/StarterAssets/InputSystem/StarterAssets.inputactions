@@ -450,6 +450,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PitchUp",
+                    "type": "Button",
+                    "id": "216e1523-47fd-4f6c-972f-db230a8eddfc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -654,7 +663,7 @@
                 {
                     "name": "",
                     "id": "69a1bcfe-6104-441d-aa4a-c86b7a882163",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -676,7 +685,7 @@
                 {
                     "name": "",
                     "id": "01c2b605-a50f-4b68-a6ec-21462d4c33d6",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -725,6 +734,17 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Prev",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ca92950-76f4-450a-97e3-930b3a332222",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PitchUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
