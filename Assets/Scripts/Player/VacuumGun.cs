@@ -1,190 +1,260 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using System.Collections;
 
 public class VacuumGun : MonoBehaviour
 {
     [Header("Input")]
-    [SerializeField] private InputActionReference vacuum; // main trigger (suck/shoot)
-    [SerializeField] private InputActionReference place;  // new place button
+    [SerializeField] private InputActionReference buildButton;     // A button — suck / build / place
+    [SerializeField] private InputActionReference throwTrigger;    // Right trigger — charge & throw
 
     [Header("References")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private FurnitureBuilder furnitureBuilder;
+    [SerializeField] private SelectedPieceUIController selectedPieceUIController;
+    [SerializeField] private PlayerSFXController playerSFXController;
 
-    [Header("Raycast & Firing")]
-    [SerializeField] private float suckRange = 12f;
+    [Header("UI")]
+    [SerializeField] private Image throwPowerBar;   // optional power visualization (0–1 fill)
+
+    [Header("Physics / Spawn")]
     [SerializeField] private Transform muzzleOrHoldPoint;
-    [SerializeField] private float shootForce = 20f;
+    [SerializeField] private float suckRange = 12f;
+    [SerializeField] private float dropDistance = 1.5f;
+
+    [Header("Throw Settings")]
+    [SerializeField] private float maxThrowForce = 30f;
+    [SerializeField] private float minThrowForce = 3f;
+    [SerializeField] private float chargeSpeed = 40f;     // % per second at full trigger
+    [SerializeField] private float dropThresholdPercent = 10f;
 
     [Header("Tags")]
     [SerializeField] private string suckableTag = "Suckable";
 
-    [Header("Scaling")]
+    [Header("Scaling FX")]
     [SerializeField, Range(0.05f, 1f)] private float spawnScaleFactor = 0.25f;
     [SerializeField, Range(0.05f, 0.6f)] private float popDuration = 0.18f;
-    [SerializeField]
-    private AnimationCurve popCurve =
-        AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField] private AnimationCurve popCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
-    [Header("UI")]
-    [SerializeField] SelectedPieceUIController selectedPieceUIController;
-
-    [Header("Player SFX")]
-    [SerializeField] PlayerSFXController playerSFXController;
-
-    // currently held prefab reference
-    public GameObject storedPrefab;
-    // a cached copy of the original prefab before deactivation
-    private GameObject originalPrefab;
-
-    private bool isHoldingPiece = false;
+    // --- State ---
+    private GameObject storedPrefab;
     private GameObject previewInstance;
+    private bool isHoldingPreview = false;
+
+    // --- Throw tracking ---
+    public float throwPercent = 0f;      // 0–100 %
+    private bool isChargingThrow = false;
+    private bool wasTriggerPressed = false;
 
     private void OnEnable()
     {
-        vacuum.action.performed += OnVacuumPressed;
-        vacuum.action.Enable();
+        buildButton.action.performed += OnBuildButtonPressed;
+        buildButton.action.Enable();
 
-        place.action.performed += OnPlacePressed;
-        place.action.Enable();
+        throwTrigger.action.Enable();  // We’ll poll manually
     }
 
     private void OnDisable()
     {
-        vacuum.action.performed -= OnVacuumPressed;
-        vacuum.action.Disable();
+        buildButton.action.performed -= OnBuildButtonPressed;
+        buildButton.action.Disable();
 
-        place.action.performed -= OnPlacePressed;
-        place.action.Disable();
+        throwTrigger.action.Disable();
     }
 
-    private void OnVacuumPressed(InputAction.CallbackContext _)
+    private void Update()
+    {
+        float triggerValue = throwTrigger.action.ReadValue<float>(); // always 0–1
+        bool isPressed = triggerValue > 0.05f;
+
+        // --- Start charging ---
+        if (!wasTriggerPressed && isPressed && storedPrefab != null)
+        {
+            isChargingThrow = true;
+            throwPercent = 0f;
+        }
+
+        // --- Charging ---
+        if (isChargingThrow && storedPrefab != null)
+        {
+            float chargeRate = chargeSpeed * triggerValue * Time.deltaTime;
+            throwPercent = Mathf.Clamp(throwPercent + chargeRate, 0f, 100f);
+
+            if (throwPowerBar != null)
+                throwPowerBar.fillAmount = throwPercent / 100f;
+        }
+
+        // --- Release detected ---
+        if (wasTriggerPressed && !isPressed)
+        {
+            if (isChargingThrow)
+                ReleaseThrow(triggerValue);
+            isChargingThrow = false;
+        }
+
+        wasTriggerPressed = isPressed;
+    }
+
+    // ==========================================================
+    //  A BUTTON — SUCK / PREVIEW / PLACE
+    // ==========================================================
+    private void OnBuildButtonPressed(InputAction.CallbackContext ctx)
     {
         if (storedPrefab == null)
         {
             TrySuck();
+            return;
+        }
+
+        if (!isHoldingPreview)
+        {
+            previewInstance = Instantiate(storedPrefab, new Vector3(0, 0, -10), Quaternion.identity);
+            previewInstance.SetActive(true);
+            furnitureBuilder.PrepareNewPiece(previewInstance);
+            isHoldingPreview = true;
+            Debug.Log("Prepared preview for placement.");
+        }
+
+        bool placed = furnitureBuilder.PlacePendingPiece();
+        if (placed)
+        {
+            storedPrefab = null;
+            isHoldingPreview = false;
+            previewInstance = null;
+            selectedPieceUIController.ClearSelectedPieceImage();
+            Debug.Log("✅ Placed furniture.");
         }
         else
         {
-            TryShoot();
+            Debug.Log("❌ Invalid marker — cannot place.");
         }
     }
 
-    private void OnPlacePressed(InputAction.CallbackContext _)
+    // ==========================================================
+    //  THROW SYSTEM
+    // ==========================================================
+    private void ReleaseThrow(float finalValue)
     {
         if (storedPrefab == null) return;
 
-        // Step 1: spawn preview if not holding
-        if (!isHoldingPiece)
+        // Cancel any preview
+        if (isHoldingPreview && previewInstance != null)
         {
-            previewInstance = Instantiate(storedPrefab, new Vector3(0, -10, 0), Quaternion.identity);
-            previewInstance.SetActive(true);
-            furnitureBuilder.PrepareNewPiece(previewInstance);
-            isHoldingPiece = true;
-            Debug.Log("Prepared new piece at Z=-10 for building");
-        }
-
-        // Step 2: Try to place the preview
-        bool placed = furnitureBuilder.PlacePendingPiece();
-
-        if (placed)
-        {
-            Debug.Log("Piece placed successfully");
-            storedPrefab = null;          // clear stored reference
-            previewInstance = null;       // clear preview
-            isHoldingPiece = false;
-
-            selectedPieceUIController.ClearSelectedPieceImage();
-        }
-        else
-        {
-            Debug.Log("No valid marker — placement failed");
-        }
-    }
-
-    private void TrySuck()
-    {
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
-        if (Physics.Raycast(ray, out RaycastHit hit, suckRange))
-        {
-            GameObject target = hit.collider.gameObject;
-            
-            if (!target.CompareTag(suckableTag) && target.transform.parent != null && target.transform.parent.CompareTag(suckableTag)) 
-            {
-                target = target.transform.parent.gameObject;
-            }
-
-            if (target.CompareTag(suckableTag))
-            {
-                // keep a reference to the original prefab
-                originalPrefab = target;
-
-                // hide the original, but don't destroy it
-                originalPrefab.SetActive(false);
-
-                // store for later instantiation
-                storedPrefab = originalPrefab;
-
-                selectedPieceUIController.SetSelectedPlaceholderPiece();
-
-                // stop motion & disable physics while "held"
-                var rb = storedPrefab.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.isKinematic = true;
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                }
-
-                // visually mark as selected in the builder
-                furnitureBuilder.SelectExternally(storedPrefab);
-
-                Debug.Log("🌀 Sucked up object: " + storedPrefab.name);
-            }
-        }
-    }
-
-    private void TryShoot()
-    {
-        // If preview is active (unplaced), delete it
-        if (isHoldingPiece && previewInstance != null)
-        {
-            Debug.Log("Cancelling placement preview and shooting instead");
             Destroy(previewInstance);
             furnitureBuilder.DeselectExternally();
-            isHoldingPiece = false;
+            isHoldingPreview = false;
             previewInstance = null;
         }
 
-        if (storedPrefab == null) return;
+        Debug.Log($"Releasing throw at {throwPercent:0.0}% power (finalValue={finalValue:0.00})");
 
-        playerSFXController.PlayThrowSFX();
-
-        GameObject spawned = Instantiate(storedPrefab, muzzleOrHoldPoint.position, muzzleOrHoldPoint.rotation);
-        spawned.SetActive(true);
-
-        Vector3 finalScale = spawned.transform.localScale;
-        spawned.transform.localScale = finalScale * spawnScaleFactor;
-
-        var rb = spawned.GetComponent<Rigidbody>();
-        var col = spawned.GetComponent<Collider>();
-        if (col) col.enabled = false;
-
-        if (rb != null)
+        // Drop if below threshold
+        if (throwPercent < dropThresholdPercent)
         {
-            rb.isKinematic = false;
-            rb.linearVelocity = muzzleOrHoldPoint.forward * shootForce;
+            DropItem();
+        }
+        else
+        {
+            float t = throwPercent / 100f;
+            float force = Mathf.Lerp(minThrowForce, maxThrowForce, t);
+            Debug.Log($"Throw percent: {throwPercent:0.0}%, finalValue: {finalValue:0.00}, computed force: {force:0.0}");
+            ThrowItem(force);
         }
 
-        StartCoroutine(ReenableColliderNextFrame(col));
-        StartCoroutine(PopScale(spawned.transform, finalScale, popDuration, popCurve));
+        if (throwPowerBar != null)
+            throwPowerBar.fillAmount = 0f;
 
+        selectedPieceUIController.ClearSelectedPieceImage();
         furnitureBuilder.DeselectExternally();
 
         storedPrefab = null;
+        throwPercent = 0f;
+    }
 
-        selectedPieceUIController.ClearSelectedPieceImage();
+    // ==========================================================
+    //  SUCK LOGIC
+    // ==========================================================
+    private void TrySuck()
+    {
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        if (!Physics.Raycast(ray, out RaycastHit hit, suckRange)) return;
+
+        GameObject target = hit.collider.gameObject;
+        if (!target.CompareTag(suckableTag) && target.transform.parent != null && target.transform.parent.CompareTag(suckableTag))
+            target = target.transform.parent.gameObject;
+
+        if (!target.CompareTag(suckableTag)) return;
+
+        storedPrefab = target;
+        storedPrefab.SetActive(false);
+
+        selectedPieceUIController.SetSelectedPlaceholderPiece();
+
+        var rb = storedPrefab.GetComponent<Rigidbody>();
+        if (rb)
+        {
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        furnitureBuilder.SelectExternally(storedPrefab);
+        Debug.Log("🌀 Sucked up: " + storedPrefab.name);
+    }
+
+    // ==========================================================
+    //  DROP & THROW IMPLEMENTATIONS
+    // ==========================================================
+    private void DropItem()
+    {
+        GameObject dropped = Instantiate(storedPrefab, muzzleOrHoldPoint.position + muzzleOrHoldPoint.forward * dropDistance, Quaternion.identity);
+        dropped.SetActive(true);
+
+        var rb = dropped.GetComponent<Rigidbody>();
+        if (rb)
+        {
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        Debug.Log("🪶 Dropped item lightly.");
+    }
+
+    private void ThrowItem(float force)
+    {
+        GameObject thrown = Instantiate(storedPrefab, muzzleOrHoldPoint.position, muzzleOrHoldPoint.rotation);
+        thrown.SetActive(true);
+
+        Vector3 finalScale = thrown.transform.localScale;
+        thrown.transform.localScale = finalScale * spawnScaleFactor;
+
+        var rb = thrown.GetComponent<Rigidbody>();
+        var col = thrown.GetComponent<Collider>();
+        if (col) col.enabled = false;
+
+        if (rb)
+        {
+            rb.isKinematic = false;
+            rb.linearVelocity = muzzleOrHoldPoint.forward * force;
+        }
+
+        StartCoroutine(ReenableColliderNextFrame(col));
+        StartCoroutine(PopScale(thrown.transform, finalScale, popDuration, popCurve));
+
+        Debug.Log($"💥 Threw item with {throwPercent:0}% power ({force:0.0}).");
+    }
+
+    // ==========================================================
+    //  UTILITIES
+    // ==========================================================
+    private IEnumerator ReenableColliderNextFrame(Collider c)
+    {
+        if (c == null) yield break;
+        yield return null;
+        yield return null;
+        c.enabled = true;
     }
 
     private IEnumerator PopScale(Transform t, Vector3 finalScale, float duration, AnimationCurve curve)
@@ -210,13 +280,5 @@ public class VacuumGun : MonoBehaviour
             yield return null;
         }
         t.localScale = finalScale;
-    }
-
-    private IEnumerator ReenableColliderNextFrame(Collider c)
-    {
-        if (c == null) yield break;
-        yield return null;
-        yield return null;
-        c.enabled = true;
     }
 }
