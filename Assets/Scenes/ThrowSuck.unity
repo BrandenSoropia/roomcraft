@@ -1761,7 +1761,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 121588609, guid: 59d84b3bcde092a4e9fbb4137af6ea44, type: 3}
+  m_Sprite: {fileID: 301136203, guid: 59d84b3bcde092a4e9fbb4137af6ea44, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2813,13 +2813,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b9a86f393308248a9778cadb4242cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VacuumGun
-  vacuum: {fileID: -5732729706245057998, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
-  place: {fileID: -8565126804735178106, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  buildButton: {fileID: -5732729706245057998, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
+  throwTrigger: {fileID: -8565126804735178106, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
   playerCamera: {fileID: 1182965344}
   furnitureBuilder: {fileID: 413850651}
-  suckRange: 12
+  selectedPieceUIController: {fileID: 1707115882}
+  playerSFXController: {fileID: 1182965348}
+  throwPowerBar: {fileID: 0}
   muzzleOrHoldPoint: {fileID: 1148983733}
-  shootForce: 10
+  suckRange: 12
+  dropDistance: 1.5
+  maxThrowForce: 30
+  minThrowForce: 6
+  chargeSpeed: 40
+  dropThresholdPercent: 10
   suckableTag: Furniture
   spawnScaleFactor: 0.1
   popDuration: 0.4
@@ -2847,9 +2854,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  selectedPieceUIController: {fileID: 1707115882}
-  playerSFXController: {fileID: 1182965348}
-  storedPrefab: {fileID: 0}
+  throwPercent: 0
 --- !u!4 &1182965352 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4626316127775021852, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
@@ -6961,6 +6966,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 532054612331678709, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
+      propertyPath: m_text
+      value: 'Pick Up
+
+        / Throw'
+      objectReference: {fileID: 0}
     - target: {fileID: 681397269030496771, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7192,6 +7203,16 @@ PrefabInstance:
     - target: {fileID: 5210974320538280757, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446333381193531035, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
+      propertyPath: m_text
+      value: 'Drop / Throw (Hold)
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5446333381193531035, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
+      propertyPath: m_margin.z
+      value: -228.85109
       objectReference: {fileID: 0}
     - target: {fileID: 6267319398827847717, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
       propertyPath: m_Pivot.x

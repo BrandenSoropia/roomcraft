@@ -261,7 +261,6 @@ public class IsoFurnitureController : MonoBehaviour
     {
         bool held = pitchUpAction != null && pitchUpAction.IsPressed();
         if (Keyboard.current != null && Keyboard.current.tKey.wasPressedThisFrame) held = true;
-        if (Gamepad.current != null && Gamepad.current.buttonNorth.wasPressedThisFrame) held = true;
         return held;
     }
 }
