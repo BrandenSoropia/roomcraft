@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60864e35dffe812409240da2ea07d716, type: 3}
-  m_Name: SampleManual2
+  m_Name: BedSampleManual
   m_EditorClassIdentifier: Assembly-CSharp::ManualDataSO
   manualPages:
-  - {fileID: 21300000, guid: aa8e15cfe733baa428b582703be2cff3, type: 3}
-  - {fileID: 21300000, guid: 7f327badc2acc8441ae2f1ed4de8bce0, type: 3}
+  - {fileID: 21300000, guid: 17bb2662ffaa2a8458099e1df1aa4bca, type: 3}
+  - {fileID: 21300000, guid: a117c74ccc6e5ee4484ecf583e77f965, type: 3}
+  - {fileID: 21300000, guid: 9ffe487d1a4233941aa3495b3cb9e490, type: 3}
+  icon: {fileID: 21300000, guid: 30530ba4135eeb44fb156643b7ab0dd7, type: 3}
