@@ -7778,6 +7778,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectedPieceContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 6674799326585106495, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
+      propertyPath: m_Color.b
+      value: 0.7137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674799326585106495, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
+      propertyPath: m_Color.g
+      value: 0.7294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 6674799326585106495, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
+      propertyPath: m_Color.r
+      value: 0.61960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041258814345627988, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041258814345627988, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 9059114778279972842, guid: 009184950c07bfb4ebf6a07aa1ef1faf, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 17
