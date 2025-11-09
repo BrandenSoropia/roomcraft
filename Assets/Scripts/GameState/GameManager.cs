@@ -34,7 +34,10 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI placementProgressGUI;
+    [SerializeField] Image placementProgressCheckImage;
     [SerializeField] private TextMeshProUGUI buildProgressGUI;
+    [SerializeField] Image buildProgressCheckIcon;
+
 
     public GameObject winScreen;
     public Button winCloseButton;
@@ -366,16 +369,34 @@ public class GameManager : MonoBehaviour
     // ================================================================
     // UI Updates
     // ================================================================
+
+    /*
+    Make sure the Check Image GO are enabled, and the image is set with alpha 0 initially.
+    */
+    void ShowProgressCheckImage(Image targetImage, bool shouldShow)
+    {
+        Color newAlphaColour = targetImage.color;
+        newAlphaColour.a = shouldShow ? 1f : 0f;
+
+        targetImage.color = newAlphaColour;
+    }
+
     void UpdatePlacementProgressGUI()
     {
         if (placementProgressGUI)
             placementProgressGUI.text = $"Placed: {_numCorrectPlacementFurniture}/{_numTotalTargets}";
+
+        ShowProgressCheckImage(placementProgressCheckImage, _numCorrectPlacementFurniture == _numTotalTargets);
     }
 
     void UpdateBuildProgressGUI()
     {
         if (buildProgressGUI)
             buildProgressGUI.text = $"Built: {_numBuilt}/{_numTotalTargets}";
+
+        Debug.Log($"num built updated{_numBuilt}/{_numTotalTargets}");
+
+        ShowProgressCheckImage(buildProgressCheckIcon, _numBuilt == _numTotalTargets);
     }
 
     // ================================================================
