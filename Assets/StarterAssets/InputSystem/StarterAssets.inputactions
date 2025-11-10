@@ -383,6 +383,17 @@
                     "action": "ChangeRadioSong",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23f22967-636d-45d4-91e3-9c6899743ca9",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeRadioSong",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
