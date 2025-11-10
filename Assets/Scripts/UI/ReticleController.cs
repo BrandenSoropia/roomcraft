@@ -69,6 +69,10 @@ public class ReticleController : MonoBehaviour
         {
             UseBuildReticle();
         }
+        else
+        {
+            UseDefaultReticle();
+        }
     }
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
