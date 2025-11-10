@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DefaultBossaBGMSO
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMusicSO
   audioClip: {fileID: 8300000, guid: 5cbb918b706cac74ba6f6deead0d3bc8, type: 3}
-  volumeAdjustment: 1
+  volume: 0.1

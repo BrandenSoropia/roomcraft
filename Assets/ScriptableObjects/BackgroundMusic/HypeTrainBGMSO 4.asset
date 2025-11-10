@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HypeTrainBGMSO 4
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMusicSO
   audioClip: {fileID: 8300000, guid: 51513aacd40620b4aabefef91032b13f, type: 3}
-  volume: 1
+  volume: 0.1

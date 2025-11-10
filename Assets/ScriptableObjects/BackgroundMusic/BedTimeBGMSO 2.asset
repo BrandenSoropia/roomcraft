@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BedTimeBGMSO 2
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMusicSO
   audioClip: {fileID: 8300000, guid: 053704423376c6946859ffe8e618f430, type: 3}
-  volume: 1
+  volume: 0.1
