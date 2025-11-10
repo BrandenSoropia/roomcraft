@@ -39,6 +39,7 @@ public class VacuumGun : MonoBehaviour
 
     // --- State ---
     private GameObject storedPrefab;
+    public bool isHoldingItem;
     private GameObject previewInstance;
     private bool isHoldingPreview = false;
 
@@ -119,6 +120,8 @@ public class VacuumGun : MonoBehaviour
         bool placed = furnitureBuilder.PlacePendingPiece();
         if (placed)
         {
+            isHoldingItem = false;
+
             storedPrefab = null;
             isHoldingPreview = false;
             previewInstance = null;
@@ -186,6 +189,8 @@ public class VacuumGun : MonoBehaviour
 
         if (!target.CompareTag(suckableTag)) return;
 
+        isHoldingItem = true;
+
         storedPrefab = target;
         storedPrefab.SetActive(false);
 
@@ -220,6 +225,8 @@ public class VacuumGun : MonoBehaviour
         }
 
         Debug.Log("🪶 Dropped item lightly.");
+
+        isHoldingItem = false;
     }
 
     private void ThrowItem(float force)
@@ -244,6 +251,8 @@ public class VacuumGun : MonoBehaviour
         StartCoroutine(PopScale(thrown.transform, finalScale, popDuration, popCurve));
 
         Debug.Log($"💥 Threw item with {throwPercent:0}% power ({force:0.0}).");
+
+        isHoldingItem = false;
     }
 
     // ==========================================================
