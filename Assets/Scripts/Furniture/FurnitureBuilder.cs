@@ -11,8 +11,6 @@ public class FurnitureBuilder : MonoBehaviour
     // Visual Effect
     public GameObject placingEffectModel;
     // Audio 
-    public MusicManager musicManager;
-
     [Header("SFX Controller")]
     [SerializeField] PlayerSFXController playerSFXController;
 
@@ -204,7 +202,7 @@ public class FurnitureBuilder : MonoBehaviour
         Destroy(placingEffect, 2.5f);
 
         // Audio Effect
-        musicManager.PlayAttaching();
+        playerSFXController.PlayAttachSFX();
 
         // Match rotation with marker
         selectedPiece.transform.rotation = marker.transform.rotation;

@@ -86,6 +86,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeRadioSong",
+                    "type": "Button",
+                    "id": "2a7f85c7-9549-433d-a126-72277230f2b8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -361,6 +370,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "ToggleDisplayManual",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de2ff658-b493-4866-aa6f-067b1c3bc8fa",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "ChangeRadioSong",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23f22967-636d-45d4-91e3-9c6899743ca9",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeRadioSong",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

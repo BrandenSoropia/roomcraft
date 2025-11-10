@@ -10,10 +10,10 @@ public class ReticleController : MonoBehaviour
     [SerializeField] Vector3 defaultReticleScale;
 
 
-    [Header("PickUp")]
+    [Header("PickUp/Interact")]
 
-    [SerializeField] Sprite pickupReticle;
-    [SerializeField] Vector3 pickupReticleScale;
+    [SerializeField] Sprite pickupInteractReticle;
+    [SerializeField] Vector3 pickupInteractReticleScale;
 
     [Header("Build")]
 
@@ -45,10 +45,10 @@ public class ReticleController : MonoBehaviour
         transform.localScale = defaultReticleScale;
     }
 
-    void UsePickupReticle()
+    void UsePickupInteractReticle()
     {
-        myImage.sprite = pickupReticle;
-        transform.localScale = pickupReticleScale;
+        myImage.sprite = pickupInteractReticle;
+        transform.localScale = pickupInteractReticleScale;
     }
 
     void UseBuildReticle()
@@ -92,7 +92,8 @@ public class ReticleController : MonoBehaviour
         switch (target.tag)
         {
             case "Furniture":
-                UsePickupReticle();
+            case "Radio":
+                UsePickupInteractReticle();
                 break;
             case "Marker":
                 HandleRenderingBuildReticle();
