@@ -3,22 +3,33 @@ using UnityEngine.UI;
 
 public class ReticleController : MonoBehaviour
 {
+    [SerializeField] VacuumGun vacuumGun;
 
     [Header("Default")]
     [SerializeField] Sprite defaultReticle;
     [SerializeField] Vector3 defaultReticleScale;
 
 
-    [Header("Interact")]
+    [Header("PickUp")]
 
-    [SerializeField] Sprite interactReticle;
-    [SerializeField] Vector3 interactReticleScale;
+    [SerializeField] Sprite pickupReticle;
+    [SerializeField] Vector3 pickupReticleScale;
 
-    UnityEngine.UI.Image myImage;
+    [Header("Build")]
+
+    [SerializeField] Sprite buildReticle;
+    [SerializeField] Vector3 buildReticleScale;
+
+    [Header("Blocked")]
+
+    [SerializeField] Sprite blockedReticle;
+    [SerializeField] Vector3 blockedReticleScale;
+
+    Image myImage;
 
     void Start()
     {
-        myImage = GetComponent<UnityEngine.UI.Image>();
+        myImage = GetComponent<Image>();
         transform.localScale = defaultReticleScale;
     }
 
@@ -34,14 +45,35 @@ public class ReticleController : MonoBehaviour
         transform.localScale = defaultReticleScale;
     }
 
-    void UseInteractReticle()
+    void UsePickupReticle()
     {
-        myImage.sprite = interactReticle;
-        transform.localScale = interactReticleScale;
+        myImage.sprite = pickupReticle;
+        transform.localScale = pickupReticleScale;
     }
 
+    void UseBuildReticle()
+    {
+        myImage.sprite = buildReticle;
+        transform.localScale = buildReticleScale;
+    }
 
+    void UseBlockedReticle()
+    {
+        myImage.sprite = blockedReticle;
+        transform.localScale = blockedReticleScale;
+    }
 
+    void HandleRenderingBuildReticle()
+    {
+        if (vacuumGun.isHoldingItem)
+        {
+            UseBuildReticle();
+        }
+        else
+        {
+            UseDefaultReticle();
+        }
+    }
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
     Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
@@ -57,13 +89,20 @@ public class ReticleController : MonoBehaviour
 
         GameObject target = hit.collider.gameObject;
 
-        if (target.CompareTag("FurnitureBox"))
+        switch (target.tag)
         {
-            UseInteractReticle();
-        }
-        else
-        {
-            UseDefaultReticle();
+            case "Furniture":
+                UsePickupReticle();
+                break;
+            case "Marker":
+                HandleRenderingBuildReticle();
+                break;
+            case "BasePiece":
+                UseBlockedReticle();
+                break;
+            default:
+                UseDefaultReticle();
+                break;
         }
     }
 }

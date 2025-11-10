@@ -5508,6 +5508,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  isHoldingItem: 0
   throwPercent: 0
 --- !u!4 &1182965352 stripped
 Transform:
@@ -8631,10 +8632,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3898b5cd0fb5e479cc05048be15675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  vacuumGun: {fileID: 1182965350}
   defaultReticle: {fileID: 21300000, guid: 39354e4b36a2e4b45b2c0eebfdac6eda, type: 3}
-  defaultReticleScale: {x: 0.1, y: 0.1, z: 0.1}
-  interactReticle: {fileID: 21300000, guid: 335e5b0e58b2213499d3355b3fcbedde, type: 3}
-  interactReticleScale: {x: 0.2, y: 0.2, z: 0.2}
+  defaultReticleScale: {x: 0.2, y: 0.2, z: 1}
+  pickupReticle: {fileID: 21300000, guid: d7b31592899d99546b9ca0f07f46390a, type: 3}
+  pickupReticleScale: {x: 0.4, y: 0.4, z: 1}
+  buildReticle: {fileID: 21300000, guid: 3e1237fc426515b4eb5293a26fe7d750, type: 3}
+  buildReticleScale: {x: 0.4, y: 0.4, z: 1}
+  blockedReticle: {fileID: 21300000, guid: d0839a23007b3ec418ae861415b525e5, type: 3}
+  blockedReticleScale: {x: 0.4, y: 0.4, z: 1}
 --- !u!1001 &1865303109
 PrefabInstance:
   m_ObjectHideFlags: 0
