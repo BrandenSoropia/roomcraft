@@ -254,10 +254,16 @@ public class ManualUIController : MonoBehaviour
         for (int i = 0; i < numStepsAvailable; i++)
         {
             GameObject currentIndicator = myManualIndicator.transform.GetChild(i).gameObject;
+            Image indicatorImage = currentIndicator.GetComponent<Image>();
 
+            // Enable only the correct number of indicators needed for manuals.
             if (i < manuals.Length)
             {
                 currentIndicator.SetActive(true);
+
+                // Show manual icon
+                ManualDataSO currentManual = manuals[i];
+                indicatorImage.sprite = currentManual.icon;
             }
             else
             {

@@ -5,4 +5,5 @@ using UnityEngine.UI;
 public class ManualDataSO : ScriptableObject
 {
     public Sprite[] manualPages;
+    public Sprite icon;
 }
