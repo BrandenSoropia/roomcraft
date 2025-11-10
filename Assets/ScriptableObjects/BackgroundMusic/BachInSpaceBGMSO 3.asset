@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BachInSpaceBGMSO 3
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMusicSO
   audioClip: {fileID: 8300000, guid: b6457f2ab08970442a65a9918a8db532, type: 3}
-  volume: 0.1
+  volume: 0.05

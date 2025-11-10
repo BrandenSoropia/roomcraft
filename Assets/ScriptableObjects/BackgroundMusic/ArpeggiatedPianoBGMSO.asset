@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ArpeggiatedPianoBGMSO
   m_EditorClassIdentifier: Assembly-CSharp::BackgroundMusicSO
   audioClip: {fileID: 8300000, guid: b3dab15c6ddf8f543bbe9b7a05d3c152, type: 3}
-  volume: 0.1
+  volume: 0.05
