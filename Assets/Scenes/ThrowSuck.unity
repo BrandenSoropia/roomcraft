@@ -5262,9 +5262,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: isLooping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: myAnimator
       value: 
       objectReference: {fileID: 383658131}
+    - target: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: thinkOnTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: thinkOffTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4626316127775021852, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5277,6 +5289,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4922683175401022438, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: playerAnim
+      value: 
+      objectReference: {fileID: 1182965354}
     - target: {fileID: 4922683175401022438, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: gameManager
       value: 
@@ -5483,7 +5499,7 @@ MonoBehaviour:
   furnitureBuilder: {fileID: 413850651}
   selectedPieceUIController: {fileID: 1707115882}
   playerSFXController: {fileID: 1182965348}
-  throwPowerBar: {fileID: 0}
+  throwPowerBar: {fileID: 1186456258}
   muzzleOrHoldPoint: {fileID: 1148983733}
   suckRange: 12
   dropDistance: 1.5
@@ -5525,6 +5541,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4626316127775021852, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
   m_PrefabInstance: {fileID: 1182965342}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1182965354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+  m_PrefabInstance: {fileID: 1182965342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182965349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b84111dc097f9a4d81b84174016affe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1184647669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5587,6 +5614,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 10b78063300524af0ae2cf0cc4fe47ad, type: 3}
   m_PrefabInstance: {fileID: 1184647669}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1186456256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1186456257}
+  - component: {fileID: 1186456259}
+  - component: {fileID: 1186456258}
+  m_Layer: 5
+  m_Name: ThrowPowerBar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1186456257
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186456256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1562986488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -549, y: 0}
+  m_SizeDelta: {x: 500, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1186456258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186456256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: e658a8453977ec0429a6a294e4686fe7, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 0
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1186456259
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186456256}
+  m_CullTransparentMesh: 1
 --- !u!1 &1198772794
 GameObject:
   m_ObjectHideFlags: 0
@@ -9704,6 +9806,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8767718481216075120, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       insertIndex: -1
       addedObject: {fileID: 81563344}
+    - targetCorrespondingSourceObject: {fileID: 8767718481216075120, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1186456257}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1447560950834788408, guid: e764b6e031f15494e961d4e8f9ac9729, type: 3}
       insertIndex: -1
