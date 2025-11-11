@@ -10,7 +10,7 @@ public class VacuumGun : MonoBehaviour
     [SerializeField] private InputActionReference throwTrigger;    // Right trigger — charge & throw
 
     [Header("References")]
-    [SerializeField] private Camera playerCamera;
+    [SerializeField] public Camera playerCamera;
     [SerializeField] private FurnitureBuilder furnitureBuilder;
     [SerializeField] private SelectedPieceUIController selectedPieceUIController;
     [SerializeField] private PlayerSFXController playerSFXController;
@@ -126,6 +126,7 @@ public class VacuumGun : MonoBehaviour
             isHoldingPreview = false;
             previewInstance = null;
             selectedPieceUIController.ClearSelectedPieceImage();
+
             Debug.Log("✅ Placed furniture.");
         }
         else

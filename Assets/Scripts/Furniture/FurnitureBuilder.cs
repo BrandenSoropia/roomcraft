@@ -257,6 +257,19 @@ public class FurnitureBuilder : MonoBehaviour
 
 
         Debug.Log($"Attached new piece {selectedPiece.name} to marker {marker.name}");
+
+        // update glow outline controller
+        Transform piece = marker.transform.parent;
+
+        if (piece != null)
+        {
+            GlowOutlineController goc = piece.GetComponent<GlowOutlineController>();
+
+            if (goc != null)
+            {
+                goc.AddPieces();
+            }
+        }
     }
 
     public void OnDeletePiece(InputValue inputValue)
