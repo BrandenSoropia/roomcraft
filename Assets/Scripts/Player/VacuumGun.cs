@@ -17,6 +17,8 @@ public class VacuumGun : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private Image throwPowerBar;   // optional power visualization (0–1 fill)
+    
+    [SerializeField] private GameObject powerBarContainer; // optional container to enable/disable
 
     [Header("Physics / Spawn")]
     [SerializeField] private Transform muzzleOrHoldPoint;
@@ -82,6 +84,8 @@ public class VacuumGun : MonoBehaviour
             float chargeRate = chargeSpeed * triggerValue * Time.deltaTime;
             throwPercent = Mathf.Clamp(throwPercent + chargeRate, 0f, 100f);
 
+            if (powerBarContainer != null)
+                powerBarContainer.SetActive(true);
             if (throwPowerBar != null)
                 throwPowerBar.fillAmount = throwPercent / 100f;
         }
@@ -92,6 +96,8 @@ public class VacuumGun : MonoBehaviour
             if (isChargingThrow)
                 ReleaseThrow(triggerValue);
             isChargingThrow = false;
+            if (powerBarContainer != null)
+                powerBarContainer.SetActive(false);
         }
 
         wasTriggerPressed = isPressed;
