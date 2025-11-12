@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TableSampleManual
   m_EditorClassIdentifier: Assembly-CSharp::ManualDataSO
   manualPages:
-  - {fileID: 21300000, guid: aa8e15cfe733baa428b582703be2cff3, type: 3}
-  - {fileID: 21300000, guid: 7f327badc2acc8441ae2f1ed4de8bce0, type: 3}
+  - {fileID: 21300000, guid: d7aeeb8e735dfd347afbe7a98f391af0, type: 3}
+  - {fileID: 21300000, guid: 63df7d114b598284a8ad87c50a26582f, type: 3}
   icon: {fileID: 21300000, guid: d39541c8adaace844a1574a836a54779, type: 3}
