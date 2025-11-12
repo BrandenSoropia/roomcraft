@@ -5880,9 +5880,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4626316127775021852, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
   m_PrefabInstance: {fileID: 1182965342}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1182965364 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2035189655483381071, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
 --- !u!114 &1182965354 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4260338377666475930, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
@@ -5891,7 +5888,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1182965349}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b84111dc097f9a4d81b84174016affe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1182965366
@@ -5908,9 +5905,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraSwitcher
   firstPersonCamera: {fileID: 1182965344}
   thirdPersonCamera: {fileID: 1958803348}
-  firstPersonController: {fileID: 1182965364}
+  firstPersonController: {fileID: 1182965377}
   vg: {fileID: 1182965350}
-  m_Script: {fileID: 11500000, guid: 1b84111dc097f9a4d81b84174016affe, type: 3}
+--- !u!114 &1182965377 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2035189655483381071, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+  m_PrefabInstance: {fileID: 1182965342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182965349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1184647669
