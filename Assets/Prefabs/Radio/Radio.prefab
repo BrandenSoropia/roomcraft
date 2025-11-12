@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a5e0fef218e6e914b8ed5dd68f3b528b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -316.3
+      value: -329.331
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e0fef218e6e914b8ed5dd68f3b528b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 143.6
+      value: 131.679
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e0fef218e6e914b8ed5dd68f3b528b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -255.2
+      value: -243.505
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5e0fef218e6e914b8ed5dd68f3b528b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -96,10 +96,10 @@ MonoBehaviour:
   loop: 1
   songConfigs:
   - {fileID: 11400000, guid: 3a9a2c0ee082637409c66341f6b17ae4, type: 2}
+  - {fileID: 11400000, guid: 9853c29440a22dc42aecfd114348f2e4, type: 2}
   - {fileID: 11400000, guid: d191998f20b90224bb9d105767d6348c, type: 2}
   - {fileID: 11400000, guid: edfa1b422a1a3e446a283595ae3420b1, type: 2}
   - {fileID: 11400000, guid: fec4cb024cdc83f49ab435d104085238, type: 2}
-  - {fileID: 11400000, guid: 9853c29440a22dc42aecfd114348f2e4, type: 2}
   currentSongIdx: 0
   isAudioSourceAPlaying: 1
 --- !u!65 &5538740794821953821

@@ -6,6 +6,10 @@ public class SelectedPieceUIController : MonoBehaviour
 
     [SerializeField] GameObject furniturePieceGO;
     [SerializeField] Sprite placeholderPieceSprite;
+
+    [Header("UI")]
+    [SerializeField] GameObject holdThrowControlGO;
+
     Image myFurniturePieceImage;
 
     [Header("Internal State")]
@@ -16,18 +20,10 @@ public class SelectedPieceUIController : MonoBehaviour
     {
         myFurniturePieceImage = furniturePieceGO.GetComponent<Image>();
 
+        holdThrowControlGO.SetActive(false);
+
         // Remove the image on start so we can remove any presets used while developing.
         ClearSelectedPieceImage();
-    }
-
-    public void RenderSelectedPiece(GameObject selectedPieceGO)
-    {
-        renderedSelectedPiece = Instantiate(selectedPieceGO, transform.position, Quaternion.identity);
-    }
-
-    public void ClearRenderedSelectedPiece()
-    {
-        Destroy(renderedSelectedPiece);
     }
 
     public void SetSelectedPieceImage(Sprite newImpageSprite)
@@ -38,10 +34,12 @@ public class SelectedPieceUIController : MonoBehaviour
     public void SetSelectedPlaceholderPiece()
     {
         myFurniturePieceImage.sprite = placeholderPieceSprite;
+        holdThrowControlGO.SetActive(true);
     }
 
     public void ClearSelectedPieceImage()
     {
         myFurniturePieceImage.sprite = null;
+        holdThrowControlGO.SetActive(false);
     }
 }
