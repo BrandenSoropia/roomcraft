@@ -19,12 +19,15 @@ public class GameModeController : MonoBehaviour
     [Header("Wall Hiding")]
     [SerializeField] WallAutoHider_ScreenTriangle wallHider;
 
+    public PlayerAnimationController playerAnim;
+
     public void ShowOverheadView()
     {
         DeselectAllFurniture(); // Ensure selections/pivots are cleared before switching
         playerCamera.SetActive(false);
         overheadCamera.SetActive(true);
         overheadCamera.tag = "MainCamera";
+        playerAnim.playLoopAnimation = true; // Stop any player loop animations
 
         var h = GetWallHider();
         if (h) h.EnableHiding();
@@ -35,6 +38,7 @@ public class GameModeController : MonoBehaviour
         playerCamera.SetActive(true);
         overheadCamera.SetActive(false);
         overheadCamera.tag = "Untagged";
+        playerAnim.playLoopAnimation = false; // Resume player loop animations
 
         var h = GetWallHider();
         if (h) h.DisableHiding();

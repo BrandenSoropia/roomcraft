@@ -95,6 +95,6 @@ public class CustomPlayerController : MonoBehaviour
     void SetPlayerScriptsEnabledState(bool newState)
     {
         myFirstPersonController.enabled = newState;
-        myPlayerAnimationController.enabled = newState;
+        // myPlayerAnimationController.enabled = newState;
     }
 }

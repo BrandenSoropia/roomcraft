@@ -1,23 +1,9 @@
-using System;
+using System.Collections;
 using StarterAssets;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
-/*
-Requirements:
-- Animation controller with all movement animations set, transitions defined with conditions.
-  - Can reverse animations by setting speed to a negative number.
-  - Animations must be set to play forward/backward in editor
-- Use matching transition condition parameter names between this script and the editor.
-- Have a ANIM_SPEED parameter and set all affected animations to use it
-
-Idea: Design simple all direction movement animation. Can get complicated if we have more than forward/back and left/right.
-*/
 public class PlayerAnimationController : MonoBehaviour
 {
-
     [SerializeField] Animator myAnimator;
     [SerializeField] float maxAnimationSpeedModifier = 2f;
     float baseAnimationSpeedModifier = 1f;
@@ -25,59 +11,105 @@ public class PlayerAnimationController : MonoBehaviour
     StarterAssetsInputs _input;
     CharacterController myCharacterController;
 
+    // Looping animation config
+    [SerializeField] string loopAnimationBoolName = "isLoopingAction"; // e.g., "isThinking"
+    [SerializeField] float thinkOnTime = 0.8f;   // how long "thinking" stays ON
+    [SerializeField] float thinkOffTime = 0.5f;  // how long it stays OFF (idle)
+
+    // Control from other scripts:
+    public bool playLoopAnimation = false;
+
+    public bool isLooping = false;
+    Coroutine loopRoutine;
+
     void Start()
     {
         _input = GetComponent<StarterAssetsInputs>();
         myCharacterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        HandleMovementAnimations();
-        SpeedUpAnimationBasedOnVelocity();
+        // Edge-trigger start/stop so we don't restart every frame
+        if (playLoopAnimation && !isLooping)
+            StartLoop();
+
+        if (!playLoopAnimation && isLooping)
+            StopLoop();
+
+        // When looping, suspend normal movement-driven animation changes
+        if (!isLooping)
+        {
+            HandleMovementAnimations();
+            SpeedUpAnimationBasedOnVelocity();
+        }
     }
 
-    /*
-    Source: https://www.reddit.com/r/Unity3D/comments/15xy6c6/how_would_you_increase_the_speed_of_a_run/
-    */
+    void OnDisable()
+    {
+        // Ensure we clean up and reset the bool when disabled
+        if (isLooping) StopLoop();
+    }
+
+    void StartLoop()
+    {
+        isLooping = true;
+        // make sure any previous routine is stopped
+        if (loopRoutine != null) StopCoroutine(loopRoutine);
+        loopRoutine = StartCoroutine(LoopThinkingIdle());
+    }
+
+    void StopLoop()
+    {
+        isLooping = false;
+        if (loopRoutine != null)
+        {
+            StopCoroutine(loopRoutine);
+            loopRoutine = null;
+        }
+        // reset to idle state
+        myAnimator.SetBool(loopAnimationBoolName, false);
+    }
+
+    IEnumerator LoopThinkingIdle()
+    {
+        while (playLoopAnimation) // master switch you set from other scripts
+        {
+            // ON: "thinking"
+            myAnimator.SetBool(loopAnimationBoolName, true);
+            yield return new WaitForSeconds(thinkOnTime);
+
+            // OFF: back to idle
+            myAnimator.SetBool(loopAnimationBoolName, false);
+            yield return new WaitForSeconds(thinkOffTime);
+        }
+
+        // safety reset if we exit naturally
+        StopLoop();
+    }
+
     void SpeedUpAnimationBasedOnVelocity()
     {
-        // Source: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/CharacterController-velocity.html
-        // The overall speed
         float overallSpeed = myCharacterController.velocity.magnitude;
-
         if (_input.sprint)
-        {
             myAnimator.SetFloat("ANIM_SPEED", Mathf.Min(overallSpeed, maxAnimationSpeedModifier));
-        }
         else
-        {
             myAnimator.SetFloat("ANIM_SPEED", baseAnimationSpeedModifier);
-        }
     }
-
 
     void HandleMovementAnimations()
     {
         Vector2 _move = _input.move;
 
-
-
         if (_move == Vector2.zero)
         {
             myAnimator.SetBool("isMovingForward", false);
             myAnimator.SetBool("isMovingBackward", false);
-
         }
 
         if (_move.y > 0)
-        {
             myAnimator.SetBool("isMovingForward", true);
-        }
         else if (_move.y < 0)
-        {
             myAnimator.SetBool("isMovingBackward", true);
-        }
     }
 }
