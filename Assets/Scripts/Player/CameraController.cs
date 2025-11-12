@@ -21,7 +21,8 @@ public class CameraSwitcher : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V)) // Press V to toggle
+        // Button9: Xbox/ps, Button10: Switch
+        if (Input.GetKeyDown(KeyCode.V) || Input.GetKeyDown(KeyCode.JoystickButton9) || Input.GetKeyDown(KeyCode.JoystickButton10))
         {
             isFirstPerson = !isFirstPerson;
 
