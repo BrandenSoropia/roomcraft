@@ -376,42 +376,25 @@ public class GameManager : MonoBehaviour
         var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         if (!placementAreasPrefab) return new List<string>();
 
-        // If AreaTrigger components exist on the prefab, use them
+        // Simply collect prefixes from all AreaTriggers in the scene's placement area
         var areas = placementAreasPrefab.GetComponentsInChildren<AreaTrigger>(true);
-        if (areas != null && areas.Length > 0)
+        if (areas == null || areas.Length == 0)
         {
-            foreach (var a in areas)
-            {
-                if (!a) continue;
-                var prefix = ExtractPrefix3(a.transform.name);
-                if (!string.IsNullOrWhiteSpace(prefix)) result.Add(prefix);
-            }
+            Debug.LogWarning("[GameManager] No AreaTrigger found under placement area.");
+            return new List<string>();
         }
-        else
-        {
-            // Fallback: use the prefab's first child name
-            var trs = placementAreasPrefab.GetComponentsInChildren<Transform>(true);
-            // find first real child that isn't the root
-            Transform firstChild = null;
-            foreach (var t in trs)
-            {
-                if (t && t.gameObject != placementAreasPrefab)
-                {
-                    firstChild = t;
-                    break;
-                }
-            }
 
-            if (firstChild)
-            {
-                var prefix = ExtractPrefix3(firstChild.name);
-                if (!string.IsNullOrWhiteSpace(prefix)) result.Add(prefix);
-            }
+        foreach (var a in areas)
+        {
+            if (!a) continue;
+            var prefix = ExtractPrefix3(a.transform.name);
+            if (!string.IsNullOrWhiteSpace(prefix))
+                result.Add(prefix);
         }
 
         return new List<string>(result);
     }
-    
+
     private void SetGameplayUIVisible(bool visible)
     {
         if (controllerScreen) controllerScreen.SetActive(visible);
