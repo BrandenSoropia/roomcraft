@@ -22,6 +22,7 @@ public class CustomPlayerController : MonoBehaviour
     [SerializeField] GameObject buildControlsContainerUI;
     [SerializeField] GameObject isometricControlsContainerUI;
     [SerializeField] ManualUIController manualUIController;
+    [SerializeField] GameObject selectedItemContainerUI;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -61,6 +62,7 @@ public class CustomPlayerController : MonoBehaviour
 
             isometricControlsContainerUI.SetActive(false);
             buildControlsContainerUI.SetActive(true);
+            selectedItemContainerUI.SetActive(true);
 
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
@@ -75,6 +77,7 @@ public class CustomPlayerController : MonoBehaviour
 
             isometricControlsContainerUI.SetActive(true);
             buildControlsContainerUI.SetActive(false);
+            selectedItemContainerUI.SetActive(false);
 
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
