@@ -6076,7 +6076,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182965349}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4aaa99ee7d1b744290e92b2a515d732, type: 3}
   m_Name: 
@@ -13248,7 +13248,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4719497584849943537, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8991196328306119506, guid: d65a6ff84cd9a8644a60fa9c6cd57077, type: 3}
