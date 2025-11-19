@@ -1532,7 +1532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &192412322
 Transform:
   m_ObjectHideFlags: 0
@@ -1564,7 +1564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &193844797
 Transform:
   m_ObjectHideFlags: 0
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   basePiecesRoot: {fileID: 687521882}
   placementAreasRoot: {fileID: 854768800}
   nextLevelIndex: 0
-  _numTotalTargets: 0
+  _numTotalTargets: 2
   placementProgressGUI: {fileID: 708451495}
   placementProgressCheckImage: {fileID: 1640954114}
   buildProgressGUI: {fileID: 2139647342}
@@ -3505,7 +3505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &643379409
 Transform:
   m_ObjectHideFlags: 0
@@ -4518,7 +4518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &901535706
 Transform:
   m_ObjectHideFlags: 0
@@ -7614,6 +7614,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlowOutlineController
   targetMeshRenderer: {fileID: 1678888205}
   totalPieces: 4
+  minScale: 1.03
+  maxScale: 1.12
+  speed: 1
+  outline: {fileID: 0}
 --- !u!1001 &1366266074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8791,6 +8795,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlowOutlineController
   targetMeshRenderer: {fileID: 298726579}
   totalPieces: 1
+  minScale: 1.02
+  maxScale: 1.1
+  speed: 1
+  outline: {fileID: 2100000, guid: 04318637a4bde4d4abb79480c25044a8, type: 2}
 --- !u!1 &1728184543 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6427339873290762823, guid: 42ea3a8125fd60448aff53b094275d4d, type: 3}
@@ -8885,7 +8893,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1735720743
 Transform:
   m_ObjectHideFlags: 0
@@ -10801,6 +10809,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlowOutlineController
   targetMeshRenderer: {fileID: 293311835}
   totalPieces: 5
+  minScale: 1.02
+  maxScale: 1.1
+  speed: 1
+  outline: {fileID: 2100000, guid: 04318637a4bde4d4abb79480c25044a8, type: 2}
 --- !u!1001 &1958803344
 PrefabInstance:
   m_ObjectHideFlags: 0
