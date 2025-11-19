@@ -11,14 +11,6 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    [Serializable]
-    public class LevelSpec
-    {
-        public string levelName = "Level";
-        public GameObject piecesPrefab;
-        public GameObject basePiecesPrefab;
-        public GameObject placementAreasPrefab;
-    }
 
     [Header("Scene Roots")]
     public Transform piecesRoot;
@@ -26,12 +18,11 @@ public class GameManager : MonoBehaviour
     public Transform placementAreasRoot;
 
     [Header("Levels")]
-    public List<LevelSpec> levels = new();
-    public int startLevelIndex = 0;
+    public int nextLevelIndex;
 
     private int _numCorrectPlacementFurniture = 0;
     private int _numBuilt = 0;
-    private int _numTotalTargets = 0;
+    public int _numTotalTargets = 0;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI placementProgressGUI;
@@ -114,14 +105,6 @@ public class GameManager : MonoBehaviour
             Debug.LogError("[GameManager] Assign Pieces/BasePieces/PlacementAreas roots in the Inspector!");
             return;
         }
-        if (levels.Count == 0)
-        {
-            Debug.LogError("[GameManager] No levels defined.");
-            return;
-        }
-
-        startLevelIndex = Mathf.Clamp(startLevelIndex, 0, levels.Count - 1);
-        LoadLevel(startLevelIndex);
 
         UpdatePlacementProgressGUI();
         UpdateBuildProgressGUI();
@@ -246,30 +229,10 @@ public class GameManager : MonoBehaviour
     {
         if (winScreen) winScreen.SetActive(false);
 
-        if (HasNextLevel())
+        if (nextLevelIndex > 0)
         {
-            // Hide all gameplay UI while NextLevelScreen is showing
-            SetGameplayUIVisible(false);
-
-            int next = _currentLevelIndex + 1;
-            if (commissionItemText && next >= 0 && next < levels.Count)
-            {
-                var spec = levels[next];
-                var names = GetItemPrefixesFromPlacementPrefab(spec.placementAreasPrefab);
-                commissionItemText.text = names.Count > 0
-                    ? string.Join("\n", names)
-                    : "—";
-            }
-
-            if (nextLevelScreen)
-            {
-                nextLevelScreen.SetActive(true);
-                if (nextProceedButton) EventSystem.current.SetSelectedGameObject(nextProceedButton.gameObject);
-            }
-        }
-        else
-        {
-            Debug.Log("[GameManager] All levels complete! No next-level screen shown.");
+            Debug.Log("loading level at index " + nextLevelIndex);
+            SceneManager.LoadScene(nextLevelIndex);
         }
     }
 
@@ -281,10 +244,6 @@ public class GameManager : MonoBehaviour
         SetGameplayUIVisible(true);
 
         int next = _currentLevelIndex + 1;
-        if (next < levels.Count)
-            LoadLevel(next);
-        else
-            Debug.Log("[GameManager] All levels complete!");
     }
 
     void OnExitClicked()
@@ -294,70 +253,6 @@ public class GameManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
-    }
-
-    // ================================================================
-    // Level Management
-    // ================================================================
-    void LoadLevel(int index)
-    {
-        _isTimerRunning = false;  // stop any old timer before resetting
-
-        index = Mathf.Clamp(index, 0, levels.Count - 1);
-        var spec = levels[index];
-        Debug.Log($"[GameManager] Loading Level {index}: {spec.levelName}");
-
-        // 🔹 Deactivate all previous placement areas and pieces
-        foreach (Transform t in placementAreasRoot) t.gameObject.SetActive(false);
-        foreach (Transform t in piecesRoot) t.gameObject.SetActive(false);
-        foreach (Transform t in basePiecesRoot) t.gameObject.SetActive(false);
-
-        // Attempt to soft-delete any previous FContainer in the scene
-        SafeDestroyFContainer(_spawnedPieces);
-        SafeDestroyFContainer(_spawnedBasePieces);
-
-        // Destroy previous placement areas (they don’t move)
-        SafeDestroy(ref _spawnedPlacementAreas);
-
-        // Spawn new prefabs
-        if (spec.piecesPrefab)
-        {
-            _spawnedPieces = Instantiate(spec.piecesPrefab, piecesRoot);
-            ResetLocal(_spawnedPieces.transform);
-            _spawnedPieces.SetActive(true);
-        }
-
-        if (spec.basePiecesPrefab)
-        {
-            _spawnedBasePieces = Instantiate(spec.basePiecesPrefab, basePiecesRoot);
-            ResetLocal(_spawnedBasePieces.transform);
-            _spawnedBasePieces.SetActive(true);
-        }
-
-        if (spec.placementAreasPrefab)
-        {
-            _spawnedPlacementAreas = Instantiate(spec.placementAreasPrefab, placementAreasRoot);
-            ResetLocal(_spawnedPlacementAreas.transform);
-            _spawnedPlacementAreas.SetActive(true);
-            _numTotalTargets = CountPlacementTargets(_spawnedPlacementAreas);
-        }
-        else
-        {
-            _numTotalTargets = 0;
-        }
-
-        // Update UI
-        _currentLevelIndex = index;
-        _numCorrectPlacementFurniture = 0;
-        _numBuilt = 0;
-
-        UpdatePlacementProgressGUI();
-        UpdateBuildProgressGUI();
-        
-        // Reset and start timer
-        _levelStartTime = Time.time;
-        _isTimerRunning = true;
-        if (timerText) timerText.text = "00:00";
     }
 
     int CountPlacementTargets(GameObject placementAreasRootGO)
@@ -469,10 +364,6 @@ public class GameManager : MonoBehaviour
         Debug.Log($"[GameManager] No container found for prefix '{prefix}'");
     }
     
-    private bool HasNextLevel()
-    {
-        return (_currentLevelIndex + 1) < levels.Count;
-    }
 
     // Extract first three underscore-separated parts; if fewer than 3, return the whole name
     static string ExtractPrefix3(string name)
