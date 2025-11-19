@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
     public GameObject winScreen;
     public Button winCloseButton;
     [SerializeField] private TextMeshProUGUI completedItemText;
-    public GameObject nextLevelScreen;
-    public Button nextProceedButton;
-    public Button nextExitButton;
+    public GameObject commissionScreen;
+    public Button commissionProceedButton;
+    public Button commissionExitButton;
     [SerializeField] private TextMeshProUGUI commissionItemText;
     
     public GameObject controllerScreen;
@@ -45,19 +45,12 @@ public class GameManager : MonoBehaviour
     public GameObject manualUIContainer;
     public GameObject selectedPieceContainer;
     
-    [SerializeField] private TextMeshProUGUI timerText;        // active timer during play
-    [SerializeField] private TextMeshProUGUI timeSpentText;    // shown on Win Screen
-
-    private float _levelStartTime = 0f;
-    private bool _isTimerRunning = false;
-
     public GameState CurrentState { get; private set; }
     public event Action<GameState> OnGameStateChanged;
 
     private static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    private int _currentLevelIndex = -1;
     private GameObject _spawnedPieces;
     private GameObject _spawnedBasePieces;
     private GameObject _spawnedPlacementAreas;
@@ -75,7 +68,7 @@ public class GameManager : MonoBehaviour
         _instance = this;
 
         if (winScreen) winScreen.SetActive(false);
-        if (nextLevelScreen) nextLevelScreen.SetActive(false);
+        if (commissionScreen) commissionScreen.SetActive(false);
 
         // Hook up button callbacks
         if (winCloseButton)
@@ -83,15 +76,15 @@ public class GameManager : MonoBehaviour
             winCloseButton.onClick.RemoveAllListeners();
             winCloseButton.onClick.AddListener(OnWinCloseClicked);
         }
-        if (nextProceedButton)
+        if (commissionProceedButton)
         {
-            nextProceedButton.onClick.RemoveAllListeners();
-            nextProceedButton.onClick.AddListener(OnProceedClicked);
+            commissionProceedButton.onClick.RemoveAllListeners();
+            commissionProceedButton.onClick.AddListener(OnProceedClicked);
         }
-        if (nextExitButton)
+        if (commissionExitButton)
         {
-            nextExitButton.onClick.RemoveAllListeners();
-            nextExitButton.onClick.AddListener(OnExitClicked);
+            commissionExitButton.onClick.RemoveAllListeners();
+            commissionExitButton.onClick.AddListener(OnExitClicked);
         }
 
         // Set up navigation for buttons (D-Pad / keyboard Tab)
@@ -104,6 +97,23 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("[GameManager] Assign Pieces/BasePieces/PlacementAreas roots in the Inspector!");
             return;
+        }
+        
+        // Show commissionScreen at the start of each level except tutorial level
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (commissionScreen && !string.Equals(currentScene, "Level_1", StringComparison.OrdinalIgnoreCase))
+        {
+            commissionScreen.SetActive(true);
+            if (commissionProceedButton) EventSystem.current.SetSelectedGameObject(commissionProceedButton.gameObject);
+            SetGameplayUIVisible(false); // hide gameplay UI while screen is visible
+
+            if (commissionItemText && placementAreasRoot)
+            {
+                var names = GetItemPrefixesFromPlacementPrefab(placementAreasRoot.gameObject);
+                commissionItemText.text = names.Count > 0
+                    ? string.Join("\n", names)
+                    : "—";
+            }
         }
 
         UpdatePlacementProgressGUI();
@@ -120,30 +130,30 @@ public class GameManager : MonoBehaviour
             Navigation nav = new Navigation
             {
                 mode = Navigation.Mode.Explicit,
-                selectOnRight = nextProceedButton,
-                selectOnLeft = nextExitButton
+                selectOnRight = commissionProceedButton,
+                selectOnLeft = commissionExitButton
             };
             winCloseButton.navigation = nav;
         }
 
-        if (nextProceedButton && nextExitButton)
+        if (commissionProceedButton && commissionExitButton)
         {
-            // Horizontal navigation between Next Level buttons
+            // Horizontal navigation between commission UI buttons
             Navigation proceedNav = new Navigation
             {
                 mode = Navigation.Mode.Explicit,
-                selectOnRight = nextExitButton,
-                selectOnLeft = nextExitButton
+                selectOnRight = commissionExitButton,
+                selectOnLeft = commissionExitButton
             };
-            nextProceedButton.navigation = proceedNav;
+            commissionProceedButton.navigation = proceedNav;
 
             Navigation exitNav = new Navigation
             {
                 mode = Navigation.Mode.Explicit,
-                selectOnLeft = nextProceedButton,
-                selectOnRight = nextProceedButton
+                selectOnLeft = commissionProceedButton,
+                selectOnRight = commissionProceedButton
             };
-            nextExitButton.navigation = exitNav;
+            commissionExitButton.navigation = exitNav;
         }
     }
 
@@ -194,24 +204,13 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("[GameManager] Level Complete!");
 
-            // 🕒 Stop the timer
-            _isTimerRunning = false;
-
-            // 🕒 Compute final elapsed time
-            float totalTime = Time.time - _levelStartTime;
-            int minutes = Mathf.FloorToInt(totalTime / 60f);
-            int seconds = Mathf.FloorToInt(totalTime % 60f);
-
-            if (timeSpentText)
-                timeSpentText.text = $"{minutes:00}:{seconds:00}";
-
-            // ✅ Hide gameplay UI
+            // Hide gameplay UI
             SetGameplayUIVisible(false);
 
             // Fill CompletedItemText from CURRENT level placement areas
-            if (completedItemText && _spawnedPlacementAreas)
+            if (completedItemText && placementAreasRoot)
             {
-                var names = GetItemPrefixesFromPlacementAreas(_spawnedPlacementAreas);
+                var names = GetItemPrefixesFromPlacementPrefab(placementAreasRoot.gameObject);
                 completedItemText.text = names.Count > 0
                     ? string.Join("\n", names)
                     : "—";
@@ -238,12 +237,10 @@ public class GameManager : MonoBehaviour
 
     void OnProceedClicked()
     {
-        if (nextLevelScreen) nextLevelScreen.SetActive(false);
+        if (commissionScreen) commissionScreen.SetActive(false);
 
         // Bring gameplay UI back once you start next level
         SetGameplayUIVisible(true);
-
-        int next = _currentLevelIndex + 1;
     }
 
     void OnExitClicked()
@@ -373,39 +370,7 @@ public class GameManager : MonoBehaviour
         if (parts.Length >= 3) return $"{parts[0]}_{parts[1]}_{parts[2]}";
         return name;
     }
-
-    // From an instantiated placement areas GameObject (current level)
-    List<string> GetItemPrefixesFromPlacementAreas(GameObject placementAreasRootGO)
-    {
-        var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (!placementAreasRootGO) return new List<string>();
-
-        // Prefer AreaTrigger names if present
-        var areas = placementAreasRootGO.GetComponentsInChildren<AreaTrigger>(true);
-        if (areas != null && areas.Length > 0)
-        {
-            foreach (var a in areas)
-            {
-                if (!a) continue;
-                var prefix = ExtractPrefix3(a.transform.name);
-                if (!string.IsNullOrWhiteSpace(prefix)) result.Add(prefix);
-            }
-        }
-        else
-        {
-            // Fallback: use the first child's name
-            if (placementAreasRootGO.transform.childCount > 0)
-            {
-                var firstChild = placementAreasRootGO.transform.GetChild(0);
-                var prefix = ExtractPrefix3(firstChild.name);
-                if (!string.IsNullOrWhiteSpace(prefix)) result.Add(prefix);
-            }
-        }
-
-        return new List<string>(result);
-    }
-
-    // From a prefab asset for the NEXT level (not instantiated yet)
+    
     List<string> GetItemPrefixesFromPlacementPrefab(GameObject placementAreasPrefab)
     {
         var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -458,14 +423,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (_isTimerRunning && timerText)
-        {
-            float elapsed = Time.time - _levelStartTime;
-            int minutes = Mathf.FloorToInt(elapsed / 60f);
-            int seconds = Mathf.FloorToInt(elapsed % 60f);
-            timerText.text = $"{minutes:00}:{seconds:00}";
-        }
-
         // reload scene
         if (Input.GetKeyDown(KeyCode.X))
         {
