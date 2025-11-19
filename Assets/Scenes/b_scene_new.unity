@@ -5872,6 +5872,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: manualContainerUI
+      value: 
+      objectReference: {fileID: 708030808}
+    - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: manualUIController
       value: 
       objectReference: {fileID: 81563345}
