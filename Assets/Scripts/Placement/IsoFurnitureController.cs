@@ -21,6 +21,9 @@ public class IsoFurnitureController : MonoBehaviour
     [Header("Input Actions")]
     public InputActionAsset inputActions;
 
+    [Header("UI Controllers")]
+    [SerializeField] IsometricUIController isometricUIController;
+
     private InputAction moveAction;
     private InputAction rotateLeftAction;
     private InputAction rotateRightAction;
@@ -211,6 +214,9 @@ public class IsoFurnitureController : MonoBehaviour
             _currentRB = null;
             _index = -1;
             SelectionChanged?.Invoke(null);
+
+            isometricUIController.DisplayAllFurnitureMoveAndRotationControls(false);
+
             return;
         }
 
@@ -230,6 +236,8 @@ public class IsoFurnitureController : MonoBehaviour
         }
 
         SelectIndex(Mathf.Clamp(_index, 0, activeFurniture.Count - 1));
+        isometricUIController.DisplayAllFurnitureMoveAndRotationControls(true);
+
     }
 
     // ---------- Utilities ----------
