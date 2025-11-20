@@ -14,6 +14,7 @@ public class VacuumGun : MonoBehaviour
     [SerializeField] private FurnitureBuilder furnitureBuilder;
     [SerializeField] private SelectedPieceUIController selectedPieceUIController;
     [SerializeField] private PlayerSFXController playerSFXController;
+    [SerializeField] InteractUIController interactUIController;
 
     [Header("UI")]
     [SerializeField] private Image throwPowerBar;   // optional power visualization (0–1 fill)
@@ -132,6 +133,7 @@ public class VacuumGun : MonoBehaviour
             isHoldingPreview = false;
             previewInstance = null;
             selectedPieceUIController.ClearSelectedPieceImage();
+            interactUIController.ShowPickUpText();
 
             Debug.Log("✅ Placed furniture.");
         }
@@ -176,6 +178,8 @@ public class VacuumGun : MonoBehaviour
             throwPowerBar.fillAmount = 0f;
 
         selectedPieceUIController.ClearSelectedPieceImage();
+        interactUIController.ShowPickUpText();
+
         furnitureBuilder.DeselectExternally();
 
         storedPrefab = null;
@@ -202,6 +206,7 @@ public class VacuumGun : MonoBehaviour
         storedPrefab.SetActive(false);
 
         selectedPieceUIController.SetSelectedPlaceholderPiece();
+        interactUIController.ShowBuildText();
 
         var rb = storedPrefab.GetComponent<Rigidbody>();
         if (rb)

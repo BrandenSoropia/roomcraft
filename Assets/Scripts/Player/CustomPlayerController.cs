@@ -21,7 +21,8 @@ public class CustomPlayerController : MonoBehaviour
     [Header("UI Controllers")]
     [SerializeField] GameObject buildControlsContainerUI;
     [SerializeField] GameObject isometricControlsContainerUI;
-    [SerializeField] ManualUIController manualUIController;
+    [SerializeField] GameObject selectedItemContainerUI;
+    [SerializeField] GameObject manualContainerUI;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -32,6 +33,8 @@ public class CustomPlayerController : MonoBehaviour
     FirstPersonController myFirstPersonController;
     PlayerAnimationController myPlayerAnimationController;
     IsoFurnitureController myIsoFurnitureController;
+    [SerializeField] ManualUIController manualUIController;
+
 
     void Start()
     {
@@ -60,7 +63,7 @@ public class CustomPlayerController : MonoBehaviour
             gameManager.SetState(GameState.BuildMode);
 
             isometricControlsContainerUI.SetActive(false);
-            buildControlsContainerUI.SetActive(true);
+            DisplayBuildModeContainerUI(true);
 
             myIsoFurnitureController.enabled = false;
             SetPlayerScriptsEnabledState(true);
@@ -74,7 +77,7 @@ public class CustomPlayerController : MonoBehaviour
             gameManager.SetState(GameState.IsometricMode);
 
             isometricControlsContainerUI.SetActive(true);
-            buildControlsContainerUI.SetActive(false);
+            DisplayBuildModeContainerUI(false);
 
             myIsoFurnitureController.enabled = true;
             SetPlayerScriptsEnabledState(false);
@@ -83,6 +86,13 @@ public class CustomPlayerController : MonoBehaviour
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
         }
+    }
+
+    void DisplayBuildModeContainerUI(bool newState)
+    {
+        buildControlsContainerUI.SetActive(newState);
+        selectedItemContainerUI.SetActive(newState);
+        manualContainerUI.SetActive(newState);
     }
 
     public void OnToggleDisplayManual(InputValue inputValue)

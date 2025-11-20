@@ -167,7 +167,7 @@
                 {
                     "name": "",
                     "id": "56101e6c-fd4f-4cfe-9988-7979f1d96e50",
-                    "path": "<Gamepad>/select",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -365,7 +365,7 @@
                 {
                     "name": "",
                     "id": "059c2291-cba1-4adb-a35e-db2440cdbbd2",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -562,7 +562,7 @@
                 {
                     "name": "",
                     "id": "517a3a72-56f4-4117-9bc8-5721af4a38cf",
-                    "path": "<Gamepad>/select",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -584,7 +584,7 @@
                 {
                     "name": "",
                     "id": "de952fd9-57c5-4bf3-b872-064cd9f483eb",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -606,7 +606,7 @@
                 {
                     "name": "",
                     "id": "597c9541-1e76-4e5a-ba35-a6e4227419d1",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -694,7 +694,7 @@
                 {
                     "name": "",
                     "id": "69a1bcfe-6104-441d-aa4a-c86b7a882163",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -716,7 +716,7 @@
                 {
                     "name": "",
                     "id": "01c2b605-a50f-4b68-a6ec-21462d4c33d6",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
