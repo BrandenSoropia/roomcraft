@@ -5,7 +5,7 @@ public class StartScreen : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("ThrowSuck");
+        SceneManager.LoadScene("Level_1"); 
     }
 
     public void QuitGame()
