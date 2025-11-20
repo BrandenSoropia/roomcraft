@@ -1605,7 +1605,7 @@ MonoBehaviour:
   piecesRoot: {fileID: 901535706}
   basePiecesRoot: {fileID: 1735720743}
   placementAreasRoot: {fileID: 308875627}
-  nextLevelIndex: 0
+  nextLevelIndex: 3
   _numTotalTargets: 2
   placementProgressGUI: {fileID: 708451495}
   placementProgressCheckImage: {fileID: 1640954114}
@@ -4615,6 +4615,7 @@ MonoBehaviour:
   furnitureBuilder: {fileID: 413850651}
   selectedPieceUIController: {fileID: 1707115882}
   playerSFXController: {fileID: 1182965348}
+  interactUIController: {fileID: 0}
   throwPowerBar: {fileID: 1854626724}
   powerBarContainer: {fileID: 426691913}
   muzzleOrHoldPoint: {fileID: 1148983733}
