@@ -23,6 +23,7 @@ public class CustomPlayerController : MonoBehaviour
     [SerializeField] GameObject isometricControlsContainerUI;
     [SerializeField] GameObject selectedItemContainerUI;
     [SerializeField] GameObject manualContainerUI;
+    [SerializeField] PauseUIController pauseUIController;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
@@ -47,11 +48,11 @@ public class CustomPlayerController : MonoBehaviour
         myIsoFurnitureController.enabled = false;
     }
 
-    public void OnQuitGame()
-    {
-        Debug.Log("Quitting game");
-        Application.Quit();
-    }
+    // public void OnQuitGame()
+    // {
+    //     Debug.Log("Quitting game");
+    //     Application.Quit();
+    // }
 
     public void OnToggleIsometricView(InputValue inputValue)
     {
@@ -106,5 +107,19 @@ public class CustomPlayerController : MonoBehaviour
     {
         myFirstPersonController.enabled = newState;
         // myPlayerAnimationController.enabled = newState;
+    }
+
+    public void OnTogglePause(InputValue inputValue)
+    {
+        if (!inputValue.isPressed) return;
+
+        if (pauseUIController == null)
+        {
+            Debug.Log("PauseController missing. Please attach");
+            return;
+        }
+
+        pauseUIController.TogglePauseMenu();
+
     }
 }

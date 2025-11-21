@@ -5752,6 +5752,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1535643218}
     - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: pauseUIController
+      value: 
+      objectReference: {fileID: 2057320648}
+    - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: manualUIController
       value: 
       objectReference: {fileID: 1775481992}
@@ -11443,6 +11447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2057320646}
   - component: {fileID: 2057320647}
+  - component: {fileID: 2057320648}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -11494,6 +11499,21 @@ MonoBehaviour:
   - {fileID: 1534480128}
   moveSpeed: 8
   moveSensitivity: 0.9
+--- !u!114 &2057320648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2057320645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4827bf1d1d30e249bc0ec3af1b5d288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  isShown: 0
+  onScreenPosition: {x: 0, y: 0, z: 0}
+  offScreenPosition: {x: 0, y: 900, z: 0}
 --- !u!1 &2068593019
 GameObject:
   m_ObjectHideFlags: 0

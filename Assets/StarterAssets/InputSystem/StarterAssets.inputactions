@@ -61,7 +61,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "QuitGame",
+                    "name": "Disabled__QuitGame",
                     "type": "Button",
                     "id": "e14a8fab-8b41-4458-908d-1526b77b76a3",
                     "expectedControlType": "",
@@ -91,6 +91,15 @@
                     "name": "ChangeRadioSong",
                     "type": "Button",
                     "id": "2a7f85c7-9549-433d-a126-72277230f2b8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TogglePause",
+                    "type": "Button",
+                    "id": "7733671a-14c2-483c-a005-0f4be8e627de",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -325,7 +334,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "QuitGame",
+                    "action": "Disabled__QuitGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -392,6 +401,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangeRadioSong",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "885b320e-22a3-40ae-a35d-0361d403902f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a20ad9d6-6940-43bb-b02d-14eeaf440d3b",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -784,8 +815,41 @@
         {
             "name": "UI",
             "id": "d740502f-aebf-45ed-949d-1e351be3a00a",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "TogglePause",
+                    "type": "Button",
+                    "id": "530ddd46-3f48-4e21-9b3e-694da3cba568",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "76dc64d7-ed24-4a4e-99b9-5aa7de975e9c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3920f011-9d63-49dc-b27d-87d88f17efeb",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
