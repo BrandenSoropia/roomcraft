@@ -28,6 +28,8 @@ public class CustomPlayerController : MonoBehaviour
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
     [SerializeField] PlayerSFXController playerSFXController;
+    string actionMapNameBeforePause;
+
 
     // Stuff that controls player
     GameModeController myGameModeController;
@@ -119,7 +121,23 @@ public class CustomPlayerController : MonoBehaviour
             return;
         }
 
-        pauseUIController.TogglePauseMenu();
+        if (gameManager.CurrentState == GameState.Paused)
+        {
+            pauseUIController.HidePauseMenu();
 
+            // Revert controls
+            myPlayerInput.SwitchCurrentActionMap(actionMapNameBeforePause);
+
+            actionMapNameBeforePause = null;
+        }
+        else
+        {
+            pauseUIController.ShowPauseMenu();
+
+            // Save action map to restore once pause is closed
+            actionMapNameBeforePause = myPlayerInput.currentActionMap.name;
+            // "UI" map used to disable player controls while pause is open.
+            myPlayerInput.SwitchCurrentActionMap("UI");
+        }
     }
 }

@@ -145,25 +145,23 @@ public class MenuSelector : MonoBehaviour
     void OnMovePerformed(InputAction.CallbackContext ctx)
     {
         Vector2 value = ctx.ReadValue<Vector2>();
-        Debug.Log("### called");
 
         if (value.y > moveSensitivity && !upTriggered)
         {
             upTriggered = true;
             downTriggered = false;
-            Debug.Log("### MenuSelector: moved up");
+
             MoveSelection(-1);
         }
         else if (value.y < -moveSensitivity && !downTriggered)
         {
-            Debug.Log("### MenuSelector: moved down");
             upTriggered = false;
             downTriggered = true;
             MoveSelection(1);
         }
-        else
+        else if (value.y == 0)
         {
-            // Dead zone
+            // reset once the stick is brought back to 0
             upTriggered = false;
             downTriggered = false;
         }
