@@ -344,9 +344,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerInput: {fileID: 0}
+  uiInputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   isShown: 0
   onScreenPosition: {x: 0, y: 0, z: 0}
   offScreenPosition: {x: 0, y: 900, z: 0}
+  progressContainerUI: {fileID: 0}
+  buildControlsContainerUI: {fileID: 0}
+  selectedPieceContainerUI: {fileID: 0}
+  manualContainerUI: {fileID: 0}
+  isometricControlsContainerUI: {fileID: 0}
 --- !u!1 &1474804743776955515
 GameObject:
   m_ObjectHideFlags: 0

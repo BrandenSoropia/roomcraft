@@ -15079,26 +15079,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 1386521928961886131, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4636552128807825887, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 1182965385}
     - target: {fileID: 4636552128807825887, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
-      propertyPath: uiInputModule
-      value: 
-      objectReference: {fileID: 1335381076}
-    - target: {fileID: 4636552128807825887, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
       propertyPath: manualContainerUI
       value: 
       objectReference: {fileID: 1535643218}
-    - target: {fileID: 4636552128807825887, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
-      propertyPath: uiInputActionAsset
-      value: 
-      objectReference: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     - target: {fileID: 4636552128807825887, guid: 916854c49c6a08b4e86891e81f44268a, type: 3}
       propertyPath: progressContainerUI
       value: 
