@@ -442,6 +442,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "TogglePause",
+                    "type": "Button",
+                    "id": "00ebe96d-8a2c-4e4b-913e-f6aede6bf4b3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ZoomIn",
                     "type": "Button",
                     "id": "84fc505b-04de-48a5-b845-cbeadb9dc083",
@@ -589,6 +598,28 @@
                     "action": "Orbit",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "9f166850-d6ba-4aec-94e8-16a2d363cd8c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ae02d18-014e-43d7-960b-34bfcbed8bea",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "TogglePause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",

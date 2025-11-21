@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 public class PauseUIController : MonoBehaviour
 {
     [Header("PlayerInput")]
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] InputActionAsset uiInputActionAsset;
     string actionMapNameBeforePause;
 
 
@@ -14,15 +16,21 @@ public class PauseUIController : MonoBehaviour
     [SerializeField] Vector3 onScreenPosition;
     [SerializeField] Vector3 offScreenPosition;
 
+    [Header("Control UIs"), Tooltip("Used to show/hide when paused")]
+    [SerializeField] GameObject progressContainerUI;
+    [SerializeField] GameObject buildControlsContainerUI;
+    [SerializeField] GameObject selectedPieceContainerUI;
+    [SerializeField] GameObject manualContainerUI;
+    [SerializeField] GameObject isometricControlsContainerUI;
+
+
     RectTransform myRectTransform;
     GameManager gameManager;
 
-
     void Start()
     {
-        gameManager = FindFirstObjectByType<GameManager>();
-
         myRectTransform = GetComponent<RectTransform>();
+        gameManager = FindFirstObjectByType<GameManager>();
 
         if (!isShown)
         {
@@ -37,7 +45,22 @@ public class PauseUIController : MonoBehaviour
 
     public void HandleShowPauseMenu()
     {
+        if (uiInputActionAsset != null)
+        {
+            Debug.Log("### enabling UI Input Module");
+            uiInputActionAsset.FindActionMap("UI").Enable();
+
+        }
         ShowPauseMenu();
+
+        if (gameManager.CurrentState == GameState.BuildMode)
+        {
+            DisplayBuildModeControls(false);
+        }
+        else if (gameManager.CurrentState == GameState.IsometricMode)
+        {
+            DisplayIsometricControls(false);
+        }
 
         gameManager.SetState(GameState.Paused);
 
@@ -57,7 +80,23 @@ public class PauseUIController : MonoBehaviour
 
     public void HandleHidePauseMenu()
     {
+
+        if (uiInputActionAsset != null)
+        {
+            Debug.Log("### disabling UI Input Module");
+            uiInputActionAsset.FindActionMap("UI").Disable();
+        }
+
         HidePauseMenu();
+
+        if (gameManager.PreviousState == GameState.BuildMode)
+        {
+            DisplayBuildModeControls(true);
+        }
+        else if (gameManager.PreviousState == GameState.IsometricMode)
+        {
+            DisplayIsometricControls(true);
+        }
 
         gameManager.UsePreviousStateAsNextState();
 
@@ -75,6 +114,21 @@ public class PauseUIController : MonoBehaviour
             actionMapNameBeforePause = null;
         }
 
+    }
+
+    // UI container display controls
+    void DisplayBuildModeControls(bool newState)
+    {
+        buildControlsContainerUI.SetActive(newState);
+        selectedPieceContainerUI.SetActive(newState);
+        manualContainerUI.SetActive(newState);
+        progressContainerUI.SetActive(newState);
+    }
+
+    void DisplayIsometricControls(bool newState)
+    {
+        isometricControlsContainerUI.SetActive(newState);
+        progressContainerUI.SetActive(newState);
     }
 
     // Button Functionality

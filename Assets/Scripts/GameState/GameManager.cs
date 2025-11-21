@@ -176,8 +176,6 @@ public class GameManager : MonoBehaviour
         SetState(previousStateToRestore);
     }
 
-
-
     // ================================================================
     // Counters
     // ================================================================
