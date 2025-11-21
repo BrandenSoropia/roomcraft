@@ -173,11 +173,10 @@ public class GameManager : MonoBehaviour
     {
         GameState previousStateToRestore = PreviousState;
 
-        PreviousState = CurrentState;
-        CurrentState = previousStateToRestore;
-
-        OnGameStateChanged?.Invoke(previousStateToRestore);
+        SetState(previousStateToRestore);
     }
+
+
 
     // ================================================================
     // Counters

@@ -128,6 +128,7 @@ public class MenuSelector : MonoBehaviour
     private void MoveSelection(int direction)
     {
         int newIndex = Mathf.Clamp(currentIndex + direction, 0, buttons.Count - 1);
+        Debug.Log($"idx: {newIndex} {buttons[newIndex].gameObject.name}");
         if (newIndex == currentIndex) return;
 
         currentIndex = newIndex;

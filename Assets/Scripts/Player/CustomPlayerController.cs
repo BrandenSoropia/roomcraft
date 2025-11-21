@@ -123,21 +123,11 @@ public class CustomPlayerController : MonoBehaviour
 
         if (gameManager.CurrentState == GameState.Paused)
         {
-            pauseUIController.HidePauseMenu();
-
-            // Revert controls
-            myPlayerInput.SwitchCurrentActionMap(actionMapNameBeforePause);
-
-            actionMapNameBeforePause = null;
+            pauseUIController.HandleHidePauseMenu();
         }
         else
         {
-            pauseUIController.ShowPauseMenu();
-
-            // Save action map to restore once pause is closed
-            actionMapNameBeforePause = myPlayerInput.currentActionMap.name;
-            // "UI" map used to disable player controls while pause is open.
-            myPlayerInput.SwitchCurrentActionMap("UI");
+            pauseUIController.HandleShowPauseMenu();
         }
     }
 }
