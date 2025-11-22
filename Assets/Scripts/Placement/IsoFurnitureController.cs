@@ -144,23 +144,88 @@ public class IsoFurnitureController : MonoBehaviour
     {
         if (_currentRB == null) return;
 
-        // Calculate pivot from combined bounds center
-        Bounds b = GetCombinedBounds(_currentRB.transform);
-        Vector3 pivotPoint = b.center;
+        // ORIGINAL LOGIC: rotate around furniture bounds center
+        Bounds bounds = GetBoundsExcludingRoot(_currentRB.transform);
+        Vector3 pivot = bounds.center;
 
-        _currentRB.transform.RotateAround(pivotPoint, Vector3.right, x);
-        _currentRB.transform.RotateAround(pivotPoint, Vector3.up, y);
-        _currentRB.transform.RotateAround(pivotPoint, Vector3.forward, z);
+        _currentRB.transform.RotateAround(pivot, Vector3.right, x);
+        _currentRB.transform.RotateAround(pivot, Vector3.up, y);
+        _currentRB.transform.RotateAround(pivot, Vector3.forward, z);
 
-        Debug.Log($"Rotated furniture {_currentRB.name} by (x={x}, y={y}, z={z}) around {pivotPoint}");
+        // Only when rotating on X axis → Snap BasePiece to floor
+        if (Mathf.Abs(x) > 0.01f)
+        {
+            Debug.Log("[RotateFurniture] X rotation detected → snapping BasePiece to floor.");
+            SnapBasePieceToFloor();
+        }
     }
 
-    Bounds GetCombinedBounds(Transform t)
+    void SnapBasePieceToFloor()
     {
-        Renderer[] rends = t.GetComponentsInChildren<Renderer>(true);
-        if (rends.Length == 0) return new Bounds(t.position, Vector3.zero);
+        if (_currentRB == null) return;
+
+        // 1. Find BasePiece (first child of FContainer)
+        Transform basePiece = null;
+
+        if (_currentRB.transform.childCount > 0)
+            basePiece = _currentRB.transform.GetChild(0);
+
+        if (basePiece == null)
+        {
+            Debug.LogWarning("No BasePiece found under furniture.");
+            return;
+        }
+
+        // 2. Get renderer bounds of BasePiece only
+        Renderer[] rends = basePiece.GetComponentsInChildren<Renderer>(true);
+        if (rends.Length == 0)
+        {
+            Debug.LogWarning("BasePiece has no renderers.");
+            return;
+        }
+
         Bounds b = rends[0].bounds;
-        for (int i = 1; i < rends.Length; i++) b.Encapsulate(rends[i].bounds);
+        for (int i = 1; i < rends.Length; i++)
+            b.Encapsulate(rends[i].bounds);
+
+        float minY = b.min.y;
+
+        // 3. Compute how much we need to lift
+        float offset = 0f - minY;
+
+        // 4. Move whole furniture up
+        _currentRB.transform.position += new Vector3(0, offset, 0);
+
+        Debug.Log($"Snapped BasePiece to floor. minY={minY}, offset={offset}");
+    }
+
+    Bounds GetBoundsExcludingRoot(Transform root)
+    {
+        Renderer[] rends = root.GetComponentsInChildren<Renderer>(true);
+
+        bool found = false;
+        Bounds b = new Bounds();
+
+        foreach (var r in rends)
+        {
+            // Skip the FContainer root if it somehow has a renderer (rare but safe)
+            if (r.transform == root)
+                continue;
+
+            if (!found)
+            {
+                b = r.bounds;
+                found = true;
+            }
+            else
+            {
+                b.Encapsulate(r.bounds);
+            }
+        }
+
+        if (!found)
+            return new Bounds(root.position, Vector3.zero);
+
         return b;
     }
 
