@@ -126,6 +126,7 @@ public class AreaTrigger : MonoBehaviour
                 ShowAreaTrigger();
                 break;
             default:
+                Debug.Log("Unknown state changed");
                 break;
         }
     }
