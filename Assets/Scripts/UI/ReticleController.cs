@@ -62,18 +62,7 @@ public class ReticleController : MonoBehaviour
         myImage.sprite = blockedReticle;
         transform.localScale = blockedReticleScale;
     }
-
-    void HandleRenderingBuildReticle()
-    {
-        if (vacuumGun.isHoldingItem)
-        {
-            UseBuildReticle();
-        }
-        else
-        {
-            UseDefaultReticle();
-        }
-    }
+    
     /*
     Project a ray forward from the player's viewpoint (a.k.a the screen). This is required for aiming.
     Example: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Camera.ViewportPointToRay.html
@@ -96,7 +85,7 @@ public class ReticleController : MonoBehaviour
                 UsePickupInteractReticle();
                 break;
             case "Marker":
-                HandleRenderingBuildReticle();
+                HandleMarkerReticle(target);
                 break;
             case "BasePiece":
                 UseBlockedReticle();
@@ -105,5 +94,55 @@ public class ReticleController : MonoBehaviour
                 UseDefaultReticle();
                 break;
         }
+    }
+    
+    void HandleMarkerReticle(GameObject marker)
+    {
+        // Not holding anything → show default
+        if (!vacuumGun.isHoldingItem)
+        {
+            UseDefaultReticle();
+            return;
+        }
+
+        GameObject heldPiece = vacuumGun.GetHeldPreview();
+
+        // When holdingItem is true but preview isn't spawned yet, do not revert to default.
+        if (heldPiece == null)
+        {
+            UseBuildReticle();
+            return;
+        }
+
+        // Prefix matching
+        string piecePrefix = GetPiecePrefix(heldPiece.name);
+        string markerPrefix = GetMarkerPrefix(marker.name);
+
+        if (piecePrefix.Equals(markerPrefix, System.StringComparison.OrdinalIgnoreCase))
+            UseBuildReticle();
+        else
+            UseBlockedReticle();
+    }
+    
+    string GetPiecePrefix(string name)
+    {
+        int idx = name.IndexOf("(");
+        if (idx > 0)
+            name = name.Substring(0, idx);
+
+        return name.Trim();
+    }
+
+    string GetMarkerPrefix(string name)
+    {
+        int idxSide = name.IndexOf("_side_marker");
+        if (idxSide > 0)
+            return name.Substring(0, idxSide);
+
+        int idxMarker = name.IndexOf("_marker");
+        if (idxMarker > 0)
+            return name.Substring(0, idxMarker);
+
+        return name.Trim();
     }
 }
