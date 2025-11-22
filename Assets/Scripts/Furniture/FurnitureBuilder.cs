@@ -378,7 +378,19 @@ public class FurnitureBuilder : MonoBehaviour
 
             if (clicked.CompareTag("Marker"))
             {
-                Debug.Log("Valid marker detected: " + clicked.name);
+                // Extract expected prefixes
+                string pieceKey = GetPieceKey(pendingPiece.name);
+                string markerKey = GetMarkerKey(clicked.name);
+
+                // BLOCK if prefix mismatch
+                if (!pieceKey.Equals(markerKey, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    Debug.Log($"[Builder] BLOCKED: '{pieceKey}' cannot attach to '{markerKey}'");
+                    playerSFXController.PlayDeselectPieceSFX();
+                    return false;         // ← IMPORTANT: VacuumGun will NOT unload
+                }
+
+                // Allowed — perform attachment
                 HandleAttachment(clicked);
                 playerSFXController.PlayAttachSFX();
                 placedSuccessfully = true;
@@ -416,4 +428,24 @@ public class FurnitureBuilder : MonoBehaviour
         }
     }
 
+    string GetPieceKey(string name)
+    {
+        if (name.Contains("("))
+            name = name.Substring(0, name.IndexOf("(")).Trim();
+        return name.Trim();
+    }
+
+    string GetMarkerKey(string name)
+    {
+        if (name.Contains("("))
+            name = name.Substring(0, name.IndexOf("(")).Trim();
+
+        if (name.Contains("_side_marker"))
+            return name.Substring(0, name.IndexOf("_side_marker"));
+
+        if (name.Contains("_marker"))
+            return name.Substring(0, name.IndexOf("_marker"));
+
+        return name.Trim();
+    }
 }

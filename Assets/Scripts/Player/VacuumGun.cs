@@ -302,4 +302,17 @@ public class VacuumGun : MonoBehaviour
         }
         t.localScale = finalScale;
     }
+    
+    public GameObject GetHeldPreview()
+    {
+        // If the player is holding a preview, return the preview itself
+        if (isHoldingPreview && previewInstance != null)
+            return previewInstance;
+
+        // If sucking but preview has not been spawned yet, return the prefab as key info
+        if (isHoldingItem && storedPrefab != null)
+            return storedPrefab;
+
+        return null;
+    }
 }
