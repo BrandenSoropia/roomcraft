@@ -1,6 +1,5 @@
 public enum GameState
 {
     BuildMode,
-    IsometricMode,
-    Paused
+    IsometricMode
 }

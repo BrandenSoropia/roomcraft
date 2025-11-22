@@ -44,9 +44,8 @@ public class GameManager : MonoBehaviour
     public GameObject crosshair;
     public GameObject manualUIContainer;
     public GameObject selectedPieceContainer;
-    
+
     public GameState CurrentState { get; private set; }
-    public GameState PreviousState { get; private set; }
     public event Action<GameState> OnGameStateChanged;
 
     private static GameManager _instance;
@@ -164,16 +163,8 @@ public class GameManager : MonoBehaviour
     public void SetState(GameState newState)
     {
         if (newState == CurrentState) return;
-        PreviousState = CurrentState;
         CurrentState = newState;
         OnGameStateChanged?.Invoke(newState);
-    }
-
-    public void UsePreviousStateAsNextState()
-    {
-        GameState previousStateToRestore = PreviousState;
-
-        SetState(previousStateToRestore);
     }
 
     // ================================================================

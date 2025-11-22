@@ -88,7 +88,10 @@ public class MenuSelector : MonoBehaviour
     void OnDisable()
     {
         if (_moveAction != null)
+        {
             _moveAction.performed -= OnMovePerformed;
+            _moveAction.canceled += OnMoveCanceled;
+        }
 
         if (_submitAction != null)
             _submitAction.performed -= OnSubmitPerformed;

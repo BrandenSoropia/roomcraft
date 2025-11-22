@@ -17,19 +17,17 @@ Requirements:
 public class CustomPlayerController : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
+    [SerializeField] PauseManager pauseManager;
 
     [Header("UI Controllers")]
     [SerializeField] GameObject buildControlsContainerUI;
     [SerializeField] GameObject isometricControlsContainerUI;
     [SerializeField] GameObject selectedItemContainerUI;
     [SerializeField] GameObject manualContainerUI;
-    [SerializeField] PauseUIController pauseUIController;
 
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
     [SerializeField] PlayerSFXController playerSFXController;
-    string actionMapNameBeforePause;
-
 
     // Stuff that controls player
     GameModeController myGameModeController;
@@ -49,12 +47,6 @@ public class CustomPlayerController : MonoBehaviour
         // Make sure isometric controller is off first thing. Sometimes we forget to turn it off in editor.
         myIsoFurnitureController.enabled = false;
     }
-
-    // public void OnQuitGame()
-    // {
-    //     Debug.Log("Quitting game");
-    //     Application.Quit();
-    // }
 
     public void OnToggleIsometricView(InputValue inputValue)
     {
@@ -115,19 +107,20 @@ public class CustomPlayerController : MonoBehaviour
     {
         if (!inputValue.isPressed) return;
 
-        if (pauseUIController == null)
+        if (pauseManager == null)
         {
-            Debug.Log("PauseController missing. Please attach");
+            Debug.Log("PauseManager GO missing. Please add and configure.");
             return;
         }
 
-        if (gameManager.CurrentState == GameState.Paused)
+        if (pauseManager.CurrentState == PauseState.Off)
         {
-            pauseUIController.HandleHidePauseMenu();
+            pauseManager.TurnOn();
         }
         else
         {
-            pauseUIController.HandleShowPauseMenu();
+            pauseManager.TurnOff();
         }
+
     }
 }
