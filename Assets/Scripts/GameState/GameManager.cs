@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public GameObject crosshair;
     public GameObject manualUIContainer;
     public GameObject selectedPieceContainer;
-    
+
     public GameState CurrentState { get; private set; }
     public event Action<GameState> OnGameStateChanged;
 
