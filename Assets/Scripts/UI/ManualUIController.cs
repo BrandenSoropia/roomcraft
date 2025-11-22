@@ -87,7 +87,7 @@ public class ManualUIController : MonoBehaviour
         {
             if (uiInput.move != null)
             {
-                Debug.Log("onMove attached");
+                Debug.Log("ManualUIController: onMove attached");
                 _moveAction = uiInput.move;
                 _moveAction.performed += OnMove; // This gives you your own OnMove handler
             }
