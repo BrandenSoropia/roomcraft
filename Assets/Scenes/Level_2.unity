@@ -1573,7 +1573,7 @@ MonoBehaviour:
   piecesRoot: {fileID: 901535706}
   basePiecesRoot: {fileID: 1735720743}
   placementAreasRoot: {fileID: 308875627}
-  nextLevelIndex: 3
+  nextLevelIndex: 4
   _numTotalTargets: 2
   placementProgressGUI: {fileID: 708451495}
   placementProgressCheckImage: {fileID: 1640954114}
