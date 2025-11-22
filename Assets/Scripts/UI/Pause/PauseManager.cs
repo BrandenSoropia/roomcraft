@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -30,11 +31,6 @@ public class PauseManager : MonoBehaviour
     GameManager gameManager;
 
     // =====================
-    // Singleton
-    // =====================
-    public static PauseManager Instance { get; private set; }
-
-    // =====================
     // State Management
     // =====================
     private readonly List<PauseState> _stateStack = new();
@@ -47,15 +43,9 @@ public class PauseManager : MonoBehaviour
     // =====================
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-
         // initialize with a default state
-        _stateStack.Add(PauseState.Off);
+        Debug.Log("PauseManager: Awake");
+        ResetState();
     }
 
     void Start()
@@ -63,6 +53,9 @@ public class PauseManager : MonoBehaviour
         gameManager = FindFirstObjectByType<GameManager>();
         pauseUIController = FindFirstObjectByType<PauseUIController>();
         settingsUIController = FindFirstObjectByType<SettingsUIController>();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnEnable()
@@ -75,6 +68,29 @@ public class PauseManager : MonoBehaviour
         OnPauseStateChanged -= HandleInternalPauseStateChanged;
     }
 
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        Debug.Log("PauseManager initialized/reset state...");
+        ResetState();
+    }
+
+    // Clear everything when scene loads.
+    private void OnSceneUnloaded(Scene arg0)
+    {
+        Debug.Log("PauseManager shutting down...");
+        Debug.Log("PauseManager before state..." + _stateStack);
+
+        // Clear state history
+        if (StateHistory != null)
+            _stateStack.Clear();
+
+        Debug.Log("PauseManager after state..." + _stateStack);
+
+
+        // Remove all listeners
+        OnPauseStateChanged = null;
+    }
+
     // =====================
     // State Access
     // =====================
@@ -83,17 +99,25 @@ public class PauseManager : MonoBehaviour
     // =====================
     // State Transitions
     // =====================
+    public void ResetState()
+    {
+        Debug.Log("[PauseManager] Resetting PauseManager for new scene" + _stateStack);
+
+        _stateStack.Clear();
+        _stateStack.Add(PauseState.Off);
+
+        // Fire event so UI initializes cleanly
+        OnPauseStateChanged?.Invoke(PauseState.Off);
+    }
+
 
     public void TurnOff()
     {
-        _stateStack.Clear();
-        _stateStack.Add(PauseState.Off);
-        OnPauseStateChanged?.Invoke(PauseState.Off);
+        ResetState();
     }
 
     public void TurnOn()
     {
-        _stateStack.Clear();
         _stateStack.Add(PauseState.Main);
         OnPauseStateChanged?.Invoke(PauseState.Main);
     }
@@ -228,4 +252,15 @@ public class PauseManager : MonoBehaviour
         progressContainerUI.SetActive(newState);
     }
 
+    public void TogglePause()
+    {
+        if (CurrentState == PauseState.Off)
+        {
+            TurnOn();
+        }
+        else
+        {
+            TurnOff();
+        }
+    }
 }

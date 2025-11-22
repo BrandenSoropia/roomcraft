@@ -17,7 +17,6 @@ Requirements:
 public class CustomPlayerController : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
-    [SerializeField] PauseManager pauseManager;
 
     [Header("UI Controllers")]
     [SerializeField] GameObject buildControlsContainerUI;
@@ -36,6 +35,8 @@ public class CustomPlayerController : MonoBehaviour
     IsoFurnitureController myIsoFurnitureController;
     [SerializeField] ManualUIController manualUIController;
 
+    PauseManager pauseManager;
+
 
     void Start()
     {
@@ -43,6 +44,8 @@ public class CustomPlayerController : MonoBehaviour
         myFirstPersonController = GetComponent<FirstPersonController>();
         myPlayerAnimationController = GetComponent<PlayerAnimationController>();
         myIsoFurnitureController = GetComponent<IsoFurnitureController>();
+
+        pauseManager = FindFirstObjectByType<PauseManager>();
 
         // Make sure isometric controller is off first thing. Sometimes we forget to turn it off in editor.
         myIsoFurnitureController.enabled = false;
@@ -109,18 +112,10 @@ public class CustomPlayerController : MonoBehaviour
 
         if (pauseManager == null)
         {
-            Debug.Log("PauseManager GO missing. Please add and configure.");
+            Debug.LogError("PauseManager GO missing. Please add and configure.");
             return;
         }
 
-        if (pauseManager.CurrentState == PauseState.Off)
-        {
-            pauseManager.TurnOn();
-        }
-        else
-        {
-            pauseManager.TurnOff();
-        }
-
+        pauseManager.TogglePause();
     }
 }
