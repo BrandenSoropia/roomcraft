@@ -37,7 +37,6 @@ public class PauseUIController : MonoBehaviour
         Debug.Log("Restarting level");
 
         Scene activeScene = SceneManager.GetActiveScene();
-        pauseManager.TurnOff(); // Do this in case weird stuff gets carried over.
         SceneManager.LoadScene(activeScene.buildIndex);
     }
 
@@ -50,7 +49,6 @@ public class PauseUIController : MonoBehaviour
     public void GoToStartScreen()
     {
         Debug.Log("Going to Start Screen");
-        pauseManager.TurnOff(); // Do this in case weird stuff gets carried over.
         SceneManager.LoadScene("StartScreen");
     }
 
