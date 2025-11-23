@@ -72,9 +72,14 @@ Shader "Custom/WallHolePunch"
                 float _MaxHoles;
             CBUFFER_END
 
-            // Global array for hole positions (set by script)
-            float4 _HolePositions[10]; // Max 10 holes
-            float _HoleCount; // Actual number of active holes
+            // Hole positions - using individual properties (max 5 holes for now)
+            // Set via Material.SetVector in script
+            float4 _HolePos0;
+            float4 _HolePos1;
+            float4 _HolePos2;
+            float4 _HolePos3;
+            float4 _HolePos4;
+            float _HoleCount;
 
             Varyings vert(Attributes IN)
             {
@@ -92,7 +97,7 @@ Shader "Custom/WallHolePunch"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                // Sample base texture
+                // Sample base texture (will return white if texture is null)
                 half4 albedo = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
                 
                 // Calculate lighting
@@ -109,11 +114,32 @@ Shader "Custom/WallHolePunch"
                 
                 // Find minimum distance to any hole position
                 int holeCount = (int)min(_HoleCount, _MaxHoles);
-                for (int i = 0; i < holeCount; i++)
+                
+                // Check each hole position
+                if (holeCount > 0)
                 {
-                    float3 holePos = _HolePositions[i].xyz;
-                    float dist = distance(IN.positionWS, holePos);
-                    minDist = min(minDist, dist);
+                    float dist0 = distance(IN.positionWS, _HolePos0.xyz);
+                    minDist = min(minDist, dist0);
+                }
+                if (holeCount > 1)
+                {
+                    float dist1 = distance(IN.positionWS, _HolePos1.xyz);
+                    minDist = min(minDist, dist1);
+                }
+                if (holeCount > 2)
+                {
+                    float dist2 = distance(IN.positionWS, _HolePos2.xyz);
+                    minDist = min(minDist, dist2);
+                }
+                if (holeCount > 3)
+                {
+                    float dist3 = distance(IN.positionWS, _HolePos3.xyz);
+                    minDist = min(minDist, dist3);
+                }
+                if (holeCount > 4)
+                {
+                    float dist4 = distance(IN.positionWS, _HolePos4.xyz);
+                    minDist = min(minDist, dist4);
                 }
                 
                 // Calculate hole alpha based on distance
@@ -133,48 +159,6 @@ Shader "Custom/WallHolePunch"
             ENDHLSL
         }
 
-        // Shadow pass
-        Pass
-        {
-            Name "ShadowCaster"
-            Tags { "LightMode"="ShadowCaster" }
-
-            ZWrite On
-            ZTest LEqual
-            ColorMask 0
-            Cull Back
-
-            HLSLPROGRAM
-            #pragma vertex ShadowPassVertex
-            #pragma fragment ShadowPassFragment
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float3 normalOS : NORMAL;
-            };
-
-            struct Varyings
-            {
-                float4 positionCS : SV_POSITION;
-            };
-
-            Varyings ShadowPassVertex(Attributes IN)
-            {
-                Varyings OUT;
-                VertexPositionInputs vertexInput = GetVertexPositionInputs(IN.positionOS.xyz);
-                OUT.positionCS = vertexInput.positionCS;
-                return OUT;
-            }
-
-            half4 ShadowPassFragment(Varyings IN) : SV_Target
-            {
-                return 0;
-            }
-            ENDHLSL
-        }
     }
 
     FallBack "Hidden/Universal Render Pipeline/FallbackError"

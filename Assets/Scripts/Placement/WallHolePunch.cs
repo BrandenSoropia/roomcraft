@@ -31,7 +31,11 @@ public class WallHolePunch : MonoBehaviour
     private readonly Dictionary<Renderer, Material[]> holePunchMaterials = new();
     
     // Shader property IDs (cached for performance)
-    private static readonly int HolePositionsID = Shader.PropertyToID("_HolePositions");
+    private static readonly int HolePos0ID = Shader.PropertyToID("_HolePos0");
+    private static readonly int HolePos1ID = Shader.PropertyToID("_HolePos1");
+    private static readonly int HolePos2ID = Shader.PropertyToID("_HolePos2");
+    private static readonly int HolePos3ID = Shader.PropertyToID("_HolePos3");
+    private static readonly int HolePos4ID = Shader.PropertyToID("_HolePos4");
     private static readonly int HoleCountID = Shader.PropertyToID("_HoleCount");
     private static readonly int HoleRadiusID = Shader.PropertyToID("_HoleRadius");
     private static readonly int HoleFalloffID = Shader.PropertyToID("_HoleFalloff");
@@ -49,6 +53,10 @@ public class WallHolePunch : MonoBehaviour
             {
                 Debug.LogError("WallHolePunch: Could not find 'Custom/WallHolePunch' shader. Please assign it manually.");
             }
+            else
+            {
+                Debug.Log("WallHolePunch: Found shader successfully.");
+            }
         }
         
         // Find all wall renderers
@@ -59,6 +67,8 @@ public class WallHolePunch : MonoBehaviour
         {
             FindRevealObjects();
         }
+        
+        Debug.Log($"WallHolePunch: Initialized with {wallRenderers.Count} walls and {revealObjects?.Length ?? 0} reveal objects.");
     }
 
     void FindWallRenderers()
@@ -110,11 +120,14 @@ public class WallHolePunch : MonoBehaviour
         
         // Get active reveal object positions
         List<Vector4> holePositions = new List<Vector4>();
-        foreach (var obj in revealObjects)
+        if (revealObjects != null)
         {
-            if (obj != null && obj.gameObject.activeInHierarchy)
+            foreach (var obj in revealObjects)
             {
-                holePositions.Add(new Vector4(obj.position.x, obj.position.y, obj.position.z, 1));
+                if (obj != null && obj.gameObject.activeInHierarchy)
+                {
+                    holePositions.Add(new Vector4(obj.position.x, obj.position.y, obj.position.z, 1));
+                }
             }
         }
         
@@ -130,19 +143,8 @@ public class WallHolePunch : MonoBehaviour
 
     void UpdateWallMaterials(List<Vector4> holePositions)
     {
-        // Prepare hole positions array (pad to fixed size for shader)
-        Vector4[] holeArray = new Vector4[10]; // Max 10 holes
-        for (int i = 0; i < holeArray.Length; i++)
-        {
-            if (i < holePositions.Count)
-            {
-                holeArray[i] = holePositions[i];
-            }
-            else
-            {
-                holeArray[i] = Vector4.zero;
-            }
-        }
+        // Limit to 5 holes (matching shader)
+        int activeHoleCount = Mathf.Min(holePositions.Count, 5);
         
         foreach (var renderer in wallRenderers)
         {
@@ -160,20 +162,37 @@ public class WallHolePunch : MonoBehaviour
             
             // Update shader properties
             Material[] mats = holePunchMaterials[renderer];
+            if (mats == null) continue;
+            
             foreach (var mat in mats)
             {
                 if (mat != null)
                 {
-                    mat.SetVectorArray(HolePositionsID, holeArray);
-                    mat.SetFloat(HoleCountID, holePositions.Count);
-                    mat.SetFloat(HoleRadiusID, holeRadius);
-                    mat.SetFloat(HoleFalloffID, holeFalloff);
-                    mat.SetFloat(MaxHolesID, maxHoles);
+                    try
+                    {
+                        // Set individual hole positions
+                        mat.SetVector(HolePos0ID, activeHoleCount > 0 ? holePositions[0] : Vector4.zero);
+                        mat.SetVector(HolePos1ID, activeHoleCount > 1 ? holePositions[1] : Vector4.zero);
+                        mat.SetVector(HolePos2ID, activeHoleCount > 2 ? holePositions[2] : Vector4.zero);
+                        mat.SetVector(HolePos3ID, activeHoleCount > 3 ? holePositions[3] : Vector4.zero);
+                        mat.SetVector(HolePos4ID, activeHoleCount > 4 ? holePositions[4] : Vector4.zero);
+                        mat.SetFloat(HoleCountID, activeHoleCount);
+                        mat.SetFloat(HoleRadiusID, holeRadius);
+                        mat.SetFloat(HoleFalloffID, holeFalloff);
+                        mat.SetFloat(MaxHolesID, maxHoles);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogError($"WallHolePunch: Error setting shader properties: {e.Message}");
+                    }
                 }
             }
             
             // Apply hole punch materials
-            renderer.sharedMaterials = mats;
+            if (mats.Length > 0)
+            {
+                renderer.sharedMaterials = mats;
+            }
         }
     }
 
@@ -191,33 +210,62 @@ public class WallHolePunch : MonoBehaviour
         }
         
         // Create hole punch materials
-        Material[] originals = originalMaterials[renderer];
-        Material[] holeMats = new Material[originals.Length];
+        Material[] originalMats = originalMaterials[renderer];
+        Material[] holeMats = new Material[originalMats.Length];
         
-        for (int i = 0; i < originals.Length; i++)
+        for (int i = 0; i < originalMats.Length; i++)
         {
-            Material original = originals[i];
+            Material original = originalMats[i];
             Material holeMat = new Material(holePunchShader);
             
             // Copy properties from original material if possible
             if (original != null)
             {
-                // Try to copy common properties
-                if (original.HasProperty("_BaseMap") && holeMat.HasProperty("_BaseMap"))
-                    holeMat.SetTexture("_BaseMap", original.GetTexture("_BaseMap"));
-                else if (original.HasProperty("_MainTex") && holeMat.HasProperty("_BaseMap"))
-                    holeMat.SetTexture("_BaseMap", original.GetTexture("_MainTex"));
+                // Try to copy common properties - be more aggressive about finding textures
+                Texture baseTex = null;
+                if (original.HasProperty("_BaseMap"))
+                    baseTex = original.GetTexture("_BaseMap");
+                else if (original.HasProperty("_MainTex"))
+                    baseTex = original.GetTexture("_MainTex");
+                else if (original.HasProperty("_BaseTexture"))
+                    baseTex = original.GetTexture("_BaseTexture");
                 
-                if (original.HasProperty("_BaseColor") && holeMat.HasProperty("_BaseColor"))
-                    holeMat.SetColor("_BaseColor", original.GetColor("_BaseColor"));
-                else if (original.HasProperty("_Color") && holeMat.HasProperty("_BaseColor"))
-                    holeMat.SetColor("_BaseColor", original.GetColor("_Color"));
+                if (baseTex != null && holeMat.HasProperty("_BaseMap"))
+                {
+                    holeMat.SetTexture("_BaseMap", baseTex);
+                }
                 
+                // Copy color
+                Color baseColor = Color.white;
+                if (original.HasProperty("_BaseColor"))
+                    baseColor = original.GetColor("_BaseColor");
+                else if (original.HasProperty("_Color"))
+                    baseColor = original.GetColor("_Color");
+                else if (original.HasProperty("_MainColor"))
+                    baseColor = original.GetColor("_MainColor");
+                
+                if (holeMat.HasProperty("_BaseColor"))
+                {
+                    holeMat.SetColor("_BaseColor", baseColor);
+                }
+                
+                // Copy metallic
                 if (original.HasProperty("_Metallic") && holeMat.HasProperty("_Metallic"))
                     holeMat.SetFloat("_Metallic", original.GetFloat("_Metallic"));
+                else if (original.HasProperty("_MetallicValue") && holeMat.HasProperty("_Metallic"))
+                    holeMat.SetFloat("_Metallic", original.GetFloat("_MetallicValue"));
                 
+                // Copy smoothness
                 if (original.HasProperty("_Smoothness") && holeMat.HasProperty("_Smoothness"))
                     holeMat.SetFloat("_Smoothness", original.GetFloat("_Smoothness"));
+                else if (original.HasProperty("_Glossiness") && holeMat.HasProperty("_Smoothness"))
+                    holeMat.SetFloat("_Smoothness", original.GetFloat("_Glossiness"));
+            }
+            else
+            {
+                // Set default white color if no original material
+                if (holeMat.HasProperty("_BaseColor"))
+                    holeMat.SetColor("_BaseColor", Color.white);
             }
             
             holeMats[i] = holeMat;
