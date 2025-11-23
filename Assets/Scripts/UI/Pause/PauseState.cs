@@ -2,5 +2,6 @@ public enum PauseState
 {
     Off,
     Main,
-    Settings
+    Settings,
+    ControlScheme,
 }

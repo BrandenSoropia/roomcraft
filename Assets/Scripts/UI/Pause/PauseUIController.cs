@@ -46,6 +46,12 @@ public class PauseUIController : MonoBehaviour
         pauseManager.PushState(PauseState.Settings);
     }
 
+    public void ControlScheme()
+    {
+        Debug.Log("Showing Control Scheme");
+        pauseManager.PushState(PauseState.ControlScheme);
+    }
+
     public void GoToStartScreen()
     {
         Debug.Log("Going to Start Screen");
