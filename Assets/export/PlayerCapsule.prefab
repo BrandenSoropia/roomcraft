@@ -364,6 +364,7 @@ MonoBehaviour:
   myPlayerInput: {fileID: 7865015448551729769}
   playerSFXController: {fileID: 3712643092613913353}
   manualUIController: {fileID: 0}
+  flashController: {fileID: 0}
 --- !u!114 &4922683175401022438
 MonoBehaviour:
   m_ObjectHideFlags: 0
