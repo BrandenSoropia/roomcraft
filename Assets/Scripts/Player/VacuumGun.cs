@@ -205,7 +205,7 @@ public class VacuumGun : MonoBehaviour
         storedPrefab = target;
         storedPrefab.SetActive(false);
 
-        selectedPieceUIController.SetSelectedPlaceholderPiece();
+        selectedPieceUIController.SetSelectedPieceFromGameObject(storedPrefab);
         interactUIController.ShowBuildText();
 
         var rb = storedPrefab.GetComponent<Rigidbody>();
