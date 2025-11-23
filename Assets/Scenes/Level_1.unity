@@ -1948,11 +1948,11 @@ MonoBehaviour:
   commissionProceedButton: {fileID: 2029789223}
   commissionExitButton: {fileID: 494997534}
   commissionItemText: {fileID: 1527374463}
-  controllerScreen: {fileID: 0}
+  controllerScreen: {fileID: 975116147}
   gameProgressContainer: {fileID: 1638308539}
   crosshair: {fileID: 1819122116}
-  manualUIContainer: {fileID: 0}
-  selectedPieceContainer: {fileID: 0}
+  manualUIContainer: {fileID: 1864427001}
+  selectedPieceContainer: {fileID: 525280183}
 --- !u!82 &205248052
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4071,6 +4071,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &975116147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1396915362383875569, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+  m_PrefabInstance: {fileID: 129295212}
+  m_PrefabAsset: {fileID: 0}
 --- !u!65 &975293998
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7602,6 +7607,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: manuals.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 32a8b5212fd7af445842b3c52c10b7a8, type: 2}
     - target: {fileID: 2562659739318822872, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -1724,11 +1724,11 @@ MonoBehaviour:
   commissionProceedButton: {fileID: 2029789223}
   commissionExitButton: {fileID: 494997534}
   commissionItemText: {fileID: 1527374463}
-  controllerScreen: {fileID: 0}
+  controllerScreen: {fileID: 281049944}
   gameProgressContainer: {fileID: 1638308539}
   crosshair: {fileID: 1819122116}
-  manualUIContainer: {fileID: 0}
-  selectedPieceContainer: {fileID: 0}
+  manualUIContainer: {fileID: 1779992840}
+  selectedPieceContainer: {fileID: 1541437933}
 --- !u!82 &205248052
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1977,6 +1977,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &281049944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1396915362383875569, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+  m_PrefabInstance: {fileID: 1864351920}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &298726577
 GameObject:
   m_ObjectHideFlags: 0
@@ -12539,6 +12544,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: manuals.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0256ac58822f5b0488580389519df9b8, type: 2}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 32a8b5212fd7af445842b3c52c10b7a8, type: 2}
     - target: {fileID: 2562659739318822872, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
