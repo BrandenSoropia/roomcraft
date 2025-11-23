@@ -214,6 +214,7 @@ public class VacuumGun : MonoBehaviour
             rb.isKinematic = true;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            playerSFXController.PlaySuckSFX();
         }
 
         furnitureBuilder.SelectExternally(storedPrefab);
@@ -234,6 +235,7 @@ public class VacuumGun : MonoBehaviour
             rb.isKinematic = false;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            playerSFXController.PlayDropSFX();
         }
 
         Debug.Log("🪶 Dropped item lightly.");
@@ -257,6 +259,7 @@ public class VacuumGun : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.linearVelocity = muzzleOrHoldPoint.forward * force;
+            playerSFXController.PlayThrowSFX();
         }
 
         StartCoroutine(ReenableColliderNextFrame(col));
