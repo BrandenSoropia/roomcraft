@@ -27,6 +27,7 @@ public class PauseManager : MonoBehaviour
 
     PauseUIController pauseUIController;
     SettingsUIController settingsUIController;
+    ControlSchemeUIController controlSchemeUIController;
 
     GameManager gameManager;
 
@@ -51,8 +52,10 @@ public class PauseManager : MonoBehaviour
     void Start()
     {
         gameManager = FindFirstObjectByType<GameManager>();
+
         pauseUIController = FindFirstObjectByType<PauseUIController>();
         settingsUIController = FindFirstObjectByType<SettingsUIController>();
+        controlSchemeUIController = FindFirstObjectByType<ControlSchemeUIController>();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -78,14 +81,10 @@ public class PauseManager : MonoBehaviour
     private void OnSceneUnloaded(Scene arg0)
     {
         Debug.Log("PauseManager shutting down...");
-        Debug.Log("PauseManager before state..." + _stateStack);
 
         // Clear state history
         if (StateHistory != null)
             _stateStack.Clear();
-
-        Debug.Log("PauseManager after state..." + _stateStack);
-
 
         // Remove all listeners
         OnPauseStateChanged = null;
@@ -118,6 +117,9 @@ public class PauseManager : MonoBehaviour
 
     public void TurnOn()
     {
+        // Must be called to activate UI controls and disable player controls.
+        SetupControls();
+
         _stateStack.Add(PauseState.Main);
         OnPauseStateChanged?.Invoke(PauseState.Main);
     }
@@ -142,6 +144,9 @@ public class PauseManager : MonoBehaviour
         OnPauseStateChanged?.Invoke(CurrentState);
     }
 
+    // =====================
+    // Handle State Changes
+    // =====================
     private void HandleInternalPauseStateChanged(PauseState newState)
     {
         switch (newState)
@@ -156,6 +161,9 @@ public class PauseManager : MonoBehaviour
             case PauseState.Settings:
                 ShowSettings();
                 break;
+            case PauseState.ControlScheme:
+                ShowControlScheme();
+                break;
             default:
                 Debug.Log($"PauseManager: {newState} is not handled.");
                 break;
@@ -169,44 +177,40 @@ public class PauseManager : MonoBehaviour
         settingsUIController.Open();
     }
 
+    private void ShowControlScheme()
+    {
+        Debug.Log("PauseManager: ShowControlScheme called");
+        pauseUIController.Close();
+        controlSchemeUIController.Open();
+    }
+
     private void HandleTurnOff()
     {
         Debug.Log("PauseManager: Off called");
         // TODO: Add all other screens here to hide
         pauseUIController.Close();
         settingsUIController.Close();
+        controlSchemeUIController.Close();
 
         windowGO.SetActive(false);
 
-
-        // Disable so we don't have the UI reading inputs while in build/iso mode
-        if (uiInputActionAsset != null)
-        {
-            Debug.Log("### disabling UI Input Module");
-            uiInputActionAsset.FindActionMap("UI").Disable();
-        }
-
-        Debug.Log("## reverting action map" + actionMapNameBeforePause);
-
-        // Revert controls
-        if (actionMapNameBeforePause != null)
-        {
-            playerInput.SwitchCurrentActionMap(actionMapNameBeforePause);
-            actionMapNameBeforePause = null;
-        }
+        RevertControls();
 
         // Show build/iso UI again
-        if (gameManager.CurrentState == GameState.BuildMode)
-        {
-            DisplayBuildModeControls(true);
-        }
-        else if (gameManager.CurrentState == GameState.IsometricMode)
-        {
-            DisplayIsometricControls(true);
-        }
+        DisplayGameModeControlsUI(true);
     }
 
     void ShowMain()
+    {
+        // Hide build/iso UI
+        DisplayGameModeControlsUI(false);
+
+        // Handle showing UI
+        windowGO.SetActive(true);
+        pauseUIController.Open();
+    }
+
+    void SetupControls()
     {
         // Handle inputs
         if (uiInputActionAsset != null)
@@ -218,38 +222,46 @@ public class PauseManager : MonoBehaviour
         // Save action map to restore once pause is closed
         actionMapNameBeforePause = playerInput.currentActionMap.name;
         Debug.Log("## action map" + actionMapNameBeforePause);
+
         // "UI" map used to disable player controls while pause is open.
         playerInput.SwitchCurrentActionMap("UI");
+    }
 
+    void RevertControls()
+    {
+        // Disable so we don't have the UI reading inputs while in build/iso mode
+        if (uiInputActionAsset != null)
+        {
+            Debug.Log("### disabling UI Input Module");
+            // uiInputActionAsset.FindActionMap("UI").Disable();
+        }
+
+        Debug.Log("## reverting action map" + actionMapNameBeforePause);
+
+        // Revert controls
+        if (actionMapNameBeforePause != null)
+        {
+            playerInput.SwitchCurrentActionMap(actionMapNameBeforePause);
+            actionMapNameBeforePause = null;
+        }
+
+    }
+
+    void DisplayGameModeControlsUI(bool shouldShow)
+    {
         // Handle hiding current game mode's UI
         if (gameManager.CurrentState == GameState.BuildMode)
         {
-            DisplayBuildModeControls(false);
+            buildControlsContainerUI.SetActive(shouldShow);
+            selectedPieceContainerUI.SetActive(shouldShow);
+            manualContainerUI.SetActive(shouldShow);
+            progressContainerUI.SetActive(shouldShow);
         }
         else if (gameManager.CurrentState == GameState.IsometricMode)
         {
-            DisplayIsometricControls(false);
+            isometricControlsContainerUI.SetActive(shouldShow);
+            progressContainerUI.SetActive(shouldShow);
         }
-
-        // Handle showing UI
-        windowGO.SetActive(true);
-        pauseUIController.Open();
-    }
-
-    // Game mode Screen UI handling
-    // UI container display controls
-    void DisplayBuildModeControls(bool newState)
-    {
-        buildControlsContainerUI.SetActive(newState);
-        selectedPieceContainerUI.SetActive(newState);
-        manualContainerUI.SetActive(newState);
-        progressContainerUI.SetActive(newState);
-    }
-
-    void DisplayIsometricControls(bool newState)
-    {
-        isometricControlsContainerUI.SetActive(newState);
-        progressContainerUI.SetActive(newState);
     }
 
     public void TogglePause()

@@ -37,6 +37,8 @@ public class CustomPlayerController : MonoBehaviour
 
     PauseManager pauseManager;
 
+    public PlacementFlash flashController;
+
 
     void Start()
     {
@@ -83,6 +85,11 @@ public class CustomPlayerController : MonoBehaviour
             playerSFXController.PlayToIsometricModeSFX();
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
+
+            if (flashController != null)
+            {
+                flashController.DeactivatePlacementFlash();
+            }
         }
     }
 

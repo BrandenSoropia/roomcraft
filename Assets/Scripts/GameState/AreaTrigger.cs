@@ -40,11 +40,11 @@ public class AreaTrigger : MonoBehaviour
         myBoxCollider.enabled = false;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         string myBaseName = MyUtils.GetFurnitureGOBaseName(transform.name);
 
-        if (other.CompareTag("Suckable"))
+        if (other.CompareTag("Suckable") && IsFullyInside(GetComponent<Collider>(), other))
         {
             bool isCorrectFurniture = other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase);
 
@@ -62,6 +62,16 @@ public class AreaTrigger : MonoBehaviour
         }
     }
 
+    bool IsFullyInside(Collider container, Collider content)
+    {
+        // content.bounds contains center + extents
+        Bounds small = content.bounds;
+        Bounds big = container.bounds;
+
+        // Check if all min/max of content are inside container
+        return big.Contains(small.min) && big.Contains(small.max);
+    }
+
     void CheckIfEntirelyInArea()
     {
         if (inside.Count == 1)
@@ -76,7 +86,7 @@ public class AreaTrigger : MonoBehaviour
     {
         string myBaseName = MyUtils.GetFurnitureGOBaseName(transform.name);
 
-        if (other.CompareTag("Furniture"))
+        if (other.CompareTag("Suckable"))
         {
             if (other.name.Contains(myBaseName, System.StringComparison.CurrentCultureIgnoreCase)
             && inside.Contains(other))

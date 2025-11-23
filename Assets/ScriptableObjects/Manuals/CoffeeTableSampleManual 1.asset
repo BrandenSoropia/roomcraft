@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManualDataSO
   manualPages:
   - {fileID: 21300000, guid: 1b0c96f961b2e014bb21cc6e1ed8ccfb, type: 3}
-  icon: {fileID: 21300000, guid: d39541c8adaace844a1574a836a54779, type: 3}
+  icon: {fileID: 21300000, guid: f1ec0471e69bb5442bd800bc575d4a52, type: 3}

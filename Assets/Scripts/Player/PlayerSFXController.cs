@@ -5,24 +5,44 @@ public class PlayerSFXController : MonoBehaviour
 
     [Header("Build SFX")]
 
-    [SerializeField] AudioClip attachSfx;
-    [SerializeField] AudioClip rotateSfx;
-    [SerializeField] AudioClip selectPieceSfx;
-    [SerializeField] AudioClip deselectPieceSfx;
-    [SerializeField] AudioClip throwSfx;
-    [SerializeField] AudioClip unboxSfx;
+    public AudioClip attachSfx;
+    public AudioClip rotateSfx;
+    public AudioClip selectPieceSfx;
+    public AudioClip deselectPieceSfx;
+    public AudioClip suckSfx;
+    public AudioClip dropSfx;
+    public AudioClip throwSfx;
+    public AudioClip unboxSfx;
+
+    [Header("Build Audio Sources")]
+    public AudioSource attachSource;
+    public AudioSource rotateSource;
+    public AudioSource selectPieceSource;
+    public AudioSource deselectPieceSource;
+    public AudioSource suckSource;
+    public AudioSource dropSource;
+    public AudioSource throwSource;
+    public AudioSource unboxSource;
 
 
     [Header("Inventory SFX")]
-    [SerializeField] AudioClip closeInventorySfx;
-    [SerializeField] AudioClip openInventorySfx;
-    [SerializeField] AudioClip spawnPieceSfx;
+    public AudioClip closeInventorySfx;
+    public AudioClip openInventorySfx;
+    public AudioClip spawnPieceSfx;
+
+    [Header("Inventory Audio Sources")]
+    public AudioSource closeInventorySource;
+    public AudioSource openInventorySource;
+    public AudioSource spawnPiecesSource;
 
     [Header("Toggle Game Mode SFX")]
-    [SerializeField, Range(0f, 1f)] float gameModeVolume;
 
-    [SerializeField] AudioClip toBuildModeSfx;
-    [SerializeField] AudioClip toIsometricModeSfx;
+    public AudioClip toBuildModeSfx;
+    public AudioClip toIsometricModeSfx;
+
+    [Header("Toggle Game Mode Audio Sources")]
+    public AudioSource toBuildModeSource;
+    public AudioSource toIsometricModeSource;
 
     private AudioSource myAudioSource;
 
@@ -34,62 +54,70 @@ public class PlayerSFXController : MonoBehaviour
     // Build SFX
     public void PlayRotateSFX()
     {
-        myAudioSource.PlayOneShot(rotateSfx);
+        rotateSource.PlayOneShot(rotateSfx);
     }
 
     public void PlayAttachSFX()
     {
-        myAudioSource.PlayOneShot(attachSfx);
+        attachSource.PlayOneShot(attachSfx);
     }
 
     public void PlaySelectPieceSFX()
     {
-        myAudioSource.PlayOneShot(selectPieceSfx);
+        selectPieceSource.PlayOneShot(selectPieceSfx);
     }
 
     public void PlayDeselectPieceSFX()
     {
-        myAudioSource.PlayOneShot(deselectPieceSfx);
+        deselectPieceSource.PlayOneShot(deselectPieceSfx);
+    }
+
+    public void PlaySuckSFX()
+    {
+        suckSource.PlayOneShot(suckSfx);
+    }
+
+    public void PlayDropSFX()
+    {
+        dropSource.PlayOneShot(dropSfx);
     }
 
     public void PlayThrowSFX()
     {
-        myAudioSource.PlayOneShot(throwSfx);
+        throwSource.PlayOneShot(throwSfx);
     }
 
     public void PlayUnboxSFX()
     {
-        myAudioSource.PlayOneShot(unboxSfx);
+        unboxSource.PlayOneShot(unboxSfx);
     }
 
     // Inventory SFX
 
     public void PlayCloseInventorySFX()
     {
-        myAudioSource.PlayOneShot(closeInventorySfx);
+        closeInventorySource.PlayOneShot(closeInventorySfx);
     }
 
     public void PlayOpenInventorySFX()
     {
-        myAudioSource.PlayOneShot(openInventorySfx);
+        openInventorySource.PlayOneShot(openInventorySfx);
     }
 
     public void PlaySpawnPieceSFX()
     {
-        myAudioSource.PlayOneShot(spawnPieceSfx);
+        spawnPiecesSource.PlayOneShot(spawnPieceSfx);
     }
 
-    /*
-    Game Mode SFX
-    These are a little loud so just quiet them down programatically.
-    */
+
+    //Game Mode SFX
     public void PlayToBuildModeSFX()
     {
-        myAudioSource.PlayOneShot(toBuildModeSfx, gameModeVolume);
+        toBuildModeSource.PlayOneShot(toBuildModeSfx);
     }
 
     public void PlayToIsometricModeSFX()
     {
-        myAudioSource.PlayOneShot(toIsometricModeSfx, gameModeVolume);
+        toIsometricModeSource.PlayOneShot(toIsometricModeSfx);
     }
 }

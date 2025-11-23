@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Selected Piece
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+  m_sharedMaterial: {fileID: -7395121995803538966, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -278,8 +278,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Drop / Throw (Hold)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+  m_sharedMaterial: {fileID: -7395121995803538966, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -583,7 +583,7 @@ GameObject:
   - component: {fileID: 4405444027863835425}
   - component: {fileID: 8806594762901903500}
   m_Layer: 5
-  m_Name: ToggleCameraModeControlUI
+  m_Name: DropThrowControlUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
