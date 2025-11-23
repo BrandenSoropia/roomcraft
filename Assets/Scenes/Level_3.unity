@@ -2072,11 +2072,11 @@ MonoBehaviour:
   commissionProceedButton: {fileID: 2029789223}
   commissionExitButton: {fileID: 494997534}
   commissionItemText: {fileID: 1527374463}
-  controllerScreen: {fileID: 0}
+  controllerScreen: {fileID: 1768119406}
   gameProgressContainer: {fileID: 1638308539}
   crosshair: {fileID: 1819122116}
-  manualUIContainer: {fileID: 0}
-  selectedPieceContainer: {fileID: 0}
+  manualUIContainer: {fileID: 687490338}
+  selectedPieceContainer: {fileID: 804163200}
 --- !u!82 &205248052
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9142,6 +9142,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cd1b3407aa04014f9f009bba249c3e2, type: 2}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b80f4b6f767989448ee63d167968181, type: 2}
+    - target: {fileID: 2513943745115243225, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
+      propertyPath: 'manuals.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e991b1c0668d37c44b3526dfc88916de, type: 2}
     - target: {fileID: 2562659739318822872, guid: d84b6ceb261497e4fb7a47335117c139, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -10820,6 +10832,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 52212a944b8e64654960b8648d046775, type: 3}
   m_PrefabInstance: {fileID: 1765395978}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1768119406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1396915362383875569, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+  m_PrefabInstance: {fileID: 824189277}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1773324020 stripped
 GameObject:
