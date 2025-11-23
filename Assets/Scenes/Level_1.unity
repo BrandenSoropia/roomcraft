@@ -3096,6 +3096,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1562986488}
     m_Modifications:
+    - target: {fileID: 64296323890437201, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontSize
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 64296323890437201, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+    - target: {fileID: 64296323890437201, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 64296323890437201, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7395121995803538966, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+    - target: {fileID: 64296323890437201, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818519985113747995, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818519985113747995, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+    - target: {fileID: 5818519985113747995, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5818519985113747995, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -7395121995803538966, guid: d3a82f7b7e479449c96e660061b637c9, type: 2}
+    - target: {fileID: 5818519985113747995, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703112876918172630, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
+      propertyPath: m_Name
+      value: DropThrowControlUI
+      objectReference: {fileID: 0}
     - target: {fileID: 7161642167071680501, guid: 66f3c39745f70ac43b6a2d7c557cc4a8, type: 3}
       propertyPath: m_Name
       value: NewSelectedPieceContainer
