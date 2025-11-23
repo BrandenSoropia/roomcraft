@@ -17,6 +17,8 @@ public class FurnitureManager : MonoBehaviour
     public Dictionary<string, FurnitureState> _furnitureStates;
     [SerializeField] List<GameObject> _furnitureContainers = new List<GameObject>();
 
+    public PlacementFlash flashControler;
+
 
     // Build furniture state given furniture data and create FContainers
     void Awake()
@@ -117,6 +119,11 @@ public class FurnitureManager : MonoBehaviour
         // log the fcontainer for further use
         
         Debug.Log($"FContainer: {fContainer.name} has been completed.");
+
+        if (flashControler != null)
+        {
+            flashControler.ActivatePlacementFlash();
+        }
 
         gameManager.IncrementNumBuilt();
         EnableFurniturePlacement(fContainer);
