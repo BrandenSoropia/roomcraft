@@ -119,7 +119,6 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   MoveSpeed: 4
   SprintSpeed: 6
-  RotationSpeed: 1
   SpeedChangeRate: 10
   JumpHeight: 1.2
   Gravity: -15
@@ -363,6 +362,7 @@ MonoBehaviour:
   manualContainerUI: {fileID: 0}
   myPlayerInput: {fileID: 7865015448551729769}
   playerSFXController: {fileID: 3712643092613913353}
+  wallHidingController: {fileID: 0}
   manualUIController: {fileID: 0}
   flashController: {fileID: 0}
 --- !u!114 &4922683175401022438
@@ -680,6 +680,7 @@ MonoBehaviour:
   dropSfx: {fileID: 8300000, guid: bf6a32e590f744d68a93fbedcebad496, type: 3}
   throwSfx: {fileID: 8300000, guid: 02b8fdb9ecb0c4400b88f26fe8023497, type: 3}
   unboxSfx: {fileID: 8300000, guid: 8e72d8ff9434c2a4ea536e7c7d664b4e, type: 3}
+  uiMoveSfx: {fileID: 8300000, guid: 91891b2d3237c6e4b8366778858eeab5, type: 3}
   attachSource: {fileID: 1982954561965627409}
   rotateSource: {fileID: 7050676029842212020}
   selectPieceSource: {fileID: 348954977018302248}
@@ -688,6 +689,7 @@ MonoBehaviour:
   dropSource: {fileID: 162760498782236165}
   throwSource: {fileID: 1450829688913347273}
   unboxSource: {fileID: 2796792776204336534}
+  uiMoveSource: {fileID: 6213447947867573966}
   closeInventorySfx: {fileID: 8300000, guid: 4fd7af9caf9164999a0731096d343356, type: 3}
   openInventorySfx: {fileID: 8300000, guid: d89a9925d8eb442bab16e12349f0c285, type: 3}
   spawnPieceSfx: {fileID: 8300000, guid: 9f29a1d09e3b7c74daa50d3b1137606f, type: 3}
