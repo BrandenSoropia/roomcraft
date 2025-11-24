@@ -27,6 +27,7 @@ public class CustomPlayerController : MonoBehaviour
     [Header("Player Controllers")]
     [SerializeField] PlayerInput myPlayerInput;
     [SerializeField] PlayerSFXController playerSFXController;
+    [SerializeField] WallHidingShaderController wallHidingController;
 
     // Stuff that controls player
     GameModeController myGameModeController;
@@ -71,6 +72,7 @@ public class CustomPlayerController : MonoBehaviour
             playerSFXController.PlayToBuildModeSFX();
             myGameModeController.ShowOriginalView();
             myIsoFurnitureController.SetCameraActive(false);
+            wallHidingController.hidingEnabled = false;
         }
         else
         {
@@ -85,6 +87,7 @@ public class CustomPlayerController : MonoBehaviour
             playerSFXController.PlayToIsometricModeSFX();
             myGameModeController.ShowOverheadView();
             myIsoFurnitureController.SetCameraActive(true);
+            wallHidingController.hidingEnabled = true;
 
             if (flashController != null)
             {
