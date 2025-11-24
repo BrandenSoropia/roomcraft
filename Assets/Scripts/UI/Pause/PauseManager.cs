@@ -14,7 +14,6 @@ public class PauseManager : MonoBehaviour
     string actionMapNameBeforePause;
 
     [Header("Settings UI")]
-    [SerializeField] GameObject windowGO;
 
     [Header("Build/Isometric UIs"), Tooltip("Used to show/hide when paused")]
     [SerializeField] GameObject progressContainerUI;
@@ -192,7 +191,6 @@ public class PauseManager : MonoBehaviour
         settingsUIController.Close();
         controlSchemeUIController.Close();
 
-        windowGO.SetActive(false);
 
         RevertControls();
 
@@ -206,7 +204,6 @@ public class PauseManager : MonoBehaviour
         DisplayGameModeControlsUI(false);
 
         // Handle showing UI
-        windowGO.SetActive(true);
         pauseUIController.Open();
     }
 

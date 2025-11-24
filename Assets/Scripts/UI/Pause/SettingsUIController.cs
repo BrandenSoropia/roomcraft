@@ -71,13 +71,25 @@ public class SettingsUIController : MonoBehaviour
     {
         Debug.Log("-master vol");
     }
+
     public void IncreaseSFXVolume()
     {
         Debug.Log("+sfx vol");
     }
+
     public void DecreaseSFXVolume()
     {
         Debug.Log("-sfx vol");
+    }
+
+    public void IncreaseAimSensitivity()
+    {
+        Debug.Log("+aim vol");
+    }
+
+    public void DecreaseAimSensitivity()
+    {
+        Debug.Log("-aim vol");
     }
 
     public void Back()
