@@ -1711,7 +1711,7 @@ MonoBehaviour:
   piecesRoot: {fileID: 901535706}
   basePiecesRoot: {fileID: 1735720743}
   placementAreasRoot: {fileID: 308875627}
-  nextLevelIndex: 4
+  nextLevelIndex: 3
   _numTotalTargets: 2
   placementProgressGUI: {fileID: 708451495}
   placementProgressCheckImage: {fileID: 1640954114}
@@ -2176,7 +2176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.91194963, g: 0.7500706, b: 0.13478494, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2215,7 +2215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlacementFlash
   minAlpha: 0
   maxAlpha: 1
-  speed: 1
+  speed: 1.5
   flashIMG: {fileID: 327825492}
 --- !u!1 &329629408 stripped
 GameObject:
