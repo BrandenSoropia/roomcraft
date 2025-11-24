@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,7 +7,14 @@ using UnityEngine.InputSystem.UI;
 public class SettingsUIController : MonoBehaviour
 {
     [SerializeField] GameObject myContent;
+
+    [Header("Value Text Boxes")]
+    [SerializeField] TextMeshProUGUI volumeText;
+    [SerializeField] TextMeshProUGUI sfxText;
+    [SerializeField] TextMeshProUGUI aimSensitivityText;
+
     PauseManager pauseManager;
+    SettingsManager settingsManager;
 
     InputSystemUIInputModule _uiModule;
     InputAction _cancel;
@@ -14,6 +22,7 @@ public class SettingsUIController : MonoBehaviour
     void Start()
     {
         pauseManager = FindFirstObjectByType<PauseManager>();
+        settingsManager = FindFirstObjectByType<SettingsManager>();
     }
 
     void OnEnable()
@@ -84,12 +93,19 @@ public class SettingsUIController : MonoBehaviour
 
     public void IncreaseAimSensitivity()
     {
-        Debug.Log("+aim vol");
+        float newAimSensitivity = settingsManager.UpdateAimSensitivity(1);
+
+        aimSensitivityText.text = newAimSensitivity.ToString();
+        Debug.Log($"+aim vol, new: {newAimSensitivity}");
+
     }
 
     public void DecreaseAimSensitivity()
     {
-        Debug.Log("-aim vol");
+        float newAimSensitivity = settingsManager.UpdateAimSensitivity(-1);
+
+        aimSensitivityText.text = newAimSensitivity.ToString();
+        Debug.Log($"-aim vol, new: {newAimSensitivity}");
     }
 
     public void Back()
