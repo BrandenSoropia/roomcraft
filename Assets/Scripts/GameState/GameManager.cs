@@ -110,8 +110,15 @@ public class GameManager : MonoBehaviour
             if (commissionItemText && placementAreasRoot)
             {
                 var names = GetItemPrefixesFromPlacementPrefab(placementAreasRoot.gameObject);
-                commissionItemText.text = names.Count > 0
-                    ? string.Join("\n", names)
+
+                List<string> formattedNames = new List<string>();
+                names.ForEach(n =>
+                {
+                    formattedNames.Add($"- {n.Split('_')[1]}");
+                }); // take the furniture name only
+
+                commissionItemText.text = formattedNames.Count > 0
+                    ? "Build and Place:\n" + string.Join("\n", formattedNames)
                     : "—";
             }
         }
