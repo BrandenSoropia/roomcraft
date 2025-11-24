@@ -13,6 +13,7 @@ public class PlayerSFXController : MonoBehaviour
     public AudioClip dropSfx;
     public AudioClip throwSfx;
     public AudioClip unboxSfx;
+    public AudioClip uiMoveSfx;
 
     [Header("Build Audio Sources")]
     public AudioSource attachSource;
@@ -23,6 +24,8 @@ public class PlayerSFXController : MonoBehaviour
     public AudioSource dropSource;
     public AudioSource throwSource;
     public AudioSource unboxSource;
+    public AudioSource uiMoveSource;
+
 
 
     [Header("Inventory SFX")]
@@ -90,6 +93,11 @@ public class PlayerSFXController : MonoBehaviour
     public void PlayUnboxSFX()
     {
         unboxSource.PlayOneShot(unboxSfx);
+    }
+
+    public void PlayUIMoveSFX()
+    {
+        uiMoveSource.PlayOneShot(uiMoveSfx);
     }
 
     // Inventory SFX
