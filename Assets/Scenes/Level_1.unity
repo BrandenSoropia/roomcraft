@@ -5034,6 +5034,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: wallHidingController
+      value: 
+      objectReference: {fileID: 1182965391}
+    - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: selectedItemContainerUI
       value: 
       objectReference: {fileID: 525280183}
@@ -5104,6 +5108,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7892947364345689007, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1071046753}
+    - targetCorrespondingSourceObject: {fileID: 7892947364345689007, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1182965391}
     - targetCorrespondingSourceObject: {fileID: 8869246048571391383, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1182965371}
@@ -5358,6 +5365,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1182965391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182965349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2523e602b713f1342b18a4ed2b5e480a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallHidingShaderController
+  wallMaterial: {fileID: 2100000, guid: 52678211226f61e4c88df81624e27d28, type: 2}
+  hidingEnabled: 0
+  targetObject: {fileID: 0}
+  cutoutRadius: 0.7
+  cutoutSoftness: 0.1
 --- !u!1001 &1184647669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6946,7 +6970,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e1d6c5f591368b843847f45808500361, type: 2}
+  - {fileID: 2100000, guid: 52678211226f61e4c88df81624e27d28, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7706,7 +7730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8084872931714714891, guid: d567c4ad981639a428dc866b56587ea3, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8084872931714714891, guid: d567c4ad981639a428dc866b56587ea3, type: 3}
       propertyPath: maxDistance
