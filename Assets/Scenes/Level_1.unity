@@ -9399,16 +9399,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   firstPersonController: {fileID: 1182965377}
-  initialMasterVolume: 0.7
+  masterMixer: {fileID: 24100000, guid: 759e8e555574241fb815731221b1bd51, type: 2}
+  initialMasterVolume: 3
   masterIncrement: 0.1
   masterRange:
-    min: 0.1
-    max: 1
+    min: 1
+    max: 5
+  sfxMixer: {fileID: 24100000, guid: 25b55ad6e4662499bb38bd394af1953d, type: 2}
   initialSFXVolume: 1
   sfxIncrement: 0.1
   sfxRange:
     min: 0.1
-    max: 1
+    max: 1.5
   aimSensitivityIncrement: 0.1
   aimSensitivityRange:
     min: 0.1
@@ -16136,6 +16138,10 @@ PrefabInstance:
       propertyPath: sfxText
       value: 
       objectReference: {fileID: 1870475115}
+    - target: {fileID: 6973427162355987564, guid: 566dc37ec0e03c94588bdbf43e411395, type: 3}
+      propertyPath: masterText
+      value: 
+      objectReference: {fileID: 772173383}
     - target: {fileID: 6973427162355987564, guid: 566dc37ec0e03c94588bdbf43e411395, type: 3}
       propertyPath: volumeText
       value: 

@@ -9,7 +9,7 @@ public class SettingsUIController : MonoBehaviour
     [SerializeField] GameObject myContent;
 
     [Header("Value Text Boxes")]
-    [SerializeField] TextMeshProUGUI volumeText;
+    [SerializeField] TextMeshProUGUI masterText;
     [SerializeField] TextMeshProUGUI sfxText;
     [SerializeField] TextMeshProUGUI aimSensitivityText;
 
@@ -23,6 +23,10 @@ public class SettingsUIController : MonoBehaviour
     {
         pauseManager = FindFirstObjectByType<PauseManager>();
         settingsManager = FindFirstObjectByType<SettingsManager>();
+
+        masterText.text = settingsManager.GetCurrentMasterVolume().ToString();
+        sfxText.text = settingsManager.GetCurrentSFXVolume().ToString();
+        aimSensitivityText.text = settingsManager.GetCurrentAimSensitivity().ToString();
     }
 
     void OnEnable()
@@ -70,25 +74,36 @@ public class SettingsUIController : MonoBehaviour
     }
 
     // Button functions
-
     public void IncreaseMasterVolume()
     {
-        Debug.Log("+master vol");
+        float newMasterVolume = settingsManager.UpdateMasterVolume(1);
+
+        masterText.text = newMasterVolume.ToString();
+        Debug.Log($"+master vol, new: {newMasterVolume}");
     }
 
     public void DecreaseMasterVolume()
     {
-        Debug.Log("-master vol");
+        float newMasterVolume = settingsManager.UpdateMasterVolume(-1);
+
+        masterText.text = newMasterVolume.ToString();
+        Debug.Log($"-master vol, new: {newMasterVolume}");
     }
 
     public void IncreaseSFXVolume()
     {
-        Debug.Log("+sfx vol");
+        float newSfxVolume = settingsManager.UpdateSFXVolume(1);
+
+        sfxText.text = newSfxVolume.ToString();
+        Debug.Log($"+sfx vol, new: {newSfxVolume}");
     }
 
     public void DecreaseSFXVolume()
     {
-        Debug.Log("-sfx vol");
+        float newSfxVolume = settingsManager.UpdateSFXVolume(-1);
+
+        sfxText.text = newSfxVolume.ToString();
+        Debug.Log($"-sfx vol, new: {newSfxVolume}");
     }
 
     public void IncreaseAimSensitivity()
