@@ -1283,6 +1283,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1562986488}
     m_Modifications:
+    - target: {fileID: 92617041884403837, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+      propertyPath: speed
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1396915362383875569, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
       propertyPath: m_Name
       value: NewControllerUI
@@ -1318,6 +1322,18 @@ PrefabInstance:
     - target: {fileID: 5853007303114072568, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513767993941731143, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513767993941731143, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513767993941731143, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6933414112893856237, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
       propertyPath: m_Pivot.x
@@ -1919,7 +1935,7 @@ MonoBehaviour:
   placementAreas:
   - {fileID: 1728184543}
   _furnitureContainers: []
-  flashControler: {fileID: 0}
+  flashControler: {fileID: 612977897}
 --- !u!114 &205248051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1935,7 +1951,7 @@ MonoBehaviour:
   piecesRoot: {fileID: 643379409}
   basePiecesRoot: {fileID: 192412322}
   placementAreasRoot: {fileID: 193844797}
-  nextLevelIndex: 3
+  nextLevelIndex: 2
   _numTotalTargets: 1
   placementProgressGUI: {fileID: 708451495}
   placementProgressCheckImage: {fileID: 1640954114}
@@ -3757,6 +3773,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2159267552843319936, guid: 18d2a18316dc09c4ba72d9429bc30f0a, type: 3}
   m_PrefabInstance: {fileID: 8999066348364689359}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &612977897 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 92617041884403837, guid: 377ce08d4946ca74782f7052c8a91ab0, type: 3}
+  m_PrefabInstance: {fileID: 129295212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bc320c882024dd4fbbbbc83d6add2d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlacementFlash
 --- !u!1001 &622661964
 PrefabInstance:
   m_ObjectHideFlags: 0
