@@ -19,7 +19,7 @@ public class SettingsManager : MonoBehaviour
 
     [Header("Master Volume")]
     [SerializeField] private AudioMixer masterMixer;
-    [SerializeField] float initialMasterVolume = 1f;
+    [SerializeField] float initialMasterVolume = 3f;
     [SerializeField] float masterIncrement = 0.1f;
     [SerializeField] MinMax masterRange;
 
@@ -42,19 +42,19 @@ public class SettingsManager : MonoBehaviour
     }
 
     // Getters
-    public float GetCurrentMasterVolume()
+    public float GetInitialMasterVolume()
     {
-        return GetMusicVolumeLinear(masterMixer);
+        return (float)Math.Round(initialMasterVolume / masterRange.max, 2);
     }
 
-    public float GetCurrentSFXVolume()
+    public float GetInitialSFXVolume()
     {
-        return GetMusicVolumeLinear(sfxMixer);
+        return (float)Math.Round(initialSFXVolume / sfxRange.max, 2);
     }
 
-    public float GetCurrentAimSensitivity()
+    public float GetInitialAimSensitivity()
     {
-        return firstPersonController.RotationSpeed;
+        return (float)Math.Round(firstPersonController.RotationSpeed / aimSensitivityRange.max, 2);
     }
 
     // Audio converting floats to dB.
@@ -91,7 +91,7 @@ public class SettingsManager : MonoBehaviour
 
         SetMusicVolumeLinear(masterMixer, newMasterVolume, masterRange.max);
 
-        return newMasterVolume;
+        return (float)Math.Round(newMasterVolume / masterRange.max, 2);
     }
 
     public float UpdateSFXVolume(int direction)
@@ -104,7 +104,7 @@ public class SettingsManager : MonoBehaviour
 
         SetMusicVolumeLinear(sfxMixer, newSfxVolume, sfxRange.max);
 
-        return newSfxVolume;
+        return (float)Math.Round(newSfxVolume / sfxRange.max, 2);
     }
 
 
@@ -116,6 +116,6 @@ public class SettingsManager : MonoBehaviour
 
         firstPersonController.RotationSpeed = newRotationSpeed;
 
-        return newRotationSpeed;
+        return (float)Math.Round(newRotationSpeed / aimSensitivityRange.max, 2);
     }
 }

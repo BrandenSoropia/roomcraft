@@ -24,9 +24,9 @@ public class SettingsUIController : MonoBehaviour
         pauseManager = FindFirstObjectByType<PauseManager>();
         settingsManager = FindFirstObjectByType<SettingsManager>();
 
-        masterText.text = settingsManager.GetCurrentMasterVolume().ToString();
-        sfxText.text = settingsManager.GetCurrentSFXVolume().ToString();
-        aimSensitivityText.text = settingsManager.GetCurrentAimSensitivity().ToString();
+        masterText.text = (settingsManager.GetInitialMasterVolume() * 100).ToString() + "%";
+        sfxText.text = (settingsManager.GetInitialSFXVolume() * 100).ToString() + "%";
+        aimSensitivityText.text = (settingsManager.GetInitialAimSensitivity() * 100).ToString() + "%";
     }
 
     void OnEnable()
@@ -78,7 +78,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newMasterVolume = settingsManager.UpdateMasterVolume(1);
 
-        masterText.text = newMasterVolume.ToString();
+        masterText.text = (newMasterVolume * 100).ToString() + "%";
         Debug.Log($"+master vol, new: {newMasterVolume}");
     }
 
@@ -86,7 +86,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newMasterVolume = settingsManager.UpdateMasterVolume(-1);
 
-        masterText.text = newMasterVolume.ToString();
+        masterText.text = (newMasterVolume * 100).ToString() + "%";
         Debug.Log($"-master vol, new: {newMasterVolume}");
     }
 
@@ -94,7 +94,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newSfxVolume = settingsManager.UpdateSFXVolume(1);
 
-        sfxText.text = newSfxVolume.ToString();
+        sfxText.text = (newSfxVolume * 100).ToString() + "%";
         Debug.Log($"+sfx vol, new: {newSfxVolume}");
     }
 
@@ -102,7 +102,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newSfxVolume = settingsManager.UpdateSFXVolume(-1);
 
-        sfxText.text = newSfxVolume.ToString();
+        sfxText.text = (newSfxVolume * 100).ToString() + "%";
         Debug.Log($"-sfx vol, new: {newSfxVolume}");
     }
 
@@ -110,7 +110,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newAimSensitivity = settingsManager.UpdateAimSensitivity(1);
 
-        aimSensitivityText.text = newAimSensitivity.ToString();
+        aimSensitivityText.text = (newAimSensitivity * 100).ToString() + "%";
         Debug.Log($"+aim vol, new: {newAimSensitivity}");
 
     }
@@ -119,7 +119,7 @@ public class SettingsUIController : MonoBehaviour
     {
         float newAimSensitivity = settingsManager.UpdateAimSensitivity(-1);
 
-        aimSensitivityText.text = newAimSensitivity.ToString();
+        aimSensitivityText.text = (newAimSensitivity * 100).ToString() + "%";
         Debug.Log($"-aim vol, new: {newAimSensitivity}");
     }
 

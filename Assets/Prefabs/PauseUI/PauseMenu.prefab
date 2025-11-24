@@ -2967,7 +2967,7 @@ GameObject:
   - component: {fileID: 2417546157065787897}
   - component: {fileID: 8578019423377872381}
   m_Layer: 5
-  m_Name: Value
+  m_Name: SFXValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3389,7 +3389,7 @@ GameObject:
   - component: {fileID: 5861275686549210724}
   - component: {fileID: 6621886985769466719}
   m_Layer: 5
-  m_Name: Value
+  m_Name: MasterValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3635,7 +3635,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6973427162355987564}
         m_TargetAssemblyTypeName: SettingsUIController, Assembly-CSharp
-        m_MethodName: DecreaseSFXVolume
+        m_MethodName: DecreaseAimSensitivity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3896,6 +3896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50993b1db90147cba1b4d76dca77f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  playerSFXController: {fileID: 0}
   highlightWood: {fileID: 5596997413863159911}
   buttons:
   - {fileID: 8815169478663661982}
@@ -4030,6 +4031,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsUIController
   myContent: {fileID: 7102322246203044330}
+  masterText: {fileID: 6621886985769466719}
+  sfxText: {fileID: 8578019423377872381}
+  aimSensitivityText: {fileID: 679242970526615258}
 --- !u!1 &5879681800812350431
 GameObject:
   m_ObjectHideFlags: 0
@@ -4579,7 +4583,7 @@ GameObject:
   - component: {fileID: 6472538405025673834}
   - component: {fileID: 679242970526615258}
   m_Layer: 5
-  m_Name: Value
+  m_Name: AimSensitivityValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4955,6 +4959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50993b1db90147cba1b4d76dca77f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuSelector
+  playerSFXController: {fileID: 0}
   highlightWood: {fileID: 2146041851692710831}
   buttons:
   - {fileID: 7330806083742945142}
@@ -5906,7 +5911,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6973427162355987564}
         m_TargetAssemblyTypeName: SettingsUIController, Assembly-CSharp
-        m_MethodName: IncreaseSFXVolume
+        m_MethodName: IncreaseAimSensitivity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
