@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -6,7 +7,14 @@ using UnityEngine.InputSystem.UI;
 public class SettingsUIController : MonoBehaviour
 {
     [SerializeField] GameObject myContent;
+
+    [Header("Value Text Boxes")]
+    [SerializeField] TextMeshProUGUI masterText;
+    [SerializeField] TextMeshProUGUI sfxText;
+    [SerializeField] TextMeshProUGUI aimSensitivityText;
+
     PauseManager pauseManager;
+    SettingsManager settingsManager;
 
     InputSystemUIInputModule _uiModule;
     InputAction _cancel;
@@ -14,6 +22,11 @@ public class SettingsUIController : MonoBehaviour
     void Start()
     {
         pauseManager = FindFirstObjectByType<PauseManager>();
+        settingsManager = FindFirstObjectByType<SettingsManager>();
+
+        masterText.text = (settingsManager.GetInitialMasterVolume() * 100).ToString() + "%";
+        sfxText.text = (settingsManager.GetInitialSFXVolume() * 100).ToString() + "%";
+        aimSensitivityText.text = (settingsManager.GetInitialAimSensitivity() * 100).ToString() + "%";
     }
 
     void OnEnable()
@@ -61,23 +74,53 @@ public class SettingsUIController : MonoBehaviour
     }
 
     // Button functions
-
     public void IncreaseMasterVolume()
     {
-        Debug.Log("+master vol");
+        float newMasterVolume = settingsManager.UpdateMasterVolume(1);
+
+        masterText.text = (newMasterVolume * 100).ToString() + "%";
+        Debug.Log($"+master vol, new: {newMasterVolume}");
     }
 
     public void DecreaseMasterVolume()
     {
-        Debug.Log("-master vol");
+        float newMasterVolume = settingsManager.UpdateMasterVolume(-1);
+
+        masterText.text = (newMasterVolume * 100).ToString() + "%";
+        Debug.Log($"-master vol, new: {newMasterVolume}");
     }
+
     public void IncreaseSFXVolume()
     {
-        Debug.Log("+sfx vol");
+        float newSfxVolume = settingsManager.UpdateSFXVolume(1);
+
+        sfxText.text = (newSfxVolume * 100).ToString() + "%";
+        Debug.Log($"+sfx vol, new: {newSfxVolume}");
     }
+
     public void DecreaseSFXVolume()
     {
-        Debug.Log("-sfx vol");
+        float newSfxVolume = settingsManager.UpdateSFXVolume(-1);
+
+        sfxText.text = (newSfxVolume * 100).ToString() + "%";
+        Debug.Log($"-sfx vol, new: {newSfxVolume}");
+    }
+
+    public void IncreaseAimSensitivity()
+    {
+        float newAimSensitivity = settingsManager.UpdateAimSensitivity(1);
+
+        aimSensitivityText.text = (newAimSensitivity * 100).ToString() + "%";
+        Debug.Log($"+aim vol, new: {newAimSensitivity}");
+
+    }
+
+    public void DecreaseAimSensitivity()
+    {
+        float newAimSensitivity = settingsManager.UpdateAimSensitivity(-1);
+
+        aimSensitivityText.text = (newAimSensitivity * 100).ToString() + "%";
+        Debug.Log($"-aim vol, new: {newAimSensitivity}");
     }
 
     public void Back()
