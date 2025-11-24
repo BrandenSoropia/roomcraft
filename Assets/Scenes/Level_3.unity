@@ -6518,6 +6518,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      propertyPath: wallHidingController
+      value: 
+      objectReference: {fileID: 1182965379}
+    - target: {fileID: 5960042815996331039, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: selectedItemContainerUI
       value: 
       objectReference: {fileID: 804163200}
@@ -6592,6 +6596,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7892947364345689007, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1071046753}
+    - targetCorrespondingSourceObject: {fileID: 7892947364345689007, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1182965379}
     - targetCorrespondingSourceObject: {fileID: 8869246048571391383, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1182965353}
@@ -6851,6 +6858,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55919ac34a26952479f3fc91f777b2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1182965379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182965349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2523e602b713f1342b18a4ed2b5e480a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WallHidingShaderController
+  wallMaterial: {fileID: 2100000, guid: 52678211226f61e4c88df81624e27d28, type: 2}
+  hidingEnabled: 0
+  targetObject: {fileID: 0}
+  cutoutRadius: 0.7
+  cutoutSoftness: 0.1
 --- !u!1001 &1184647669
 PrefabInstance:
   m_ObjectHideFlags: 0
