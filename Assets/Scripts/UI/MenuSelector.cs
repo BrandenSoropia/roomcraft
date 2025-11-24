@@ -6,13 +6,22 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using Unity.VisualScripting;
 using System;
+using UnityEngine.SceneManagement;
 
 public class MenuSelector : MonoBehaviour
 {
+    [Header("Hacky UI audio for start screen only")]
+    [SerializeField, Tooltip("Used for StartScreenOnly")] AudioClip startScreenOnlyUIMoveAudioClip;
+
     [Header("References")]
     [SerializeField] private RectTransform highlightWood;  // the moving wood image
     [SerializeField] private List<Button> buttons = new List<Button>(); // buttons in order: top → bottom
     [SerializeField] private float moveSpeed = 8f;
+
+
+    AudioSource myAudioSource;
+
+    PlayerSFXController playerSFXController;
 
     private int currentIndex = 0;
     private RectTransform targetRect;
@@ -28,6 +37,10 @@ public class MenuSelector : MonoBehaviour
 
     void Start()
     {
+
+        playerSFXController = FindFirstObjectByType<PlayerSFXController>();
+        myAudioSource = GetComponent<AudioSource>();
+
         if (buttons.Count == 0 || highlightWood == null)
         {
             Debug.LogError("[MenuSelector] Missing buttons or highlightWood reference.");
@@ -133,6 +146,20 @@ public class MenuSelector : MonoBehaviour
         int newIndex = Mathf.Clamp(currentIndex + direction, 0, buttons.Count - 1);
         Debug.Log($"idx: {newIndex} {buttons[newIndex].gameObject.name}");
         if (newIndex == currentIndex) return;
+
+        if (playerSFXController != null)
+        {
+            playerSFXController.PlayUIMoveSFX();
+        }
+        else
+        {
+            Debug.Log($"### MenuSelector: needs PlayerSFXController in {transform.name}");
+        }
+
+        if (SceneManager.GetActiveScene().name == "StartScene" && myAudioSource != null)
+        {
+            myAudioSource.PlayOneShot(startScreenOnlyUIMoveAudioClip);
+        }
 
         currentIndex = newIndex;
         targetRect = buttons[currentIndex].GetComponent<RectTransform>();
