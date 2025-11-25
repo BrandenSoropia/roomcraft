@@ -5165,37 +5165,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 129295216}
     - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: throwSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 1b16943c67f76f14b9a44d6ef431072d, type: 3}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: unboxSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 8e72d8ff9434c2a4ea536e7c7d664b4e, type: 3}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: uiMoveSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 91891b2d3237c6e4b8366778858eeab5, type: 3}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: uiMoveSource
-      value: 
-      objectReference: {fileID: 1182965367}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: spawnPieceSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 9f29a1d09e3b7c74daa50d3b1137606f, type: 3}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: gameModeVolume
       value: 0.15
       objectReference: {fileID: 0}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: toBuildModeSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 85d138deadd664142a7f547c67da163f, type: 3}
-    - target: {fileID: 3712643092613913353, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-      propertyPath: toIsometricModeSfx
-      value: 
-      objectReference: {fileID: 8300000, guid: 80034e59e1d3cb347a7275103face9db, type: 3}
     - target: {fileID: 3902107423964109246, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.366
@@ -5551,11 +5523,6 @@ MonoBehaviour:
   thirdPersonCamera: {fileID: 1958803348}
   firstPersonController: {fileID: 1182965377}
   vg: {fileID: 1182965350}
---- !u!82 &1182965367 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6213447947867573966, guid: 4ce5ab272136fa949a7203f49a3ea584, type: 3}
-  m_PrefabInstance: {fileID: 1182965342}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &1182965371
 AudioSource:
   m_ObjectHideFlags: 0
