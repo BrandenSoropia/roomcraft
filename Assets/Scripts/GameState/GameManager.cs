@@ -98,30 +98,30 @@ public class GameManager : MonoBehaviour
             Debug.LogError("[GameManager] Assign Pieces/BasePieces/PlacementAreas roots in the Inspector!");
             return;
         }
-        
+
         // Show commissionScreen at the start of each level except tutorial level
-        string currentScene = SceneManager.GetActiveScene().name;
-        if (commissionScreen && !string.Equals(currentScene, "Level_1", StringComparison.OrdinalIgnoreCase))
-        {
-            commissionScreen.SetActive(true);
-            if (commissionProceedButton) EventSystem.current.SetSelectedGameObject(commissionProceedButton.gameObject);
-            SetGameplayUIVisible(false); // hide gameplay UI while screen is visible
+        // string currentScene = SceneManager.GetActiveScene().name;
+        // if (commissionScreen && !string.Equals(currentScene, "Level_1", StringComparison.OrdinalIgnoreCase))
+        // {
+        //     commissionScreen.SetActive(true);
+        //     if (commissionProceedButton) EventSystem.current.SetSelectedGameObject(commissionProceedButton.gameObject);
+        //     SetGameplayUIVisible(false); // hide gameplay UI while screen is visible
 
-            if (commissionItemText && placementAreasRoot)
-            {
-                var names = GetItemPrefixesFromPlacementPrefab(placementAreasRoot.gameObject);
+        //     if (commissionItemText && placementAreasRoot)
+        //     {
+        //         var names = GetItemPrefixesFromPlacementPrefab(placementAreasRoot.gameObject);
 
-                List<string> formattedNames = new List<string>();
-                names.ForEach(n =>
-                {
-                    formattedNames.Add($"- {n.Split('_')[1]}");
-                }); // take the furniture name only
+        //         List<string> formattedNames = new List<string>();
+        //         names.ForEach(n =>
+        //         {
+        //             formattedNames.Add($"- {n.Split('_')[1]}");
+        //         }); // take the furniture name only
 
-                commissionItemText.text = formattedNames.Count > 0
-                    ? "Build and Place:\n" + string.Join("\n", formattedNames)
-                    : "—";
-            }
-        }
+        //         commissionItemText.text = formattedNames.Count > 0
+        //             ? "Build and Place:\n" + string.Join("\n", formattedNames)
+        //             : "—";
+        //     }
+        // }
 
         UpdatePlacementProgressGUI();
         UpdateBuildProgressGUI();
